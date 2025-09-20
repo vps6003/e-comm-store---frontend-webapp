@@ -1,0 +1,37 @@
+<div class="flex item-center justify-center">
+  <div class="flex flex-col px-40 pt-10">
+  <div class="flex">
+  @if(isEdit){
+    <h1 class="bg-black w-90 p-4 text-center rounded-xl"><span class="font-bold text-3xl danger">Update Brand </span> : <span class="ml-1 text-2xl blue font-bold">({{this.idParams?.brandName}})</span></h1>
+  }
+  @else{
+    <h1 class="font-bold text-2xl bg-black w-75 p-2 text-center rounded-xl danger">Add New Brand</h1>
+  }
+  </div>
+  <div class="mt-5">
+    <form class="w-96 p-4">
+      <div class="flex flex-wrap">
+        <div class="w-full gap-4">
+          <mat-form-field class="w-70">
+            <mat-label>Name</mat-label>
+            <input class="w-full" matInput [(ngModel)]="brandName" name="brandName" type="text"/>
+          </mat-form-field>
+        </div>
+        <div class="w-full flex justiy-center">
+          @if(isEdit){
+            <button mat-raised-button color="primary" (click)="update(id,brandName);" [disabled]="!brandName">Update</button>
+          }
+          @else{
+            <button mat-raised-button color="primary" (click)="add();" [disabled]="!brandName">Add</button>
+          }
+  <button class="left-4 curve-md" mat-raised-button color="primary" routerLink="/admin/brand"><span class="text-red-400 " >Back To All Brands</span></button>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>
+
+</div>
