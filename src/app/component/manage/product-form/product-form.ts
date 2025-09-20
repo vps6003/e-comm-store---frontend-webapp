@@ -45,7 +45,7 @@ export class ProductForm {
     this.addImage(null);
   }
 
-addImage = (img:any) => {
+addImage = (img?:any) => {
   // alert ('Image Added Successfully');
   this.images.push(this.formbuilder.control(img || null, Validators.required));
 }
