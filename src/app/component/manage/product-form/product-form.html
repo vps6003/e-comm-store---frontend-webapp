@@ -12,13 +12,31 @@
           </div>
     </div>
 
-    <form class="shadow p-4" [formGroup]="productForm" (ngSubmit)="addProduct()">
+    <form class="shadow p-4" [formGroup]="productForm">
       <div class="flex flex-wrap gap-4">
+
+  <mat-form-field class="w-full md:w-1/2">
+  <mat-label>Category</mat-label>
+  <mat-select formControlName ="categoryId">
+    @for(item of allCategories; track item._id){
+    <mat-option value="{{item._id}}">{{item.name}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field class="w-full md:w-1/2">
+  <mat-label>Brand</mat-label>
+  <mat-select formControlName ="brandId">
+    @for(item of allBrands; track item._id){
+    <mat-option value="{{item._id}}">{{item.brandName}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
 
   <mat-form-field class="w-full">
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text"/>
-          </mat-form-field>
+            <input matInput formControlName="productName" type="text"/>
+  </mat-form-field>
 
         <mat-form-field class="w-full">
           <mat-label>Short Description</mat-label>
@@ -32,7 +50,7 @@
 
         <mat-form-field class="w-full">
           <mat-label>Price</mat-label>
-          <input matInput formControlName="price" type="number" min="0">
+          <input matInput formControlName="price" type="number" min="0" (wheel)="$event.target.blur()">
         </mat-form-field>
 
         <mat-form-field class="w-full">
@@ -59,10 +77,15 @@
         </div>
 
         <div class="flex justify-center items-center gap-2 w-full">
-          <button class="curve-md" matButton="elevated" color="accent" (click)="addProduct();"><span class="text-black text-base " >Add Product</span></button>
+          @if(isEdit){
+          <button class="curve-md" matButton="elevated" color="accent" (click)="addNewProduct();"><span class="text-black text-base " >Add Product</span></button>
+          }
+          @else{
+          <button class="curve-md" matButton="elevated" color="accent" (click)="addNewProduct();"><span class="text-black text-base " >Add Product</span></button>
+          }
         </div>
       </div>
     </form>
 
   </div>
-</div>\
+</div>

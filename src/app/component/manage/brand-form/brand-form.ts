@@ -53,7 +53,7 @@ export class BrandForm {
 
   add(){
     this.brandService.addBrand(this.brandName).subscribe((result:any)=>{
-      alert("Brand added : "+result.brandName);
+      // alert("Brand added : "+result.brandName);
       this.router.navigateByUrl("/admin/brand");
     })
   }

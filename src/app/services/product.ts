@@ -13,28 +13,28 @@ export class ProductService {
   constructor() { }
 
   getProducts(){
-   return this.http.get<Product>(environment.apiUrl +'product');
+   return this.http.get<Product>(environment.apiUrl +'getProducts');
   }
 
 
   getProductById(id:String){
-    return this.http.get<Product>(environment.apiUrl +'product/'+id);
+    return this.http.get<Product>(environment.apiUrl +'getProducts/'+id);
   }
 
-  addProduct(name:String){
-    return this.http.post(environment.apiUrl +"product",
-      {name:name}
+  addProduct(obj:any){
+    return this.http.post(environment.apiUrl +"addProduct",
+      obj
     );
   }
 
   updateProductById(id:String,obj:any){
-     return this.http.put(environment.apiUrl +"product/"+id,
+     return this.http.put(environment.apiUrl +"updateProduct/"+id,
       obj
     );
   }
 
   deleteProductById(id:String){
-     return this.http.delete(environment.apiUrl +"product/"+id)
+     return this.http.delete(environment.apiUrl +"deleteProduct/"+id)
   }
 
 }
