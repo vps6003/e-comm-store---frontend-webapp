@@ -38,7 +38,8 @@ export class ProductForm {
   });
 
     addProduct = () =>{
-    alert('Product Added Successfully');
+    // alert('Product Added Successfully');
+    console.log(this.productForm.value);
   }
 
   ngOnInit() {
