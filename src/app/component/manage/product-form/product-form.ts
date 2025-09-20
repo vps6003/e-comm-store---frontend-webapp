@@ -1,3 +1,5 @@
+import { ProductService } from './../../../services/product';
+import { CategoryService } from './../../../services/category';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -6,7 +8,11 @@ import { MatError, MatFormField, MatFormFieldControl, MatFormFieldModule, MatLab
 import { MatFormFieldControlHarness } from '@angular/material/form-field/testing';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Category } from '../../../types/category';
+import { Brand } from '../../../types/brand';
+import { BrandService } from '../../../services/brand';
+
 
 @Component({
   selector: 'app-product-form',
@@ -25,26 +31,75 @@ import { RouterModule } from '@angular/router';
   styleUrl: './product-form.scss'
 })
 export class ProductForm {
-  isEdit = false
+  constructor(private categoryService: CategoryService,
+     private productService: ProductService,
+     private brandService:BrandService,
+     private route: ActivatedRoute
+  ){}
+
+  router = inject(Router);
+  id:String= "";
+  isEdit = false;
+  allBrands:Brand[]=[];
+  allCategories:Category[]=[];
   formbuilder = inject(FormBuilder);
   productForm = this.formbuilder.group({
-    name : [null,[Validators.required,Validators.minLength(5)]],
+    productName : [null,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]],
     shotDescription :[null,[Validators.required,Validators.minLength(10)]],
     description :[null,[Validators.required,Validators.minLength(50)]],
     price : [null,[Validators.required,Validators.min(0)]],
     discount :[],
     images :this.formbuilder.array([]),
     categoryId : [null,[Validators.required]],
+    brandId : [null,[Validators.required]],
   });
 
-    addProduct = () =>{
-    // alert('Product Added Successfully');
-    console.log(this.productForm.value);
-  }
 
   ngOnInit() {
     this.addImage(null);
+    this.getCategories();
+    this.getBrands();
+    this.id = this.route.snapshot.params['id'];
+    if(this.id){
+      this.isEdit = true;
+      this.getProductById();
+    }
+
   }
+
+
+    getProductById(){
+         this.productService.getProductById(this.id).subscribe((res:any)=>{
+        this.productForm.patchValue(res);
+        this.images.clear();
+        res.images.forEach((img:string) => {
+          this.addImage(img);
+        });
+      });
+    }
+
+    addNewProduct(){
+    this.productService.addProduct(this.productForm.value).subscribe((result:any)=>{
+      // alert("Product added : "+result.productName);
+      this.router.navigateByUrl("/admin/product");
+
+    })
+  }
+
+  getCategories(){
+    this.categoryService.getCategories().subscribe((res:any)=>{
+      this.allCategories=res;
+      // console.log(this.allCategories);
+    });
+  }
+
+  getBrands(){
+    this.brandService.getBrands().subscribe((res:any)=>{
+      this.allBrands=res;
+      // console.log(this.allCategories);
+    });
+  }
+
 
 addImage = (img?:any) => {
   // alert ('Image Added Successfully');

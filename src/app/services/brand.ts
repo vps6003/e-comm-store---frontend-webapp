@@ -22,7 +22,7 @@ export class BrandService {
 
   addBrand(name:String){
     return this.http.post(environment.apiUrl +"brand",
-      {name:name}
+      {brandName:name}
     );
   }
 
