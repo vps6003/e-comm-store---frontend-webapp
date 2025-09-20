@@ -44,8 +44,9 @@
           <div class="flex justify-between items-center">
             <h4 class="font-bold p-4">Images</h4>
             <div class="flex gap-2">
-              <input matInput placeholder="Enter image URL" #newImageInput type="text" class="border p-2 rounded" />
-              <button matButton="elevated" class="curve-md" color="primary" type="button" (click)="addImage(newImageInput.value); newImageInput.value=''">Add Image</button>
+              <!-- <input matInput placeholder="Enter image URL" #newImageInput type="text" class="border p-2 rounded" /> -->
+              <!-- <button matButton="elevated" class="curve-md" color="primary" type="button" (click)="addImage(newImageInput.value); newImageInput.value=''">Add Image</button> -->
+              <button matButton="elevated" class="curve-md" color="primary" type="button" (click)="addImage();">Add Image</button>
               <button matButton="elevated" class="curve-md" color="warn" type="button" (click)="removeImage()">Remove Image</button>
             </div>
           </div>
