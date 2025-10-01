@@ -1,19 +1,17 @@
-<div class="flex item-center justify-center">
-  <div class="flex flex-col items-center px-40 mt-10">
-    <div class="flex justify-between w-full gap-4 mb-8 ">
+<div class="product-form-container">
+  <div class="product-form-title">
     @if(isEdit){
-    <h1 class="bg-cyan-300 font-bold w-90 p-4 text-center rounded-full text-3xl">Update Product</h1>
-  }
-    @else{
-      <h1 class="bg-cyan-300 font-bold w-90 p-4 text-center rounded-full text-3xl">Add New Product</h1>
+      Update Product
     }
-          <div class="flex items-center justify-end">
-            <button class="curve-md" matButton="elevated" routerLink="/admin/product"><span class="text-blue-700" >Back To All Products</span></button>
-          </div>
-    </div>
-
-    <form class="shadow p-4" [formGroup]="productForm">
-      <div class="flex flex-wrap gap-4">
+    @else{
+      Add New Product
+    }
+  </div>
+  <div class="flex items-center justify-end mb-6">
+    <button class="curve-md" matButton="elevated" routerLink="/admin/product"><span class="text-blue-700">Back To All Products</span></button>
+  </div>
+  <form [formGroup]="productForm">
+    <div class="flex flex-wrap gap-4">
 
   <mat-form-field class="w-full md:w-1/2">
   <mat-label>Category</mat-label>
@@ -55,7 +53,18 @@
 
         <mat-form-field class="w-full">
           <mat-label>Discount</mat-label>
-          <input matInput formControlName="discount" type="number" min="0">
+          <input matInput formControlName="discount" type="number" min="0" (wheel)="$event.target.blur()">
+        </mat-form-field>
+
+        <div class="flex flex-col md:flex-row gap-4 w-full">
+          <mat-checkbox formControlName="isFeatured">Is Featured</mat-checkbox>
+          <mat-checkbox formControlName="isNewArrival">Is New Arrival</mat-checkbox>
+          <mat-checkbox formControlName="isBestSeller">Is Best Seller</mat-checkbox>
+        </div>
+
+        <mat-form-field class="w-full">
+          <mat-label>Stock</mat-label>
+          <input matInput formControlName="stock" type="number" min="0">
         </mat-form-field>
 
         <div class="flex flex-col w-full" formArrayName="images">
@@ -68,24 +77,23 @@
               <button matButton="elevated" class="curve-md" color="warn" type="button" (click)="removeImage()">Remove Image</button>
             </div>
           </div>
-          @for(item of images.controls; track $index){
+          @for(item of images.controls; track $index; let i = $index) {
             <mat-form-field class="w-full">
-              <mat-label>Images {{$index+1}}</mat-label>
-              <input matInput [formControlName]="$index" type="text">
+              <mat-label>Images {{i+1}}</mat-label>
+              <input matInput [formControlName]="i" type="text">
             </mat-form-field>
           }
         </div>
 
-        <div class="flex justify-center items-center gap-2 w-full">
+        <div class="product-form-actions">
           @if(isEdit){
-          <button class="curve-md" matButton="elevated" color="accent" (click)="addNewProduct();"><span class="text-black text-base " >Add Product</span></button>
+            <button class="curve-md" matButton="elevated" color="accent" (click)="updateProduct();"><span class="text-black text-base">Update Product</span></button>
           }
           @else{
-          <button class="curve-md" matButton="elevated" color="accent" (click)="addNewProduct();"><span class="text-black text-base " >Add Product</span></button>
+            <button class="curve-md" matButton="elevated" color="accent" (click)="addNewProduct();"><span class="text-black text-base">Add Product</span></button>
           }
         </div>
       </div>
     </form>
 
   </div>
-</div>

@@ -1,0 +1,169 @@
+@if(signUp){
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Register</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Name -->
+      <mat-form-field  class="w-full">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" placeholder="Enter your name" />
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
+          Name is required (min 3 characters).
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="Enter your email" />
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+          Please enter a valid email.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Password -->
+      <mat-form-field class="w-full">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'"
+        >
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+          Password must be at least 6 characters.
+        </mat-error>
+      </mat-form-field>
+
+       <!-- Confirm Password -->
+      <mat-form-field class="w-full">
+        <mat-label>Confirm Password</mat-label>
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="confirmPassword"
+          placeholder="Enter your password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'"
+        >
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid">
+          Password must be at least 6 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Submit -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-full py-2"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
+        <mat-icon class="mr-2">person_add</mat-icon>
+        Register
+      </button>
+        <button
+        mat-raised-button
+        color="primary"
+        class="w-full py-2"
+        (click)="signUp = false ;"
+      >
+
+        <mat-icon class="mr-2">login </mat-icon>
+        Login
+      </button>
+    </form>
+  </div>
+</div>
+}
+
+
+
+
+
+<!-- Login -->
+@else{
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Email -->
+      <mat-form-field class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="Enter your email" />
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+          Please enter a valid email.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Password -->
+      <mat-form-field  class="w-full">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'"
+        >
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+          Password must be at least 6 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Submit -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-full py-2"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+
+        <mat-icon class="mr-2">login</mat-icon>
+        Login
+      </button>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-full py-2"
+        (click)="signUp = true;"
+      >
+
+        <mat-icon class="mr-2">how_to_reg </mat-icon>
+        Register
+      </button>
+    </form>
+  </div>
+</div>
+}

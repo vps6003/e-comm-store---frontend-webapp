@@ -6,7 +6,12 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
 html {
   @include mat.theme((
@@ -39,3 +44,16 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+img {
+  max-inline-size: 800%;
+  block-size: auto;
+  aspect-ratio: 2/1;
+  object-fit: cover;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

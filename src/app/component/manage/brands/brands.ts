@@ -43,7 +43,6 @@ export class Brands {
 
   private getData(){
     this.brandService.getBrands().subscribe((result:any)=>{
-      // console.log(result);
       this.dataSource.data = result;
     })
   }
