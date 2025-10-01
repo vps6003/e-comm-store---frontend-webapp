@@ -1,0 +1,83 @@
+<div class="p-[2rem]">
+<div class="product-details">
+  <div class="gallery">
+    <img [src]="selectedImage" alt="Main Product" class="main-img" />
+
+    <div class="thumbnails">
+      @for (img of product?.images; track $index) {
+        <img
+          [src]="img"
+          [class.active]="img === selectedImage"
+          (click)="selectImage(img)" />
+      }
+    </div>
+  </div>
+
+  <div class="info">
+    @if (product) {
+      <strong>
+        <h2>{{ product.productName }}</h2>
+        <h3>₹{{ product.price }}</h3>
+        <h4>Product Details</h4>
+      </strong>
+      <div class="overflow-scroll h-[25rem]">
+        <pre>
+
+          {{ product.description }}
+        </pre>
+      </div>
+
+
+      <!-- <h4>Product Details</h4> -->
+      <ul>
+        @for (detail of product.details; track detail) {
+          <li>{{ detail }}</li>
+        }
+      </ul>
+
+      <!-- <button class="add-to-cart" (click)="addToCart(product)">Add to Cart</button>
+      <button class="buy-now" (click)="buyNow(product)">Buy Now</button> -->
+    } @else {
+      <p>Loading product details...</p>
+    }
+  </div>
+</div>
+
+ <div class="mb-12">
+    <h2 class="text-xl font-semibold mb-4">Similar Products</h2>
+    <div class="flex flex-wrap">
+      @for (product of similarProducts; track $index) {
+      <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
+  </div>
+
+<div class="reviews">
+  <h3><strong>Customer Reviews</strong></h3>
+  @for (review of product?.reviews; track review.user) {
+    <div class="review">
+      <strong>{{ review.userName }}</strong>
+      <span>⭐ {{ review.rating }} out of 5</span>
+      <p>{{ review.comment }}</p>
+    </div>
+  }
+  @empty {
+    <div class="review"> No Reviews to be Shown</div>
+  }
+<div class="flex flex-col">
+  <h5><strong>Write a Review</strong></h5>
+  <div class=" flex flex-wrap gap-[2rem]">
+   <mat-form-field class="flex w-[30rem] overflow-y-auto scroll-hidden">
+    <mat-label>Leave a comment</mat-label>
+    <textarea #reviewArea matInput placeholder="Ex. It makes me feel..."></textarea>
+  </mat-form-field>
+  <mat-form-field class="flex w-[5rem]">
+    <mat-label>Rating</mat-label>
+    <input #rating matInput type="number" [(ngModel)]="reviewRating" (wheel)="$event.target.blur()" min="0" max = "5">
+  </mat-form-field>
+  </div>
+  <button class="w-[10rem]" mat-raised-button color="warn" (click)="addReview(reviewArea.value)">Post Review</button>
+</div>
+</div>
+
+</div>

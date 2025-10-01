@@ -1,27 +1,45 @@
+
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet, Routes } from '@angular/router';
+import { Footer } from './component/footer/footer';
+import { Header } from './component/header/header';
+// import { BrowserModule } from '@angular/platform-browser';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { CommonServices } from './services/common-services';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @Component({
   selector: 'app-root',
-  imports: [MatButtonModule,
+  imports: [
     RouterOutlet,
     CommonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule
+    MatButtonModule,
+    Footer,
+    Header,
+    RouterModule,
+    // BrowserModule,
+    CarouselModule
+    // BrowserAnimationsModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
   protected readonly title = signal('webapp');
+  private commonServices = inject(CommonServices)
+
+  ngOnInit() {
+    if(!this.commonServices.isLoggedIn){
+    this.commonServices.verifyToken();
+  }
+  }
+
+
+  //  interV =   setInterval(() => {
+  //   this.commonServices.verifyToken();
+  // }, 300000);
+
 }

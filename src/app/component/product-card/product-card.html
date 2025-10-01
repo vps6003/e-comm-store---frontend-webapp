@@ -1,0 +1,18 @@
+<div class="product-card">
+<div class="cursor-pointer" [routerLink]="'/product/' + product._id" [state] = "{product : product}">
+  <img [src]="product.images && product.images[0] ? product.images[0] : 'https://via.placeholder.com/260x180?text=No+Image'" alt="{{ product.productName }}" class="product-card-img" />
+  <div class="product-card-body">
+    <!-- <div class="h-27 overflow-hidden"> -->
+      <h2 class="product-card-title">{{ product.productName }}</h2>
+      <p class="product-card-desc">{{ product.shotDescription.slice(0,30) }}</p>
+    <!-- </div> -->
+    <div class="product-card-price">
+      <span class="price">₹{{ product.price }}</span>
+      <span *ngIf="product.discount" class="discount">-{{ product.discount }}%</span>
+    </div>
+  <!-- <button matBut ton="elevated" color="primary" class="w-full mt-2 add-to-cart-btn" (click)="openImage(product.images[0])">open image</button> -->
+</div>
+</div>
+  <button matButton="elevated" color="primary" class="w-full mt-2 add-to-cart-btn">Add to Cart</button>
+  <button matButton="elevated" color="accent" class="w-full  add-to-wish-btn !bg-red-500">Add to WishList</button>
+</div>

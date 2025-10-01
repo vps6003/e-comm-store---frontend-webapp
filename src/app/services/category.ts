@@ -16,6 +16,10 @@ export class CategoryService {
   }
 
 
+  getCustomerCategories(){
+   return this.http.get<Category[]>(environment.customerApiUrl +'home/categories');
+  }
+  
   getCategoryById(id:String){
     return this.http.get<Category>(environment.apiUrl +'category/'+id);
   }

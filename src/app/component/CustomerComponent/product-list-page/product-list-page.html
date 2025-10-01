@@ -1,0 +1,53 @@
+<div class="flex px-10 py-[1rem]">
+  <div class="w-3/12 mr-[2rem]">
+      <h4><strong class="text-[1.5rem] pl-[1rem]">Filters</strong></h4>
+      <div class="flex flex-col mt-[1rem]">
+        <div class="w-full p-2 mb-4">
+          <mat-form-field class="w-full">
+            <mat-label>Choose Category</mat-label>
+            <mat-select name="categoryId" [(ngModel)]="reqParams.categoryId" (selectionChange)="getProductLists(reqParams);">
+              <mat-option [value]="">None</mat-option>
+              @for(item of categoryList;track $index){
+                <mat-option [value]="item._id">{{item.name}} </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="w-full">
+            <mat-label>Choose Brand</mat-label>
+            <mat-select name="brandId" [(ngModel)]="reqParams.brandId" (selectionChange)="getProductLists(reqParams);">
+              <mat-option [value]="">None</mat-option>
+              @for(item of brandsList;track $index){
+                <mat-option [value]="item._id">{{item.brandName}} </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+  </div>
+  <div class="flex-1 ml-[1rem]">
+    <h6><strong class="text-[1.5rem]">Products</strong></h6>
+    <mat-form-field>
+      <mat-label>Sort By</mat-label>
+      <mat-select name="sortBy" [(ngModel)]="reqParams.sortOrder" (selectionChange)="getProductLists(reqParams);">
+          <mat-option [value]="1"> Price Low To High</mat-option>
+          <mat-option [value]="-1">Price High To Low</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="flex flex-wrap gap-4">
+      @for(items of productList; track $index){
+        <app-product-card [product]="items"> </app-product-card>
+      }
+      @empty {
+        <div class="mt-[2rem]"> No Products available for current filter</div>
+      }
+
+    </div>
+    <div class="flex mt-[2rem] ml-[-10rem] justify-center items-center  gap-4">
+      <button matButton="elevated" color="primary" [disabled] = "reqParams.page==1" (click)="pageChange(reqParams.page-1);">Previous</button>
+      <button matButton="elevated" color="primary" [disabled] = "reqParams.pageSize>productList.length" (click)="pageChange(reqParams.page+1);">Next</button>
+    </div>
+  </div>
+
+</div>

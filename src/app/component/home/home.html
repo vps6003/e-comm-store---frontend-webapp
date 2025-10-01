@@ -1,16 +1,49 @@
-
 <div class="px-40 mt-10">
-  <div>
-  <h1 class="text-3xl font-bold">Home Page</h1>
+  <h1 class="text-3xl font-bold mb-8">Home Page</h1>
 
-  <div class="mt-10 ml-10">
-    <button mat-raised-button color="accent" routerLink="/admin/categories" >Categories</button>
+  <div class="cursor-pointer">
+    <owl-carousel-o [options]="customOptions">
+      @for(slide of featuredProducts ; track $index) {
+      <ng-template carouselSlide >
+        <div class ="carousel-slide relative flex flex-col items-center justify-center h-50 rounded-lg overflow-hidden" [routerLink]="'/product/' + slide._id">
+          <img [src]="slide.images[0]" [alt]="slide.productName">
+        </div>
+        <div class ="carousel-slide relative flex flex-col items-center justify-center bg-gray-300 rounded-lg overflow-hidden" [routerLink]="'/product/' + slide._id">
+          <span class="carousel-slide">{{slide.productName}}</span>
+</div>
+      </ng-template>
+    }
+    </owl-carousel-o>
   </div>
-  <div class="mt-10 ml-10">
-    <button mat-raised-button color="accent" routerLink="/admin/brand" >Brands</button>
+
+  @if(newProducts.length !== 0){
+  <div class="mb-12">
+    <h2 class="text-xl font-semibold mb-4">New Arrivals</h2>
+    <div class="flex flex-wrap">
+      @for (product of newProducts; track $index) {
+      <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
   </div>
-  <div class="mt-10 ml-10">
-    <button mat-raised-button color="accent" routerLink="/admin/product" >Products</button>
+  } @if(bestSellers.length !== 0){
+
+  <div class="mb-12">
+    <h2 class="text-xl font-semibold mb-4">Best Sellers</h2>
+    <div class="flex flex-wrap">
+      @for (product of bestSellers; track $index) {
+      <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
   </div>
+  } @if(featuredProducts.length !== 0){
+
+  <div class="mb-12">
+    <h2 class="text-xl font-semibold mb-4">Featured Products</h2>
+    <div class="flex flex-wrap">
+      @for (product of featuredProducts; track $index) {
+      <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
   </div>
+  }
 </div>

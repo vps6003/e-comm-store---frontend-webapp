@@ -1,0 +1,38 @@
+.header-topbar {
+	background-color: aquamarine;
+}
+
+.header-nav {
+	background-color: #43c6ac;
+}
+.search-bar {
+	width: 100%;
+	border: 2px solid #2563eb;
+	background: #fff;
+	color: #222;
+	transition: border-color 0.2s;
+}
+.search-bar:focus {
+	border-color: #1d4ed8;
+}
+.search-bar-wrapper {
+	width: 100%;
+	max-width: 350px;
+}
+
+.search-bar {
+	width: 100%;
+}
+
+.icon:hover{
+  cursor: pointer;
+  color: #ff0000e2;
+}
+
+@media (max-width: 600px) {
+	.search-bar-wrapper {
+		max-width: 180px;
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
+	}
+}

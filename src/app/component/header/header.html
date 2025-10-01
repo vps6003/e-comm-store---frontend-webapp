@@ -1,0 +1,44 @@
+<header class="shadow">
+	<!-- Top bar: Logo, Search, Profile -->
+		<div class="flex items-center justify-between header-topbar px-8 py-3">
+		<!-- Logo -->
+		<a routerLink="/home" class="flex items-center text-white text-2xl font-bold"   >
+			<img src="{{images.mainLogo}}" alt="Logo" class="h-[3rem] w-[4rem] mr-2" />
+			<!-- E-Shop  -->
+		</a>
+		<!-- Search -->
+			<div class="mx-8 search-bar-wrapper relative">
+				<input #searchBar type="text" placeholder="Search for products..." [(ngModel)]="commonVariablesService.searchTerm" class="search-bar w-full px-4 py-2 rounded focus:outline-none" (keyup.enter)="onSearch(searchBar.value)" />
+			<span class="material-icons mr-1 absolute left-[20rem] top-[0.5rem] icon" (click)="onSearch(searchBar.value)">search</span>
+			</div>
+		<!-- Profile -->
+    <div class="flex">
+      @if(isAdmin){
+      <a class="mt-[0.25rem] text-white text-sm font-semibold flex-wrap items-center cursor-pointer" routerLink="/admin">
+        <!-- <span class="material-icons mr-1 icon">logout</span> -->
+        Dashboard
+      </a>
+    }
+
+      <a routerLink="/profile" class="ml-[1rem] text-white text-lg font-semibold flex flex-wrap items-center">
+        <span class="material-icons mr-1 icon">account_circle</span>
+        {{userName}}
+      </a>
+
+      <a class="ml-[1rem] mt-[0.25rem] text-white text-sm font-semibold flex-wrap items-center cursor-pointer" (click)="logout();">
+        <!-- <span class="material-icons mr-1 icon">logout</span> -->
+        Logout
+      </a>
+    </div>
+	</div>
+	<!-- Category menu -->
+			<nav class="header-nav px-8 py-2">
+			<ul class="flex space-x-6">
+						@for (category of allCategories; track category._id) {
+							<li (click)="onCategorySearch(category._id);">
+								<a [routerLink]="'/products?categoryId=' + category._id" class="text-white hover:underline">{{category.name}}</a>
+							</li>
+						}
+			</ul>
+		</nav>
+</header>

@@ -6,45 +6,98 @@ import { BrandForm } from './component/manage/brand-form/brand-form';
 import { Brands } from './component/manage/brands/brands';
 import { Products } from './component/manage/products/products';
 import { ProductForm } from './component/manage/product-form/product-form';
+import { ProductDetailsPage } from './component/CustomerComponent/product-details-page/product-details-page';
+import { ProductListPage } from './component/CustomerComponent/product-list-page/product-list-page';
+import { Register } from './component/register/register';
+import { authGuard } from './core/auth-guard';
+import { adminGuard } from './core/admin-guard';
+import { AdminDashboard } from './component/admin-dashboard/admin-dashboard';
 
 export const routes: Routes = [
   {
-    path:"",
-    component:Home
+    path: 'home',
+    component: Home,
+    canActivate: [authGuard],
   },
   {
-    path:"admin/categories",
-    component:Categories
+    path: 'admin/categories',
+    component: Categories,
+    canActivate: [adminGuard],
   },
   {
-    path:"admin/categories/add",
-    component:CategoryForm
+    path: 'admin/categories/add',
+    component: CategoryForm,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'admin/categories/:id',
+    component: CategoryForm,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'admin/brand',
+    component: Brands,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'admin/brand/add',
+    component: BrandForm,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'admin/brand/:id',
+    component: BrandForm,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'admin/product',
+    component: Products,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'admin/product/add',
+    component: ProductForm,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'admin/product/:id',
+    component: ProductForm,
+    canActivate: [adminGuard],
+  },
+
+  {
+    path: 'products',
+    component: ProductListPage,
+    canActivate: [authGuard],
   },
   {
-    path:"admin/categories/:id",
-    component:CategoryForm
+    path: 'product/:id',
+    component: ProductDetailsPage,
+    canActivate: [authGuard],
   },
   {
-    path:"admin/brand",
-    component:Brands
+    path: 'register',
+    component: Register,
   },
   {
-    path:"admin/brand/add",
-    component:BrandForm
+    path: 'admin',
+    component : AdminDashboard,
+    canActivate : [adminGuard]
   },
   {
-    path:"admin/brand/:id",
-    component:BrandForm
-  },  {
-    path:"admin/product",
-    component:Products
-  },
+    path: '',
+    redirectTo: '/register',
+    pathMatch: 'full',
+  }, // Redirect root to login
   {
-    path:"admin/product/add",
-    component:ProductForm
-  },
-  {
-    path:"admin/product/:id",
-    component:ProductForm
-  },
+    path: '**',
+    redirectTo: '/register',
+  }, // Redirect unknown routes to login
 ];

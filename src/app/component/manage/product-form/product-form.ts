@@ -1,3 +1,4 @@
+
 import { ProductService } from './../../../services/product';
 import { CategoryService } from './../../../services/category';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Category } from '../../../types/category';
 import { Brand } from '../../../types/brand';
 import { BrandService } from '../../../services/brand';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @Component({
@@ -21,6 +23,7 @@ import { BrandService } from '../../../services/brand';
     MatInput,
     MatFormFieldModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatInputModule,
     MatButtonModule,
     FormsModule,
@@ -52,6 +55,10 @@ export class ProductForm {
     images :this.formbuilder.array([]),
     categoryId : [null,[Validators.required]],
     brandId : [null,[Validators.required]],
+    isFeatured:[false],
+    isNewArrival:[false],
+    isBestSeller:[false],
+    stock:[0],
   });
 
 
@@ -67,6 +74,14 @@ export class ProductForm {
 
   }
 
+      updateProduct() {
+      if (!this.id) return;
+      this.productService.updateProductById(this.id, this.productForm.value).subscribe((result: any) => {
+        debugger;
+        this.router.navigateByUrl("/admin/product");
+      });
+    }
+
 
     getProductById(){
          this.productService.getProductById(this.id).subscribe((res:any)=>{
@@ -81,6 +96,7 @@ export class ProductForm {
     addNewProduct(){
     this.productService.addProduct(this.productForm.value).subscribe((result:any)=>{
       // alert("Product added : "+result.productName);
+      debugger;
       this.router.navigateByUrl("/admin/product");
 
     })
@@ -89,14 +105,12 @@ export class ProductForm {
   getCategories(){
     this.categoryService.getCategories().subscribe((res:any)=>{
       this.allCategories=res;
-      // console.log(this.allCategories);
     });
   }
 
   getBrands(){
     this.brandService.getBrands().subscribe((res:any)=>{
       this.allBrands=res;
-      // console.log(this.allCategories);
     });
   }
 
