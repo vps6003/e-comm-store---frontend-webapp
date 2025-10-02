@@ -77,3 +77,10 @@ button {
   padding-bottom: 0.5rem; /* 8px */
   border-bottom: 0.0625rem dashed #ccc; /* 1px */
 }
+
+/* hide default Material radio circle */
+::ng-deep .mdc-radio {
+  display: none !important;
+  visibility: hidden !important;
+}
+

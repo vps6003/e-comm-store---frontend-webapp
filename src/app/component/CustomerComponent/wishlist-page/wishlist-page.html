@@ -1,0 +1,57 @@
+<div class="shadow p-[2rem]">
+  @if (wishlist.length !== 0) {
+    <div class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">WishList</h2>
+
+      <!-- Products Grid -->
+      <div class="grid gap-[2rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        @for (product of paginatedWishlist; track $index) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="flex justify-center gap-2 mt-6">
+        <button class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                (click)="goToFirstPage()"
+                [disabled]="currentPage === 1">
+          « First
+        </button>
+
+        <button class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                (click)="prevPage()"
+                [disabled]="currentPage === 1">
+          ‹ Prev
+        </button>
+
+        @for (page of paginationRange; track $index) {
+          @if (page === '...') {
+            <span class="px-3 py-2">...</span>
+          } @else {
+            <button class="px-3 py-2 rounded
+                           [class.bg-blue-500]='currentPage === page'
+                           [class.text-white]='currentPage === page'
+                           bg-gray-200"
+                    (click)="goToPage(+page);">
+              {{ page }}
+            </button>
+          }
+        }
+
+        <button class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                (click)="nextPage()"
+                [disabled]="currentPage === totalPages">
+          Next ›
+        </button>
+
+        <button class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                (click)="goToLastPage()"
+                [disabled]="currentPage === totalPages">
+          Last »
+        </button>
+      </div>
+    </div>
+  } @else {
+    <p class="text-center text-gray-500">Your wishlist is empty.</p>
+  }
+</div>

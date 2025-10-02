@@ -12,11 +12,17 @@ import { Register } from './component/register/register';
 import { authGuard } from './core/auth-guard';
 import { adminGuard } from './core/admin-guard';
 import { AdminDashboard } from './component/admin-dashboard/admin-dashboard';
+import { WishlistPage } from './component/CustomerComponent/wishlist-page/wishlist-page';
 
 export const routes: Routes = [
   {
     path: 'home',
     component: Home,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'customer/wishlist',
+    component: WishlistPage,
     canActivate: [authGuard],
   },
   {

@@ -1,3 +1,4 @@
+import { CommonServices } from './../../services/common-services';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -53,11 +54,12 @@ export class Home {
 
   constructor() {}
   customerServices = inject(CustomerServices);
+  commonServices = inject(CommonServices);
   newProducts: Product[] = [];
   bestSellers: Product[] = [];
   featuredProducts: Product[] = [];
 
-  ngOnInit() {
+  async ngOnInit() {
     this.customerServices.getNewArrivals().subscribe((products) => {
       this.newProducts = products;
     });
@@ -67,5 +69,6 @@ export class Home {
     this.customerServices.getFeaturedProducts().subscribe((products) => {
       this.featuredProducts = products;
     });
+   await this.commonServices.init();
   }
 }

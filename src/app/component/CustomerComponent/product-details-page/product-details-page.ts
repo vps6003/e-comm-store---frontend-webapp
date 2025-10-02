@@ -1,3 +1,4 @@
+import { CommonVariablesService } from './../../../services/common-variables-service';
 import { Router, NavigationStart, Event as RouterEvent, ActivatedRoute, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Component, inject, OnInit } from '@angular/core';
@@ -10,6 +11,9 @@ import { MatInputModule } from '@angular/material/input';
 import { ProductCard } from '../../product-card/product-card';
 import { Category } from '../../../types/category';
 import { MatIconModule } from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
+import { NgClass } from '@angular/common';
+import { CommonServices } from '../../../services/common-services';
 
 @Component({
   selector: 'app-product-details-page',
@@ -19,7 +23,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatInputModule,
     MatIconModule,
-    ProductCard
+    ProductCard,
+    MatRadioModule,
+    NgClass
   ],
   templateUrl: './product-details-page.html',
   styleUrl: './product-details-page.scss'
@@ -30,6 +36,8 @@ export class ProductDetailsPage {
 
   router = inject(Router);
   route = inject(ActivatedRoute);
+  commonServices = inject(CommonServices);
+  commonVariablesService = inject(CommonVariablesService);
 
  product:any;
  productId: string ="";
@@ -41,7 +49,7 @@ export class ProductDetailsPage {
     categoryId : "",
     brandId : ""
   };
-  reviewRating :number = 0;
+reviewRating :number = 0;
 
 ngOnInit() {
   this.route.paramMap.subscribe((params:any)=>{
@@ -100,6 +108,37 @@ getProductDetails(){
     this.customerServices.getSimilarProductsList(this.reqParams).subscribe((result : Product[])=>{
       this.similarProducts = result;
     })
+  }
+
+  onInput(event: any) {
+  const value = event.target.value;
+  const min = 0;
+  const max = 5;
+
+  if (value < min) {
+    event.target.value = min;
+    this.reviewRating = min;
+  }
+  if (value > max) {
+    event.target.value = max;
+    this.reviewRating = max;
+  }
+}
+
+  addToWishlist(productId:string){
+    if(this.isInWishlist(productId)) return;
+    this.commonServices.addToWishlist(productId);
+  }
+
+  removeFromWishList(productId:string){
+    if(!this.isInWishlist(productId)) return;
+    this.commonServices.removeFromWishList(productId);
+
+  }
+
+  isInWishlist(productId:string) :boolean{
+    const exists = this.commonVariablesService.wishlistArray.find(e => e._id == productId);
+    return exists ? true : false;
   }
 
 }

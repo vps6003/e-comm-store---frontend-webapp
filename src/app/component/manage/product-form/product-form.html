@@ -8,7 +8,7 @@
     }
   </div>
   <div class="flex items-center justify-end mb-6">
-    <button class="curve-md" matButton="elevated" routerLink="/admin/product"><span class="text-blue-700">Back To All Products</span></button>
+    <button class="curve-md" mat-raised-button routerLink="/admin/product"><span class="text-blue-700">Back To All Products</span></button>
   </div>
   <form [formGroup]="productForm">
     <div class="flex flex-wrap gap-4">
@@ -72,9 +72,9 @@
             <h4 class="font-bold p-4">Images</h4>
             <div class="flex gap-2">
               <!-- <input matInput placeholder="Enter image URL" #newImageInput type="text" class="border p-2 rounded" /> -->
-              <!-- <button matButton="elevated" class="curve-md" color="primary" type="button" (click)="addImage(newImageInput.value); newImageInput.value=''">Add Image</button> -->
-              <button matButton="elevated" class="curve-md" color="primary" type="button" (click)="addImage();">Add Image</button>
-              <button matButton="elevated" class="curve-md" color="warn" type="button" (click)="removeImage()">Remove Image</button>
+              <!-- <button mat-raised-button class="curve-md" color="primary" type="button" (click)="addImage(newImageInput.value); newImageInput.value=''">Add Image</button> -->
+              <button mat-raised-button class="curve-md" color="primary" type="button" (click)="addImage();">Add Image</button>
+              <button mat-raised-button class="curve-md" color="warn" type="button" (click)="removeImage()">Remove Image</button>
             </div>
           </div>
           @for(item of images.controls; track $index; let i = $index) {
@@ -87,10 +87,10 @@
 
         <div class="product-form-actions">
           @if(isEdit){
-            <button class="curve-md" matButton="elevated" color="accent" (click)="updateProduct();"><span class="text-black text-base">Update Product</span></button>
+            <button class="curve-md" mat-raised-button color="accent" (click)="updateProduct();"><span class="text-black text-base">Update Product</span></button>
           }
           @else{
-            <button class="curve-md" matButton="elevated" color="accent" (click)="addNewProduct();"><span class="text-black text-base">Add Product</span></button>
+            <button class="curve-md" mat-raised-button color="accent" (click)="addNewProduct();"><span class="text-black text-base">Add Product</span></button>
           }
         </div>
       </div>

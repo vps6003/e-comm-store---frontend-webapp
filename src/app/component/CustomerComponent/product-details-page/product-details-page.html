@@ -15,14 +15,49 @@
 
   <div class="info">
     @if (product) {
-      <strong>
-        <h2>{{ product.productName }}</h2>
-        <h3>₹{{ product.price }}</h3>
-        <h4>Product Details</h4>
-      </strong>
-      <div class="overflow-scroll h-[25rem]">
-        <pre>
+      <div class="flex flex-wrap justify-between">
+        <div>
+          <strong>
+            <h2>{{ product.productName }}</h2>
+            <h3>₹{{ product.price }}</h3>
+          </strong>
+        </div>
 
+        <div class="flex flex-col justify-between gap-[1rem]">
+
+  <button mat-raised-button color="primary" class="w-[16rem] !rounded-full">Add to Cart</button>
+  @if(isInWishlist(productId)){
+    <button mat-raised-button (click)="removeFromWishList(productId);"
+        color="accent"
+        class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
+
+  <!-- Default state (visible when not hovered) -->
+  <span class="flex items-center gap-[0.5rem] group-hover:hidden">
+    <mat-icon class="!h-[1.2rem] !w-[1.2rem] !text-green-400">check_box</mat-icon>
+    Added to Wishlist
+  </span>
+
+  <!-- Hover state (visible only on hover) -->
+  <span class="hidden group-hover:flex items-center gap-[0.5rem]">
+    <mat-icon class="!h-[1rem] !w-[1rem] !text-black">delete</mat-icon>
+    Remove from Wishlist
+  </span>
+
+</button>
+
+  }
+  @else {
+    <button mat-raised-button (click)="addToWishlist(productId);"
+    color="accent" class="w-full">
+    Add to WishList
+  </button>
+  }
+</div>
+
+      </div>
+      <strong><h4>Product Details</h4></strong>
+      <div class="overflow-auto !scrollbar-hide h-[13rem]">
+        <pre>
           {{ product.description }}
         </pre>
       </div>
@@ -67,14 +102,39 @@
 <div class="flex flex-col">
   <h5><strong>Write a Review</strong></h5>
   <div class=" flex flex-wrap gap-[2rem]">
-   <mat-form-field class="flex w-[30rem] overflow-y-auto scroll-hidden">
+   <mat-form-field class="flex w-[30rem] scrollbar-hide overflow-y-auto scroll-hidden">
     <mat-label>Leave a comment</mat-label>
     <textarea #reviewArea matInput placeholder="Ex. It makes me feel..."></textarea>
   </mat-form-field>
-  <mat-form-field class="flex w-[5rem]">
+  <!-- <mat-form-field class="flex w-[5rem]">
     <mat-label>Rating</mat-label>
     <input #rating matInput type="number" [(ngModel)]="reviewRating" (wheel)="$event.target.blur()" min="0" max = "5">
-  </mat-form-field>
+  </mat-form-field> -->
+
+<mat-radio-group [(ngModel)]="reviewRating" class="flex gap-2">
+  @for (rating of [1,2,3,4,5]; track rating) {
+    <mat-radio-button
+      [value]="rating"
+      class="p-0 m-0 custom-radio"
+      appearance="legacy"
+    >
+      <div class="flex items-center gap-1 cursor-pointer">
+        <span>{{ rating }}</span>
+        <mat-icon
+          [ngClass]="rating <= reviewRating ? '!text-yellow-500' : '!text-gray-400'"
+          class="text-3xl"
+        >star</mat-icon>
+      </div>
+    </mat-radio-button>
+  }
+</mat-radio-group>
+
+
+
+<!-- <p class="mt-2">Selected Rating: {{ reviewRating }}</p> -->
+
+
+
   </div>
   <button class="w-[10rem]" mat-raised-button color="warn" (click)="addReview(reviewArea.value)">Post Review</button>
 </div>
