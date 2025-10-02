@@ -28,6 +28,24 @@
   box-shadow: 0 4px 16px rgba(67,198,172,0.25);
   transform: translateY(-2px) scale(1.03);
 }
+
+.added-to-wish-btn {
+  background: linear-gradient(90deg,#191654 0%, #eb6708 100%);
+  color: #fff !important;
+  font-weight: 600;
+  cursor: pointer;
+  // border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(67,198,172,0.15);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  letter-spacing: 0.5px;
+}
+
+.added-to-wish-btn:hover {
+  background: linear-gradient(90deg, #eb6708 0%, #43c6ac 100%);
+  box-shadow: 0 4px 16px rgba(67,198,172,0.25);
+  transform: translateY(-2px) scale(1.03);
+}
+
 .product-card {
   background: #fff;
   border-radius: 1rem;

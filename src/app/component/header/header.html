@@ -12,20 +12,23 @@
 			<span class="material-icons mr-1 absolute left-[20rem] top-[0.5rem] icon" (click)="onSearch(searchBar.value)">search</span>
 			</div>
 		<!-- Profile -->
-    <div class="flex">
+    <div class="flex flex-wrap gap-[1rem]">
+       <a routerLink="/customer/wishlist" class="text-white text-[1rem] font-semibold flex flex-wrap items-center">
+        Wishlist
+      </a>
+
       @if(isAdmin){
-      <a class="mt-[0.25rem] text-white text-sm font-semibold flex-wrap items-center cursor-pointer" routerLink="/admin">
-        <!-- <span class="material-icons mr-1 icon">logout</span> -->
+      <a class="text-white text-[1rem] font-semibold items-center cursor-pointer" routerLink="/admin">
         Dashboard
       </a>
     }
 
-      <a routerLink="/profile" class="ml-[1rem] text-white text-lg font-semibold flex flex-wrap items-center">
+      <a routerLink="/profile" class="text-white text-[1rem] font-semibold flex flex-wrap items-center">
         <span class="material-icons mr-1 icon">account_circle</span>
         {{userName}}
       </a>
 
-      <a class="ml-[1rem] mt-[0.25rem] text-white text-sm font-semibold flex-wrap items-center cursor-pointer" (click)="logout();">
+      <a class="text-white text-sm font-semibold flex-wrap items-center cursor-pointer" (click)="logout();">
         <!-- <span class="material-icons mr-1 icon">logout</span> -->
         Logout
       </a>

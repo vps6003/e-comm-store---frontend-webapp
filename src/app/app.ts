@@ -32,14 +32,8 @@ export class App {
   private commonServices = inject(CommonServices)
 
   ngOnInit() {
-    if(!this.commonServices.isLoggedIn){
     this.commonServices.verifyToken();
+    this.commonServices.init();
   }
-  }
-
-
-  //  interV =   setInterval(() => {
-  //   this.commonServices.verifyToken();
-  // }, 300000);
 
 }

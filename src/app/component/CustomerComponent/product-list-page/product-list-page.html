@@ -45,8 +45,8 @@
 
     </div>
     <div class="flex mt-[2rem] ml-[-10rem] justify-center items-center  gap-4">
-      <button matButton="elevated" color="primary" [disabled] = "reqParams.page==1" (click)="pageChange(reqParams.page-1);">Previous</button>
-      <button matButton="elevated" color="primary" [disabled] = "reqParams.pageSize>productList.length" (click)="pageChange(reqParams.page+1);">Next</button>
+      <button mat-raised-button color="primary" [disabled] = "reqParams.page==1" (click)="pageChange(reqParams.page-1);">Previous</button>
+      <button mat-raised-button color="primary" [disabled] = "reqParams.pageSize>productList.length" (click)="pageChange(reqParams.page+1);">Next</button>
     </div>
   </div>
 

@@ -1,3 +1,4 @@
+import { CommonServices } from './../../services/common-services';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -8,10 +9,11 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatFormField, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthServices } from '../../services/authorization/auth-services';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';   // 👈 import this
 
 @Component({
   selector: 'app-register',
@@ -33,8 +35,10 @@ export class Register {
   hidePassword: boolean = true;
   router = inject(Router);
 
-  constructor(private fb: FormBuilder,
-    private authServices : AuthServices,
+  constructor(
+    private fb: FormBuilder,
+    private authServices: AuthServices,
+    private commonServices: CommonServices
   ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -49,39 +53,44 @@ export class Register {
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    const token =(localStorage.getItem('token'));
-    if((token)){
-      this.router.navigateByUrl("/home");
+    const token = localStorage.getItem('token');
+    this.commonServices.verifyToken();
+    if (token) {
+      this.router.navigateByUrl('/home');
     }
   }
 
-  onSubmit() {
-    if (this.signUp) {
-      if (this.registerForm.valid) {
-        this.authServices.newUserRegistration(this.registerForm.value).subscribe((res:any)=>{
-          alert(res.name + "Registered!");
+  async onSubmit() {
+    try {
+      if (this.signUp) {
+        if (this.registerForm.valid) {
+          const res: any = await firstValueFrom(
+            this.authServices.newUserRegistration(this.registerForm.value)
+          );
+          alert(res.name + ' Registered!');
           this.signUp = false;
-        });
+        } else {
+          this.registerForm.markAllAsTouched();
+        }
       } else {
-        this.registerForm.markAllAsTouched();
-      }
-    } else {
-      if (this.loginForm.valid) {
-        this.authServices.userLogin(this.loginForm.value).subscribe((res:any)=>{
-          if(res.token){
-            localStorage.setItem('token' , res.token);
-            localStorage.setItem('user' , JSON.stringify(res.user));
-            this.router.navigateByUrl("/home");
+        if (this.loginForm.valid) {
+          const res: any = await firstValueFrom(
+            this.authServices.userLogin(this.loginForm.value)
+          );
+
+          if (res.token) {
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('user', JSON.stringify(res.user));
+            this.router.navigateByUrl('/home');
             window.location.reload();
           }
-
-
-        });
-      } else {
-        this.registerForm.markAllAsTouched();
+        } else {
+          this.loginForm.markAllAsTouched();
+        }
       }
+    } catch (err) {
+      console.error('Error in onSubmit:', err);
+      alert('Something went wrong!');
     }
   }
 }

@@ -10,7 +10,7 @@ export const adminGuard : CanActivateFn = (route,state) =>{
   if(authService.isLoggedIn && authService.isAdminCheck )
   {
     const obj = {isLoggedIn : true};
-    commonService.verifyToken(obj);
+    // commonService.verifyToken(obj);
      return true;
   }
     router.navigateByUrl('/home');
