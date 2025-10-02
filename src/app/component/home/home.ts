@@ -1,14 +1,14 @@
-import { CommonServices } from './../../services/common-services';
-import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
 import { CustomerServices } from '../../services/customer/customer-services';
+import { CommonServices } from './../../services/common-services';
 import { Product } from '../../types/product';
-import { ProductCard } from '../product-card/product-card';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ProductCard } from '../product-card/product-card';
+import { NgClass, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -19,56 +19,116 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
     MatFormFieldModule,
     ProductCard,
     CarouselModule,
+    NgClass,
+    NgStyle
   ],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrls: ['./home.scss'],
 })
-export class Home {
+export class Home implements OnInit {
+  customerServices = inject(CustomerServices);
+  commonServices = inject(CommonServices);
+
+  // Carousel options
   customOptions: OwlOptions = {
     loop: true,
-    mouseDrag: false,
-    touchDrag: false,
-    pullDrag: false,
-    autoplay: true, // Enable autoplay
-    autoplayTimeout: 2500, // Set autoplay interval in milliseconds (e.g., 2.5 seconds)
-    autoplayHoverPause: true, // Pause autoplay on hover
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
+    autoplay: true,
+    autoplayTimeout: 2500,
+    autoplayHoverPause: true,
     dots: false,
     navSpeed: 700,
     navText: ['', ''],
-    // responsive: {
-    //   0: {
-    //     items: 1
-    //   },
-    //   400: {
-    //     items: 2
-    //   },
-    //   740: {
-    //     items: 3
-    //   },
-    //   940: {
-    //     items: 4
-    //   }
-    // },
     nav: true,
+    responsive: {
+      0: { items: 1 },
+      480: { items: 2 },
+      768: { items: 3 },
+      1024: { items: 4 },
+      1280: { items: 5 },
+    },
   };
 
-  constructor() {}
-  customerServices = inject(CustomerServices);
-  commonServices = inject(CommonServices);
+  // Products
   newProducts: Product[] = [];
   bestSellers: Product[] = [];
   featuredProducts: Product[] = [];
 
+  // Pagination state for each section
+  currentPageNew: number = 1;
+  currentPageBest: number = 1;
+  currentPageFeatured: number = 1;
+
+  itemsPerPage: number = 4;
+
+  totalPagesNew: number = 0;
+  totalPagesBest: number = 0;
+  totalPagesFeatured: number = 0;
+
   async ngOnInit() {
     this.customerServices.getNewArrivals().subscribe((products) => {
       this.newProducts = products;
+      this.totalPagesNew = Math.ceil(this.newProducts.length / this.itemsPerPage);
     });
+
     this.customerServices.getBestSellers().subscribe((products) => {
       this.bestSellers = products;
+      this.totalPagesBest = Math.ceil(this.bestSellers.length / this.itemsPerPage);
     });
+
     this.customerServices.getFeaturedProducts().subscribe((products) => {
       this.featuredProducts = products;
+      this.totalPagesFeatured = Math.ceil(this.featuredProducts.length / this.itemsPerPage);
     });
-   await this.commonServices.init();
+
+    await this.commonServices.init();
   }
+
+  // Get paginated slices
+  get paginatedNew() {
+    const start = (this.currentPageNew - 1) * this.itemsPerPage;
+    return this.newProducts.slice(start, start + this.itemsPerPage);
+  }
+
+  get paginatedBest() {
+    const start = (this.currentPageBest - 1) * this.itemsPerPage;
+    return this.bestSellers.slice(start, start + this.itemsPerPage);
+  }
+
+  get paginatedFeatured() {
+    const start = (this.currentPageFeatured - 1) * this.itemsPerPage;
+    return this.featuredProducts.slice(start, start + this.itemsPerPage);
+  }
+
+  // Pagination handlers
+  goToPage(section: string, page: number) {
+    if (section === 'new') this.currentPageNew = page;
+    if (section === 'best') this.currentPageBest = page;
+    if (section === 'featured') this.currentPageFeatured = page;
+  }
+
+  nextPage(section: string) {
+    if (section === 'new' && this.currentPageNew < this.totalPagesNew) this.currentPageNew++;
+    if (section === 'best' && this.currentPageBest < this.totalPagesBest) this.currentPageBest++;
+    if (section === 'featured' && this.currentPageFeatured < this.totalPagesFeatured) this.currentPageFeatured++;
+  }
+
+  prevPage(section: string) {
+    if (section === 'new' && this.currentPageNew > 1) this.currentPageNew--;
+    if (section === 'best' && this.currentPageBest > 1) this.currentPageBest--;
+    if (section === 'featured' && this.currentPageFeatured > 1) this.currentPageFeatured--;
+  }
+
+  get newPages(): number[] {
+  return Array.from({ length: this.totalPagesNew }, (_, i) => i + 1);
+}
+get bestPages(): number[] {
+  return Array.from({ length: this.totalPagesBest }, (_, i) => i + 1);
+}
+get featuredPages(): number[] {
+  return Array.from({ length: this.totalPagesFeatured }, (_, i) => i + 1);
+}
+
 }

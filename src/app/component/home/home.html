@@ -1,51 +1,100 @@
-<div class="px-40 mt-10">
-  <h1 class="text-3xl font-bold mb-8">Home Page</h1>
+<div class="px-[2.5rem] mt-[2.5rem]">
 
-  <div class="cursor-pointer">
+  <!-- Featured Products Carousel -->
+  @if(featuredProducts.length !== 0){
+    <h2 class="text-[1.875rem] font-semibold mb-[1rem]">Featured Products</h2>
     <owl-carousel-o [options]="customOptions">
-      @for(slide of featuredProducts ; track $index) {
-      <ng-template carouselSlide >
-        <div class ="carousel-slide relative flex flex-col items-center justify-center h-50 rounded-lg scrollbar-hide overflow-hidden" [routerLink]="'/product/' + slide._id">
-          <img [src]="slide.images[0]" [alt]="slide.productName">
-        </div>
-        <div class ="carousel-slide relative flex flex-col items-center justify-center bg-gray-300 rounded-lg scrollbar-hide overflow-hidden" [routerLink]="'/product/' + slide._id">
-          <span class="carousel-slide">{{slide.productName}}</span>
-</div>
-      </ng-template>
-    }
+      @for(slide of featuredProducts; track $index) {
+        <ng-template carouselSlide>
+          <div class="relative flex flex-col items-center justify-center h-[18rem] rounded-[0.5rem] overflow-hidden cursor-pointer"
+               [routerLink]="'/product/' + slide._id">
+            <img [src]="slide.images[0]" [alt]="slide.productName" class="w-full h-[12rem] object-cover" />
+            <span class="mt-[0.5rem] text-center text-gray-700 text-[1rem]">{{ slide.productName }}</span>
+          </div>
+        </ng-template>
+      }
     </owl-carousel-o>
-  </div>
+  }
 
+  <!-- New Arrivals Section -->
   @if(newProducts.length !== 0){
-  <div class="mb-12">
-    <h2 class="text-xl font-semibold mb-4">New Arrivals</h2>
-    <div class="flex flex-wrap">
-      @for (product of newProducts; track $index) {
-      <app-product-card [product]="product"></app-product-card>
-      }
+    <div class="mb-[3rem]">
+      <h2 class="text-[1.5rem] font-semibold mb-[1rem]">New Arrivals</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[1.5rem]">
+        @for(product of paginatedNew; track $index) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center items-center mt-[1rem] space-x-[0.5rem]">
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="prevPage('new')" [disabled]="currentPageNew === 1">Prev</button>
+        @for(page of newPages; track $index) {
+          <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem]"
+                  [ngClass]="currentPageNew === page ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'"
+                  (click)="goToPage('new', page)">
+            {{ page }}
+          </button>
+        }
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="nextPage('new')" [disabled]="currentPageNew === totalPagesNew">Next</button>
+      </div>
     </div>
-  </div>
   }
-  
+
+  <!-- Best Sellers Section -->
   @if(bestSellers.length !== 0){
+    <div class="mb-[3rem]">
+      <h2 class="text-[1.5rem] font-semibold mb-[1rem]">Best Sellers</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[1.5rem]">
+        @for(product of paginatedBest; track $index) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
 
-  <div class="mb-12">
-    <h2 class="text-xl font-semibold mb-4">Best Sellers</h2>
-    <div class="flex flex-wrap">
-      @for (product of bestSellers; track $index) {
-      <app-product-card [product]="product"></app-product-card>
-      }
+      <!-- Pagination -->
+      <div class="flex justify-center items-center mt-[1rem] space-x-[0.5rem]">
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="prevPage('best')" [disabled]="currentPageBest === 1">Prev</button>
+        @for(page of bestPages; track $index) {
+          <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem]"
+                  [ngClass]="currentPageBest === page ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'"
+                  (click)="goToPage('best', page)">
+            {{ page }}
+          </button>
+        }
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="nextPage('best')" [disabled]="currentPageBest === totalPagesBest">Next</button>
+      </div>
     </div>
-  </div>
-  } @if(featuredProducts.length !== 0){
-
-  <div class="mb-12">
-    <h2 class="text-xl font-semibold mb-4">Featured Products</h2>
-    <div class="flex flex-wrap">
-      @for (product of featuredProducts; track $index) {
-      <app-product-card [product]="product"></app-product-card>
-      }
-    </div>
-  </div>
   }
+
+  <!-- Featured Products Grid Section -->
+  @if(featuredProducts.length !== 0){
+    <div class="mb-[3rem]">
+      <h2 class="text-[1.5rem] font-semibold mb-[1rem]">All Featured Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[1.5rem]">
+        @for(product of paginatedFeatured; track $index) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center items-center mt-[1rem] space-x-[0.5rem]">
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="prevPage('featured')" [disabled]="currentPageFeatured === 1">Prev</button>
+        @for(page of featuredPages; track $index) {
+          <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem]"
+                  [ngClass]="currentPageFeatured === page ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'"
+                  (click)="goToPage('featured', page)">
+            {{ page }}
+          </button>
+        }
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="nextPage('featured')" [disabled]="currentPageFeatured === totalPagesFeatured">Next</button>
+      </div>
+    </div>
+  }
+
 </div>
