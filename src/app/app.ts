@@ -1,14 +1,14 @@
 
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, NgModule, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, RouterOutlet, Routes } from '@angular/router';
 import { Footer } from './component/footer/footer';
 import { Header } from './component/header/header';
-// import { BrowserModule } from '@angular/platform-browser';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CommonServices } from './services/common-services';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TooltipModule } from './core/directives/mat-tooltip.module';
 
 
 @Component({
@@ -20,9 +20,9 @@ import { CommonServices } from './services/common-services';
     Footer,
     Header,
     RouterModule,
-    // BrowserModule,
-    CarouselModule
-    // BrowserAnimationsModule
+    CarouselModule,
+    MatTooltipModule,
+    TooltipModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

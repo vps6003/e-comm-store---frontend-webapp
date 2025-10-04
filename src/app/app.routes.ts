@@ -13,6 +13,9 @@ import { authGuard } from './core/auth-guard';
 import { adminGuard } from './core/admin-guard';
 import { AdminDashboard } from './component/admin-dashboard/admin-dashboard';
 import { WishlistPage } from './component/CustomerComponent/wishlist-page/wishlist-page';
+import { CartPage } from './component/CustomerComponent/cart-page/cart-page';
+import { CheckoutPage } from './component/checkout-page/checkout-page';
+import { OrderSuccessPage } from './component/CustomerComponent/order-success-page/order-success-page';
 
 export const routes: Routes = [
   {
@@ -23,6 +26,21 @@ export const routes: Routes = [
   {
     path: 'customer/wishlist',
     component: WishlistPage,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'order-success',
+    component: OrderSuccessPage,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'customer/cart',
+    component: CartPage,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'checkout',
+    component: CheckoutPage,
     canActivate: [authGuard],
   },
   {

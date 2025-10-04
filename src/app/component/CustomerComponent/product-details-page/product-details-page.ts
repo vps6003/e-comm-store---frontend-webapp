@@ -66,7 +66,6 @@ getRouterParams(){
 getProductDetails(){
   this.customerServices.getProductById(this.productId).subscribe((result : Product[])=>{
     this.product = result;
-    // console.log(result);
     this.selectImage(this.product.images[0]);
     this.reqParams.categoryId = this.product?.categoryId;
     this.reqParams.brandId = this.product?.brandId;
@@ -80,7 +79,6 @@ getProductDetails(){
   }
 
   addReview(req:any){
-    // console.log(req);
     if(!req) {
       alert("Please write review then post it!");
       return;
@@ -99,7 +97,6 @@ getProductDetails(){
     reviewObj.rating = this.reviewRating;
     reviewObj.comment = req;
     this.customerServices.addReviews(this.product._id ,reviewObj).subscribe(result =>{
-      // console.log(result);
       this.product = result;
     })
   }

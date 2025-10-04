@@ -80,7 +80,7 @@
 
  <div class="mb-12">
     <h2 class="text-xl font-semibold mb-4">Similar Products</h2>
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap gap-[1rem]">
       @for (product of similarProducts; track $index) {
       <app-product-card [product]="product"></app-product-card>
       }
