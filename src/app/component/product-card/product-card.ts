@@ -6,6 +6,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCell } from "@angular/material/table";
 import { Product } from '../../types/product';
+import { MatIconTooltipDirective } from "../../core/directives/mat-tooltip-directive";
 
 @Component({
   selector: 'app-product-card',
@@ -14,6 +15,7 @@ import { Product } from '../../types/product';
     CommonModule,
     RouterModule,
     MatIconModule,
+    MatIconTooltipDirective
 ],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss'
@@ -42,9 +44,24 @@ export class ProductCard {
     window.open(imageUrl, '_blank');
   }
 
-  addToCart(product:any){
+  // From PRoduct Card only addition of 1 item is available to change  quantity need to go to cart page
+  addToCart(productId:string){
+    let quantity = 1;
+    this.commonServices.addToCart(productId,quantity);
     return;
   }
+
+   removeFromCart(productId:string){
+    if(!this.isInCart(productId)) return;
+    this.commonServices.removeFromCart(productId);
+
+  }
+
+  isInCart(productId:string) :boolean{
+    const exists = this.commonVariablesService.cartData.productQuantity.find((e:any) => e.productId._id == productId);
+    return exists ? true : false;
+  }
+
 
   addToWishlist(productId:string){
     if(this.isInWishlist(productId)) return;

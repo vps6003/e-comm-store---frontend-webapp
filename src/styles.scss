@@ -68,3 +68,15 @@ input::-webkit-inner-spin-button {
   }
 }
 
+mat-icon {
+  vertical-align: middle;
+  position: relative;
+  top: 0.1625rem; /* equals -1px if base font-size is 16px */
+}
+
+button:enabled{
+  cursor: pointer;
+}
+
+
+

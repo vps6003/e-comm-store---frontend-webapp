@@ -9,5 +9,6 @@ export class CommonVariablesService {
   searchTerm:string = "";
   wishlistArray :Product[]=[];
   userData :any;
+  cartData :any;
 
 }

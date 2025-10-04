@@ -1,3 +1,4 @@
+import { ToasterMessageService } from './toaster-message-service';
 import { CommonVariablesService } from './common-variables-service';
 import { CustomerServices } from './customer/customer-services';
 import { Router } from '@angular/router';
@@ -14,58 +15,91 @@ export class CommonServices {
   constructor(
     private authServices: AuthServices,
     private router: Router,
-    private categoryService : CategoryService,
-    private customerServices : CustomerServices,
-    private commonVariablesService : CommonVariablesService,
+    private categoryService: CategoryService,
+    private customerServices: CustomerServices,
+    private commonVariablesService: CommonVariablesService,
+    private toasterMessageService :ToasterMessageService
   ) {
     this.isLoggedIn = this.authServices.isLoggedIn;
   }
 
   isLoggedIn: any;
 
-  init(){
-    this.commonVariablesService.searchTerm ="";
+  init() {
+    this.commonVariablesService.searchTerm = '';
     this.commonVariablesService.wishlistArray = [];
+    // this.commonVariablesService.cartData = [];
     this.getCustomerWishlist();
+    this.getCustomerCart();
     this.getUserDataFromStorage();
   }
 
-  async getUserDataFromStorage(){
-    const userData:any = await localStorage.getItem("user");
+  async getUserDataFromStorage() {
+    const userData: any = await localStorage.getItem('user');
     this.commonVariablesService.userData = JSON.parse(userData);
   }
 
- async   getCustomerWishlist(){
-   await this.getUserDataFromStorage();
-    this.customerServices.getUserWishlist(this.commonVariablesService.userData?._id).subscribe((result:any) =>{
-      this.commonVariablesService.wishlistArray = result.productsId;
-      // console.log("User Wishlist",result);
-    })
+  async getCustomerWishlist() {
+    await this.getUserDataFromStorage();
+    this.customerServices
+      .getUserWishlist(this.commonVariablesService.userData?._id)
+      .subscribe((result: any) => {
+        this.commonVariablesService.wishlistArray = result.productsId;
+      });
   }
 
-  addToWishlist(id:string){
-      const addObj = {
-          userId: this.commonVariablesService.userData._id,
-          productId : id
-        }
-    this.customerServices.addToWishlist(addObj).subscribe((result:any)=>{
-      // console.log("Wishlist Schema : ",result);
-      this.getCustomerWishlist();
-    })
-
-  }
-
-  removeFromWishList(id:string){
+  addToWishlist(id: string) {
     const addObj = {
-          userId: this.commonVariablesService.userData._id,
-          productId : id
-        }
-    this.customerServices.removeFromWishList(addObj).subscribe((result:any)=>{
-      console.log("Wishlist Schema : ",result);
-      console.log("Removed from Wishlist : ", id);
+      userId: this.commonVariablesService.userData._id,
+      productId: id,
+    };
+    this.customerServices.addToWishlist(addObj).subscribe((result: any) => {
       this.getCustomerWishlist();
-    })
+    });
+  }
 
+  removeFromWishList(id: string) {
+    const addObj = {
+      userId: this.commonVariablesService.userData._id,
+      productId: id,
+    };
+    this.customerServices.removeFromWishList(addObj).subscribe((result: any) => {
+      this.getCustomerWishlist();
+    });
+  }
+
+  async getCustomerCart() {
+    await this.getUserDataFromStorage();
+    this.customerServices
+      .getUserCart(this.commonVariablesService.userData?._id)
+      .subscribe((result: any) => {
+        this.commonVariablesService.cartData = result;
+      });
+  }
+
+  addToCart(id: string, quantity: number) {
+    const addObj = {
+      userId: this.commonVariablesService.userData._id,
+      productId: id,
+      quantity: quantity,
+    };
+    // console.log("cart addobj  == ", addObj);
+    this.customerServices.addToCart(addObj).subscribe((result: any) => {
+      // console.log("Cart Schema : ",result);
+      this.getCustomerCart();
+    });
+  }
+
+  removeFromCart(id: string) {
+    const addObj = {
+      userId: this.commonVariablesService.userData._id,
+      productId: id,
+    };
+    this.customerServices.removeFromCart(addObj).subscribe((result: any) => {
+      // console.log("cart Schema : ",result);
+      // console.log("Removed from Cart : ", id);
+      this.getCustomerCart();
+    });
   }
 
   verifyToken(obj?: any) {
@@ -90,5 +124,27 @@ export class CommonServices {
     window.location.reload();
   }
 
+  async newOrder(obj: any) {
+    try {
+      this.customerServices.newOrder(obj).subscribe((result: any) => {
+         this.clearCart();
+         this.router.navigateByUrl('/order-success');
 
+      });
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
+
+  async clearCart() {
+    try {
+      const addObj = {userId : this.commonVariablesService.userData._id}
+      this.customerServices.clearCart(addObj).subscribe((result: any) => {
+        this.toasterMessageService.show("Cart Cleared!","success");
+        this.getCustomerCart();
+      });
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
 }

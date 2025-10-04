@@ -8,6 +8,7 @@ import { Product } from '../../types/product';
 import { Category } from '../../types/category';
 import { Brand } from '../../types/brand';
 import { Review } from '../../types/reviews';
+import { Order } from '../../types/order';
 
 @Injectable({
   providedIn: 'root',
@@ -127,5 +128,30 @@ export class CustomerServices {
   removeFromWishList(addObj: any) {
     return this.http.delete<Product[]>(`${environment.customerApiUrl}wishlists/remove`,
       {body : addObj});
+  }
+
+
+  getUserCart(id: string) {
+    return this.http.get<Product[]>(`${environment.customerApiUrl}cart/getCartItem?userId=` + id);
+  }
+
+  addToCart(addObj: any) {
+    return this.http.post<Product[]>(`${environment.customerApiUrl}cart/updateCart`, addObj);
+  }
+
+  removeFromCart(addObj: any) {
+    return this.http.delete<Product[]>(`${environment.customerApiUrl}cart/removeFromCart`,
+      {body : addObj});
+  }
+
+  clearCart(addObj:any){
+   return this.http.delete<Product[]>(`${environment.customerApiUrl}cart/clearCart`,
+      {body : addObj});
+  }
+
+newOrder(obj:any){
+    return this.http.post(`${environment.customerApiUrl}order/neworder`,
+      obj
+    )
   }
 }

@@ -58,7 +58,6 @@ export class ProductListPage {
       ...params           // override with actual query params
     };
 
-    // console.log(this.reqParams);
     this.commonVariablesService.searchTerm = this.reqParams.searchTerm;
 
       this.getProductLists(this.reqParams);
@@ -69,7 +68,6 @@ export class ProductListPage {
 
 
   getProductLists(params:any){
-    // console.log(params);
     setTimeout(()=>{
 
       this.customerServices.getProductsList(params).subscribe((result) =>{
@@ -80,7 +78,6 @@ export class ProductListPage {
   }
 
   getCategory(){
-    // console.log(this.queryReqParams);
     this.customerServices.getCategories().subscribe((result:Category[]) =>{
       this.categoryList = result;
     })

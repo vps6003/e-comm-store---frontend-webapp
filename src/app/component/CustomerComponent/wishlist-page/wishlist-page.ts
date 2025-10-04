@@ -12,28 +12,30 @@ import { Product } from '../../../types/product';
 })
 export class WishlistPage {
   constructor(
-    private commonServices: CommonServices,
-    private commonVariablesService: CommonVariablesService
+    public commonServices: CommonServices,
+    public commonVariablesService: CommonVariablesService
   ) {}
 
-  wishlist: Product[] = [];
+  // wishlist: Product[] = [];
   currentPage = 1;
   itemsPerPage = 10;
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.wishlist = this.commonVariablesService.wishlistArray;
+    // this.wishlist = this.commonVariablesService.wishlistArray;
+    // this.commonServices.init();
+
   }
 
   get totalPages(): number {
-    return Math.ceil(this.wishlist.length / this.itemsPerPage);
+    return Math.ceil(this.commonVariablesService.wishlistArray.length / this.itemsPerPage);
   }
 
   get paginatedWishlist() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    return this.wishlist.slice(start, end);
+    return this.commonVariablesService.wishlistArray.slice(start, end);
   }
 
   goToPage(page: number) {
@@ -81,7 +83,7 @@ export class WishlistPage {
   }
 
   nextPage() {
-    if (this.currentPage * this.itemsPerPage < this.wishlist.length) {
+    if (this.currentPage * this.itemsPerPage < this.commonVariablesService.wishlistArray.length) {
       this.currentPage++;
     }
   }

@@ -1,0 +1,109 @@
+<div class="p-[2rem] mt-[2rem]">
+  <h1 class="text-[1.875rem] font-semibold mb-[1rem]">My Cart</h1>
+
+  <!-- Loading -->
+  @if(loading) {
+    <div class="text-[1rem] text-gray-500">Loading cart...</div>
+  }
+
+  <!-- Empty Cart -->
+  @if(!loading && paginatedItems.length === 0) {
+    <div class="text-[1rem] text-gray-500">Your cart is empty.</div>
+  }
+
+  <!-- Cart Items Grid -->
+  @if(paginatedItems.length > 0) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[1.5rem]">
+      @for(item of paginatedItems; track $index) {
+        <div class="border rounded-[0.5rem] p-[1rem] flex flex-col items-center shadow-sm hover:shadow-md transition-shadow">
+          <img [src]="item.productId.images[0]"
+               [alt]="item.productId.productName"
+               class="w-full h-[10rem] object-cover rounded-[0.5rem] mb-[0.5rem]">
+          <span class="text-[1rem] font-medium text-gray-700 mb-[0.5rem]">{{ item.productId.productName }}</span>
+
+          <!-- Prices -->
+          <div class="flex flex-col items-center mb-[0.5rem]">
+            <span class="text-[0.875rem] text-gray-500 line-through">
+              ₹{{ item.productId.price | number:'1.2-2' }}
+            </span>
+            <span class="text-[0.875rem] text-red-500" *ngIf="item.productId.discount">
+              -{{ item.productId.discount }}%
+            </span>
+            <span class="text-[1rem] font-semibold text-gray-900">
+              ₹{{ (item.productId.price * (1 - (item.productId.discount || 0)/100) * item.quantity) | number:'1.2-2' }}
+            </span>
+          </div>
+
+          <!-- Quantity controls -->
+          <div class="flex items-center mb-[0.5rem]">
+            <button (click)="updateQuantity(item.productId._id, item.quantity - 1)"
+                    class="px-[0.5rem] py-[0.25rem] bg-gray-300 rounded-[0.25rem]">-</button>
+            <span class="px-[0.5rem] text-[1rem]">{{ item.quantity }}</span>
+            <button (click)="updateQuantity(item.productId._id, item.quantity + 1)"
+                    class="px-[0.5rem] py-[0.25rem] bg-gray-300 rounded-[0.25rem]">+</button>
+          </div>
+
+          <button (click)="removeItem(item.productId._id)"
+                  class="px-[0.75rem] py-[0.5rem] bg-red-500 text-white rounded-[0.25rem] hover:bg-red-600 transition-colors">Remove</button>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Pagination -->
+  @if(totalPages > 1) {
+    <div class="flex justify-center items-center gap-[0.5rem] mt-[1rem]">
+      <button (click)="prevPage()"
+              [disabled]="currentPage === 1"
+              class="px-[0.75rem] py-[0.5rem] bg-gray-300 rounded-[0.25rem]">Prev</button>
+      @for(page of pageNumbers; track $index) {
+        <button (click)="goToPage(page)"
+                [ngClass]="{'bg-blue-500 text-white': currentPage === page, 'bg-gray-300 text-black': currentPage !== page}"
+                class="px-[0.75rem] py-[0.5rem] rounded-[0.25rem]">{{ page }}</button>
+      }
+      <button (click)="nextPage()"
+              [disabled]="currentPage === totalPages"
+              class="px-[0.75rem] py-[0.5rem] bg-gray-300 rounded-[0.25rem]">Next</button>
+    </div>
+  }
+
+  <!-- Cart Summary & Proceed to Checkout -->
+ <!-- Cart Summary & Proceed to Checkout -->
+@if(cartItems.length > 0) {
+  <div class="mt-[2rem] p-[1.5rem] border rounded-[0.5rem] flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-100">
+
+    <!-- Summary Details -->
+    <div class="mb-[1rem] md:mb-0 flex flex-col gap-[0.5rem]">
+      <h2 class="text-[1.25rem] font-semibold text-gray-900">Cart Summary</h2>
+
+      <div class="text-[1rem] text-gray-500 line-through">
+       Total Amount : ₹{{ originalTotal | number:'1.2-2' }}
+      </div>
+      <div class="text-[1rem] text-red-500">
+        Total Discount: {{ totalDiscount | number:'1.2-2' }}% (₹{{ totalDiscountAmount | number:'1.2-2' }})
+      </div>
+      <div class="text-[1.125rem] font-semibold text-gray-900">
+        Final Amount :
+        <span class="bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 text-transparent bg-clip-text">₹</span>
+        <span class="!text-green-400">{{ totalAmount | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-[1rem]">
+      <button (click)="proceedToCheckout()"
+              class="px-[1rem] py-[0.75rem] bg-cyan-400 text-white rounded-[0.5rem] hover:bg-cyan-600 transition-colors"
+              [disabled]="cartItems.length === 0">
+        Proceed to Checkout
+      </button>
+
+      <button (click)="clearCart()"
+              class="px-[1rem] py-[0.75rem] bg-red-500 text-white rounded-[0.5rem] hover:bg-red-600 transition-colors"
+              [disabled]="cartItems.length === 0">
+        Clear Cart
+      </button>
+    </div>
+  </div>
+}
+
+</div>

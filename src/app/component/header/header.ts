@@ -7,12 +7,17 @@ import { Router, RouterModule } from '@angular/router';
 import { img } from '../../../images/images';
 import { AuthServices } from '../../services/authorization/auth-services';
 import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconTooltipDirective } from "../../core/directives/mat-tooltip-directive";
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-header',
   imports: [RouterModule,
-    FormsModule
-  ],
+    FormsModule,
+    MatIcon,
+    MatIconTooltipDirective,
+    MatBadgeModule],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
