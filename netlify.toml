@@ -1,17 +1,11 @@
-# Netlify configuration for Angular 20 project
 [build]
-  # Install dependencies with legacy-peer-deps to fix Angular version conflicts
   command = "npm install --legacy-peer-deps && ng build --configuration production"
+  publish = "dist/<project-name>"
 
-  # Folder to publish (dist folder from Angular build)
-  publish = "dist/webapp"
-
-# Environment variables
 [build.environment]
-  NODE_VERSION = "18"  # Recommended stable Node for Angular 20
+  NODE_VERSION = "22"   # Use Node 22.x for Angular 20
   NPM_FLAGS = "--legacy-peer-deps"
 
-# Redirects for Angular routing (SPA support)
 [[redirects]]
   from = "/*"
   to = "/index.html"
