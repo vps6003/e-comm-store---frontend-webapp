@@ -104,9 +104,14 @@ export class CommonServices {
 
   verifyToken(obj?: any) {
     try{
-
-
     this.authServices.verifyTokenService().subscribe({
+      next : (res) =>{},
+      error :(err) =>{ localStorage.clear();
+        sessionStorage.clear();
+        const router = inject(Router);
+        router.navigateByUrl('/register');
+        this.toasterMessageService.show(err.message,"error",5000);
+}
     });
   }
   catch(err: any){
