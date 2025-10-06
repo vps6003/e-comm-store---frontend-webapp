@@ -3,7 +3,7 @@ import { CommonServices } from './../../services/common-services';
 import { CategoryService } from './../../services/category';
 import { Component, inject } from '@angular/core';
 import { Category } from '../../types/category';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { img } from '../../../images/images';
 import { AuthServices } from '../../services/authorization/auth-services';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     FormsModule,
     MatIcon,
     MatIconTooltipDirective,
+    RouterLink,
     MatBadgeModule],
   templateUrl: './header.html',
   styleUrl: './header.scss'
@@ -37,9 +38,8 @@ export class Header {
   isAdmin :boolean =false;
 
   ngOnInit() {
-    this.categoryService.getCustomerCategories().subscribe((categories: Category[]) => {
-      this.allCategories = categories;
-    });
+    this.commonServices.getAllCategoriesForCustomer();
+    this.allCategories = this.commonVariablesService.allCategories;
     this.userName = this.authServices.userName;
     this.isAdmin = this.authServices.isAdminCheck;
     this.commonVariablesService.searchTerm = "";

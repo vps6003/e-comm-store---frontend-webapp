@@ -16,6 +16,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { OrderSuccessPage } from '../CustomerComponent/order-success-page/order-success-page';
+import { ToasterMessageService } from '../../services/toaster-message-service';
 
 @Component({
   selector: 'app-checkout-page',
@@ -28,6 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatSelectModule,
     MatButtonModule,
     FormsModule,
+    OrderSuccessPage
   ],
   templateUrl: './checkout-page.html',
   styleUrl: './checkout-page.scss',
@@ -35,6 +38,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class CheckoutPage implements OnInit {
   fb = inject(FormBuilder);
   router = inject(Router);
+  toaster = inject(ToasterMessageService)
   customerServices = inject(CustomerServices);
   commonServices = inject(CommonServices);
   commonVariablesService = inject(CommonVariablesService);
@@ -50,7 +54,7 @@ export class CheckoutPage implements OnInit {
         this.commonVariablesService.userData.email || '',
         [Validators.required, Validators.email],
       ],
-      phone: [
+      phoneNumber: [
         '',
         [
           Validators.required,
@@ -72,6 +76,10 @@ export class CheckoutPage implements OnInit {
       const userId = this.commonVariablesService.userData._id;
       const cart: any = await this.customerServices.getUserCart(userId).toPromise();
       this.cartItems = cart?.productQuantity || [];
+      if(this.cartItems.length <1) {
+        this.router.navigateByUrl("/home");
+        this.toaster.show("Please Add Items into Cart before Checkout!" , "warning",5000);
+      }
     } catch (err) {
       console.error(err);
     } finally {

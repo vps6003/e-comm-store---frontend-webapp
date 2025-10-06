@@ -120,6 +120,7 @@ export class CartPage {
 
   proceedToCheckout() {
     if (this.cartItems.length === 0) return;
+    this.commonVariablesService.orderSuccessData = null;
     this.router.navigateByUrl('/checkout');
   }
 

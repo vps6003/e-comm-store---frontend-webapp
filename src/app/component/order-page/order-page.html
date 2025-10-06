@@ -1,5 +1,65 @@
-<div>
-  <div class = "shadow">
+<div class="max-w-[70rem] mx-auto p-[2rem] mt-[2rem] bg-white shadow-md rounded-[1rem]">
+  <!-- Page Title -->
+  <h1 class="text-[1.5rem] font-semibold text-center text-blue-700 mb-[2rem]">
+    My Orders
+  </h1>
 
-  </div>
+  <!-- Empty Orders Message -->
+  @if(orders.length === 0) {
+    <div class="text-center text-[1rem] text-gray-500">
+      No orders found.
+    </div>
+  }
+
+  <!-- Orders List -->
+  @for (order of commonVariablesService.ordersData; track order._id) {
+    <div class="border border-gray-300 rounded-[0.75rem] p-[1rem] mb-[1rem] hover:shadow-lg transition-shadow">
+      <!-- Header -->
+      <div class="flex flex-wrap justify-between items-center mb-[1rem]">
+        <div>
+          <p class="text-[1rem] font-medium">Order ID: {{ order._id }}</p>
+          <p class="text-[0.875rem] text-gray-500">Placed on: {{ order.date | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <span
+          class="text-[1rem] font-semibold"
+          [ngClass]="{
+            'text-green-600': order.status === 2,
+            'text-yellow-600': order.status === 1,
+            'text-red-600': order.status === 0
+          }"
+        >
+          {{ order.status == 0 ? "Pending" : order.status == 1 ? "Shipped" : "Delivered" }}
+        </span>
+      </div>
+
+      <!-- Product Summary -->
+      <div class="flex flex-wrap gap-[1rem] border-b border-gray-200 pb-[1rem]">
+        @for (item of order.item; track item.name) {
+          <div class="flex items-center gap-[1rem] w-full sm:w-auto">
+            <img
+              [src]="item.productId.images[0]"
+              alt="{{ item.productId.productName }}"
+              class="w-[4rem] h-[4rem] rounded-[0.5rem] object-cover"
+            />
+            <div>
+              <p class="text-[1rem] font-medium">{{ item.productId.productName }}</p>
+              <p class="text-[0.875rem] text-gray-500">Qty: {{ item.quantity }}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Footer -->
+      <div class="flex flex-wrap justify-between items-center pt-[1rem]">
+        <p class="text-[1rem] font-semibold">Total: ₹{{ order.finalAmount }}</p>
+
+        <button
+          class="text-[1rem] px-[1rem] py-[0.5rem] bg-blue-600 text-white rounded-[0.5rem] hover:bg-blue-700 transition-colors"
+          (click)="viewOrderDetails(order._id)"
+        >
+          View Details
+        </button>
+      </div>
+    </div>
+  }
 </div>

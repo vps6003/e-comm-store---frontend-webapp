@@ -1,3 +1,4 @@
+import { ToasterMessageService } from './../../../services/toaster-message-service';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +29,7 @@ export class CategoryForm {
   name!:String;
   router = inject(Router);
   route=inject(ActivatedRoute);
+  toaster = inject(ToasterMessageService);
   isEdit = false;
   id!:String
   categoryService = new CategoryService;
@@ -54,7 +56,7 @@ export class CategoryForm {
 
   add(){
     this.categoryService.addCategory(this.name).subscribe((result:any)=>{
-      alert("Category added : "+result.name);
+      this.toaster.show("Category added : "+result.name , "success");
       this.router.navigateByUrl("/admin/categories");
 
     })

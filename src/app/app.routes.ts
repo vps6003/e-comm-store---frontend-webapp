@@ -16,6 +16,8 @@ import { WishlistPage } from './component/CustomerComponent/wishlist-page/wishli
 import { CartPage } from './component/CustomerComponent/cart-page/cart-page';
 import { CheckoutPage } from './component/checkout-page/checkout-page';
 import { OrderSuccessPage } from './component/CustomerComponent/order-success-page/order-success-page';
+import { OrderDetailsPage } from './component/CustomerComponent/order-details-page/order-details-page';
+import { OrderPage } from './component/order-page/order-page';
 
 export const routes: Routes = [
   {
@@ -29,8 +31,13 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'order-success',
-    component: OrderSuccessPage,
+    path: 'orderDetails',
+    component: OrderDetailsPage,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'orders',
+    component: OrderPage,
     canActivate: [authGuard],
   },
   {

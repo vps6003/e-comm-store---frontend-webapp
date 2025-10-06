@@ -1,7 +1,7 @@
 import { Category } from './../types/category';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class CategoryService {
   getCustomerCategories(){
    return this.http.get<Category[]>(environment.customerApiUrl +'home/categories');
   }
-  
+
   getCategoryById(id:String){
     return this.http.get<Category>(environment.apiUrl +'category/'+id);
   }

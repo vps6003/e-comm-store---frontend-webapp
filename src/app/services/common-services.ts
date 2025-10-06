@@ -128,7 +128,9 @@ export class CommonServices {
     try {
       this.customerServices.newOrder(obj).subscribe((result: any) => {
          this.clearCart();
-         this.router.navigateByUrl('/order-success');
+        //  this.router.navigateByUrl('/order-success');
+        this.commonVariablesService.orderSuccessData  = result;
+
 
       });
     } catch (err: any) {
@@ -147,4 +149,41 @@ export class CommonServices {
       throw new Error(err.message);
     }
   }
+
+  async getAllCategoriesForCustomer(){
+    try{
+      this.categoryService.getCustomerCategories().subscribe((categories: Category[]) => {
+      this.commonVariablesService.allCategories = categories;
+    });
+    }
+    catch(err:any){
+      throw new Error(err.message);
+    }
+  }
+
+  async getAllOrdersOfUSer(){
+    try {
+      await this.customerServices.getAllUSerOrders(this.commonVariablesService.userData._id).subscribe((result:any)=>{
+        this.commonVariablesService.ordersData = result;
+        // console.log(result);
+      });
+    }
+    catch(err:any){
+      throw new Error(err.message);
+    }
+  }
+
+  async getOrderDetails(orderId:string){
+    try {
+      await this.customerServices.getOrderDetails(orderId).subscribe((result:any)=>{
+        this.commonVariablesService.orderDetails = result;
+        // console.log(result);
+      });
+    }
+    catch(err:any){
+      throw new Error(err.message);
+    }
+  }
+
+
 }

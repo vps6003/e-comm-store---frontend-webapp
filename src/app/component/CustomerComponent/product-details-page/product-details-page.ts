@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import { NgClass } from '@angular/common';
 import { CommonServices } from '../../../services/common-services';
+import { ToasterMessageService } from '../../../services/toaster-message-service';
 
 @Component({
   selector: 'app-product-details-page',
@@ -38,6 +39,7 @@ export class ProductDetailsPage {
   route = inject(ActivatedRoute);
   commonServices = inject(CommonServices);
   commonVariablesService = inject(CommonVariablesService);
+  toaster = inject(ToasterMessageService);
 
  product:any;
  productId: string ="";
@@ -80,11 +82,11 @@ getProductDetails(){
 
   addReview(req:any){
     if(!req) {
-      alert("Please write review then post it!");
+      this.toaster.show("Please write review then post it!");
       return;
     }
     if(this.reviewRating == 0) {
-      alert("Please provide rating before adding review");
+      this.toaster.show("Please provide rating before adding review");
       return;
     }
     let reviews = this.product.reviews;
@@ -137,5 +139,24 @@ getProductDetails(){
     const exists = this.commonVariablesService.wishlistArray.find(e => e._id == productId);
     return exists ? true : false;
   }
+
+   // From PRoduct Card only addition of 1 item is available to change  quantity need to go to cart page
+  addToCart(productId:string){
+    let quantity = 1;
+    this.commonServices.addToCart(productId,quantity);
+    return;
+  }
+
+   removeFromCart(productId:string){
+    if(!this.isInCart(productId)) return;
+    this.commonServices.removeFromCart(productId);
+
+  }
+
+  isInCart(productId:string) :boolean{
+    const exists = this.commonVariablesService.cartData.productQuantity.find((e:any) => e.productId._id == productId);
+    return exists ? true : false;
+  }
+
 
 }
