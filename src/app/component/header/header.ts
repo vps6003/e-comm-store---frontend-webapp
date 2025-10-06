@@ -7,7 +7,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { img } from '../../../images/images';
 import { AuthServices } from '../../services/authorization/auth-services';
 import { FormsModule } from '@angular/forms';
-import { MatIcon } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatIconTooltipDirective } from "../../core/directives/mat-tooltip-directive";
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
     MatIconTooltipDirective,
     RouterLink,
     MatBadgeModule,
+    MatIconModule,
     CommonModule
   ],
   templateUrl: './header.html',

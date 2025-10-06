@@ -1,7 +1,7 @@
 <header class="shadow relative">
 
   <!-- Mobile Top Bar: Hamburger + Logo + Actions -->
-  <div class="flex items-center justify-between !bg-cyan-300 px-[1rem] py-[0.5rem] sm:hidden gap-[1rem]">
+  <div class="flex items-center justify-between bg-cyan-300 px-[1rem] py-[0.5rem] sm:hidden gap-[1rem]">
 
     <!-- Hamburger Menu -->
     <button
@@ -16,13 +16,15 @@
       <img src="{{images.mainLogo}}" alt="Logo" class="h-[4rem] w-[4rem]" />
     </a>
 
-    <!-- Actions -->
+    <!-- Actions: Wishlist, Cart, Logout -->
     <div class="flex items-center gap-[0.5rem] flex-shrink-0">
       <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 text-[1rem] flex items-center">
         <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
       </a>
       <a routerLink="/customer/cart" class="text-gray-900 hover:text-yellow-500 text-[1rem] flex items-center relative">
-        <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500">shopping_cart</mat-icon>
+        <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500">
+          shopping_cart
+        </mat-icon>
       </a>
       <button
         (click)="logout()"
@@ -31,6 +33,7 @@
         Logout
       </button>
     </div>
+
   </div>
 
   <!-- Mobile Search Bar -->
@@ -54,7 +57,7 @@
   </div>
 
   <!-- Tablet & Desktop Top Bar: Logo + Search + Actions -->
-  <div class="hidden sm:flex items-center justify-between !bg-cyan-300 px-[2rem] py-[0.5rem] gap-[1rem]">
+  <div class="hidden sm:flex items-center justify-between bg-cyan-300 px-[2rem] py-[0.5rem] gap-[1rem]">
 
     <!-- Logo -->
     <a routerLink="/home" class="flex items-center gap-[0.5rem] flex-shrink-0">
@@ -81,24 +84,31 @@
       </div>
     </div>
 
-    <!-- Actions -->
-    <div class="flex items-center gap-[0.5rem] flex-shrink-0">
-      <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 text-[1rem] flex items-center">
-        <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
-      </a>
-      <a routerLink="/customer/cart" class="text-gray-900 hover:text-yellow-500 text-[1rem] flex items-center relative">
-        <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500"></mat-icon>
-      </a>
-      @if(isAdmin){
-      <a routerLink="/admin" class="text-gray-900 font-semibold hover:underline text-[1rem]">Dashboard</a>
-      }
-      <button
-        (click)="logout()"
-        class="px-[0.75rem] py-[0.25rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white transition-colors text-[1rem]"
-      >
-        Logout
-      </button>
-    </div>
+   <!-- Actions: Wishlist, Cart, Logout, Admin -->
+<div class="flex items-center gap-[0.5rem] flex-shrink-0">
+  <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 text-[1rem] flex items-center">
+    <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
+  </a>
+
+  <!-- Cart with extra spacing to logout -->
+  <a routerLink="/customer/cart" class="text-gray-900 hover:text-yellow-500 text-[1rem] flex items-center relative mr-[1.5rem]">
+    <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500">
+      shopping_cart
+    </mat-icon>
+  </a>
+
+  @if(isAdmin){
+  <a routerLink="/admin" class="text-gray-900 font-semibold hover:underline text-[1rem]">Dashboard</a>
+  }
+
+  <button
+    (click)="logout()"
+    class="px-[0.75rem] py-[0.25rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white transition-colors text-[1rem]"
+  >
+    Logout
+  </button>
+</div>
+
 
   </div>
 
