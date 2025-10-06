@@ -22,7 +22,7 @@
         <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
       </a>
       <a routerLink="/customer/cart" class="text-gray-900 hover:text-yellow-500 text-[1rem] flex items-center relative">
-        <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500"></mat-icon>
+        <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500">shopping_cart</mat-icon>
       </a>
       <button
         (click)="logout()"
