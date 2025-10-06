@@ -93,9 +93,9 @@ export class Register {
           this.loginForm.markAllAsTouched();
         }
       }
-    } catch (err) {
-      console.error('Error in onSubmit:', err);
-      this.toaster.show('Something went wrong!',"error",5000);
+    } catch (err:any) {
+      // console.error('Error in onSubmit:', err);
+      this.toaster.show(err.error,"error",5000);
     }
   }
 }
