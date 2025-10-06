@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4200",
-    "build": "ng build",
+    "build": "ng build --configuration production --base-href 'https://vps6003.github.io/e-comm-store---frontend-webapp/'",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "gh-deploy" : "npx angular-cli-ghpages --dir=dist/webapp/browser"
   },
   "prettier": {
     "printWidth": 100,
