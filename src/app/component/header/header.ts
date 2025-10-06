@@ -10,32 +10,39 @@ import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconTooltipDirective } from "../../core/directives/mat-tooltip-directive";
 import { MatBadgeModule } from '@angular/material/badge';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule,
+  imports: [
+    RouterModule,
     FormsModule,
     MatIcon,
     MatIconTooltipDirective,
     RouterLink,
-    MatBadgeModule],
+    MatBadgeModule,
+    CommonModule
+  ],
   templateUrl: './header.html',
-  styleUrl: './header.scss'
+  styleUrls: ['./header.scss'] // corrected from styleUrl
 })
 export class Header {
 
-    constructor(private categoryService: CategoryService,
-      private authServices : AuthServices,
-      private commonServices : CommonServices,
-      public commonVariablesService :CommonVariablesService
-    ) { }
-
-  // headerLogo: String = img.mainLogo;
   images = img;
   router = inject(Router);
   allCategories: Category[] = [];
-  userName :any;
-  isAdmin :boolean =false;
+  userName: any;
+  isAdmin: boolean = false;
+
+  // MOBILE MENU STATE
+  mobileMenuOpen: boolean = false;
+
+  constructor(
+    private categoryService: CategoryService,
+    private authServices: AuthServices,
+    private commonServices: CommonServices,
+    public commonVariablesService: CommonVariablesService
+  ) { }
 
   ngOnInit() {
     this.commonServices.getAllCategoriesForCustomer();
@@ -46,20 +53,24 @@ export class Header {
     this.commonServices.verifyToken();
   }
 
-  onSearch = (e:any) => {
+  // SEARCH FUNCTION
+  onSearch = (e: any) => {
     this.commonVariablesService.searchTerm = e;
     this.router.navigate(['/products'], { queryParams: { searchTerm: e } });
   }
 
-  onCategorySearch = (e:any) => {
-   this.commonVariablesService.searchTerm = "";
+  onCategorySearch = (e: any) => {
+    this.commonVariablesService.searchTerm = "";
     this.router.navigate(['/products'], { queryParams: { categoryId: e } });
- }
+  }
 
+  // LOGOUT
+  logout() {
+    this.commonServices.logout();
+  }
 
-
-logout(){
-  this.commonServices.logout();
-}
-
+  // TOGGLE MOBILE MENU
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
 }
