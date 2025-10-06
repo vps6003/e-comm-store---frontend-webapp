@@ -44,8 +44,8 @@
       }
 
       <!-- Profile -->
-      <a routerLink="/profile" class="text-gray-900 hover:text-blue-700 text-[1rem] flex items-center">
-        <mat-icon tooltip="{{userName}} Profile">account_circle</mat-icon>
+      <a routerLink="/orders" class="text-gray-900 hover:text-blue-700 text-[1rem] flex items-center">
+        <mat-icon tooltip="{{userName}} Orders">account_circle</mat-icon>
       </a>
 
       <!-- Logout -->
@@ -61,14 +61,15 @@
   <!-- Category Menu -->
   <nav class="bg-[#43c6ac] py-[0.5rem] px-[2rem]">
     <ul class="flex flex-wrap gap-[1rem] text-[1rem]">
-      @for(category of allCategories; track category._id){
+      @for(category of commonVariablesService.allCategories; track category._id){
         <li>
-          <a
-            [routerLink]="'/products?categoryId=' + category._id"
-            class="text-white font-medium hover:underline hover:text-blue-800"
-          >
-            {{category.name}}
-          </a>
+      <a
+  [routerLink]="['/products']"
+  [queryParams]="{ categoryId: category._id }"
+  class="text-white font-medium hover:underline hover:text-blue-800"
+>
+  {{ category.name }}
+</a>
         </li>
       }
     </ul>

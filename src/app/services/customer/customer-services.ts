@@ -3,7 +3,7 @@ import { CommonServices } from './../common-services';
 
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { Product } from '../../types/product';
 import { Category } from '../../types/category';
 import { Brand } from '../../types/brand';
@@ -154,4 +154,15 @@ newOrder(obj:any){
       obj
     )
   }
+
+  getAllUSerOrders(userId:string){
+    return this.http.get(`${environment.customerApiUrl}order/getCustomerOrders/`+userId);
+  }
+
+  getOrderDetails(orderId:string){
+    return this.http.get(`${environment.customerApiUrl}order/getUserOrders/`+orderId);
+  }
+
+
+
 }

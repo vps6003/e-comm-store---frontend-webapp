@@ -25,7 +25,34 @@
 
         <div class="flex flex-col justify-between gap-[1rem]">
 
-  <button mat-raised-button color="primary" class="w-[16rem] !rounded-full">Add to Cart</button>
+  <!-- <button mat-raised-button color="primary" class="w-[16rem] !rounded-full">Add to Cart</button> -->
+    @if(isInCart(productId)){
+    <button mat-raised-button (click)="removeFromCart(productId);"
+        color="primary"
+        class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
+
+  <!-- Default state (visible when not hovered) -->
+  <span class="flex items-center gap-[0.5rem] group-hover:hidden">
+    <mat-icon class="!h-[1.2rem] !w-[1.2rem] !text-green-400">check_box</mat-icon>
+    Added to Cart
+  </span>
+
+  <!-- Hover state (visible only on hover) -->
+  <span class="hidden group-hover:flex items-center gap-[0.5rem]">
+    <mat-icon class="!h-[1rem] !w-[1rem] !text-black">delete</mat-icon>
+    Remove from Cart
+  </span>
+
+</button>
+
+  }
+  @else {
+    <button mat-raised-button (click)="addToCart(productId);"
+    color="primary"
+    class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
+    Add to Cart
+  </button>
+  }
   @if(isInWishlist(productId)){
     <button mat-raised-button (click)="removeFromWishList(productId);"
         color="accent"
@@ -48,7 +75,8 @@
   }
   @else {
     <button mat-raised-button (click)="addToWishlist(productId);"
-    color="accent" class="w-full">
+    color="accent"
+    class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
     Add to WishList
   </button>
   }

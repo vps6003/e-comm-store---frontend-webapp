@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthServices } from '../../services/authorization/auth-services';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';   // 👈 import this
+import { ToasterMessageService } from '../../services/toaster-message-service';
 
 @Component({
   selector: 'app-register',
@@ -38,7 +39,8 @@ export class Register {
   constructor(
     private fb: FormBuilder,
     private authServices: AuthServices,
-    private commonServices: CommonServices
+    private commonServices: CommonServices,
+    private toaster : ToasterMessageService,
   ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -67,7 +69,7 @@ export class Register {
           const res: any = await firstValueFrom(
             this.authServices.newUserRegistration(this.registerForm.value)
           );
-          alert(res.name + ' Registered!');
+          this.toaster.show(res.name + ' Registered!',"success",5000);
           this.signUp = false;
         } else {
           this.registerForm.markAllAsTouched();
@@ -82,7 +84,10 @@ export class Register {
             localStorage.setItem('token', res.token);
             localStorage.setItem('user', JSON.stringify(res.user));
             this.router.navigateByUrl('/home');
-            window.location.reload();
+            this.toaster.show("Login SuccessFul","success");
+            this.commonServices.getAllCategoriesForCustomer();
+            this.commonServices.getAllOrdersOfUSer();
+            // window.location.reload();
           }
         } else {
           this.loginForm.markAllAsTouched();
@@ -90,7 +95,7 @@ export class Register {
       }
     } catch (err) {
       console.error('Error in onSubmit:', err);
-      alert('Something went wrong!');
+      this.toaster.show('Something went wrong!',"error",5000);
     }
   }
 }

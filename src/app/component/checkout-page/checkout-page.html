@@ -1,3 +1,4 @@
+@if(!commonVariablesService.orderSuccessData){
 <div class="p-[2rem] mt-[2rem] max-w-[80rem] mx-auto">
   <!-- Page Heading -->
   <h1 class="text-[1.875rem] font-bold mb-[2rem] text-gray-900">Checkout</h1>
@@ -29,7 +30,7 @@
   <mat-label>Phone Number</mat-label>
   <input matInput
          type="tel"
-         formControlName="phone"
+         formControlName="phoneNumber"
          placeholder="+91 9876543210"
          maxlength="10"
          pattern="[0-9]*"
@@ -140,3 +141,8 @@
 
   </div>
 </div>
+}
+@else {
+  <app-order-success-page [orderData]="commonVariablesService.orderSuccessData"></app-order-success-page>
+
+}

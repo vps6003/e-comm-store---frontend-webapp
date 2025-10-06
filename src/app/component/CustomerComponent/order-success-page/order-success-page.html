@@ -1,1 +1,128 @@
-<p>order-success-page works!</p>
+<section
+  class="relative w-full min-h-screen flex items-center justify-center p-[1.5rem] bg-gradient-to-br from-[#061826] to-[#04293a] overflow-hidden"
+>
+  <div
+    id="confetti-container"
+    class="absolute inset-0 pointer-events-none overflow-hidden z-0"
+  ></div>
+
+  <div
+    class="relative z-10 w-full max-w-[64rem] bg-white/5 backdrop-blur-sm rounded-[1.125rem] p-[1.5rem] grid md:grid-cols-[26rem_1fr] gap-[1rem] shadow-[0_12px_40px_rgba(2,6,23,0.6)]"
+  >
+    <!-- Left: Main Message -->
+    <div
+      class="flex flex-col items-center justify-center gap-[1rem] p-[1rem] rounded-[1rem] text-center"
+    >
+      <div class="relative">
+        <div
+          class="w-[6rem] h-[6rem] sm:w-[7rem] sm:h-[7rem] rounded-full grid place-items-center bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg animate-bounce"
+        >
+          <svg
+            class="w-[2rem] h-[2rem] sm:w-[2.25rem] sm:h-[2.25rem]"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M20 6L9 17l-5-5"
+              stroke="#021124"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <h2 class="text-[1.5rem] sm:text-[1.6rem] font-semibold text-white">
+        Congratulations 🎉
+      </h2>
+      <p class="text-[0.95rem] sm:text-[1rem] text-white/80 max-w-[22rem]">
+        Your order<span *ngIf="orderData.orderId"> #{{ orderData.orderId }}</span> has been
+        successfully placed! Thank you<span *ngIf="orderData.customerName">
+          , {{ orderData.customerName }}</span
+        >
+        for shopping with us.
+      </p>
+
+      <div
+        class="w-full mt-[0.5rem] bg-white/6 border border-white/10 rounded-[0.75rem] p-[0.75rem] text-[0.95rem]"
+      >
+        <div class="flex items-center justify-between mb-[0.35rem]">
+          <span class="text-white/80">Items</span>
+          <span class="font-medium text-white">{{
+            orderData.item.length ?? '-'
+          }}</span>
+        </div>
+        <div class="flex items-center justify-between mb-[0.35rem]">
+          <span class="text-white/80">Total</span>
+          <span class="font-semibold text-white">{{
+            orderData.finalAmount !== null ? ('₹ ' + (orderData.finalAmount | number : '1.2-2')) : '-'
+          }}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-white/80">Delivery by</span>
+          <span class="font-medium text-white">{{
+            (orderData.estimatedDeliveryDate | date:"dd/MM/yyyy") || '—'
+          }}</span>
+        </div>
+      </div>
+
+      <div
+        class="mt-[0.75rem] flex gap-[0.5rem] flex-wrap justify-center w-full"
+      >
+        <button
+          (click)="trackOrder()"
+          class="px-[1rem] py-[0.5rem] rounded-[0.6rem] bg-white/10 border border-white/20 text-[1rem] font-medium text-white hover:bg-white/20 transition"
+        >
+          Track order
+        </button>
+        <button
+          (click)="continueShopping()"
+          class="px-[1rem] py-[0.5rem] rounded-[0.6rem] bg-cyan-400 text-[1rem] font-semibold text-[#021124] hover:brightness-105 transition"
+        >
+          Continue shopping
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Next Steps -->
+    <div class="p-[1rem] flex flex-col justify-center gap-[0.75rem]">
+      <h3 class="text-[1.2rem] sm:text-[1.25rem] font-semibold text-white">
+        Next Steps
+      </h3>
+
+      <ul class="mt-[0.75rem] space-y-[0.5rem]">
+        <li class="flex items-start gap-[0.75rem]">
+          <span class="text-[1rem] text-green-300">✔</span>
+          <p class="text-[0.95rem] sm:text-[1rem] text-white/80">
+            Payment successfully processed
+          </p>
+        </li>
+        <li class="flex items-start gap-[0.75rem]">
+          <span class="text-[1rem] text-blue-300">🚚</span>
+          <p class="text-[0.95rem] sm:text-[1rem] text-white/80">
+            Your order is being packed and shipped
+          </p>
+        </li>
+        <li class="flex items-start gap-[0.75rem]">
+          <span class="text-[1rem] text-yellow-300">📦</span>
+          <p class="text-[0.95rem] sm:text-[1rem] text-white/80">
+            Delivery expected:
+            <span class="font-medium text-white">{{
+            (orderData.estimatedDeliveryDate | date:"dd/MM/yyyy") || '—'
+          }}</span>
+          </p>
+        </li>
+      </ul>
+
+      <p class="mt-[1rem] text-[0.95rem] sm:text-[1rem] text-white/70">
+        You’ll get an email confirmation soon with your order details.
+      </p>
+      <p class="text-[0.85rem] sm:text-[0.9rem] text-white/60">
+        Need help?
+        <a class="underline text-white/90" href="/help">Contact support</a>
+      </p>
+    </div>
+  </div>
+</section>
