@@ -18,7 +18,7 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/webapp/browser",
-            "index": "src/index.html",
+            "baseHref": "/e-comm-store---frontend-webapp/",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
@@ -30,11 +30,20 @@
                 "output": "/"
               }
             ],
-            "styles": ["src/styles.scss"],
-            "baseHref": "/e-comm-store---frontend-webapp/"
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "extractLicenses": true,
+              "sourceMap": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -45,16 +54,6 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "16kB",
                   "maximumError": "32kB"
-                }
-              ],
-              "outputHashing": "all",
-              "optimization": true,
-              "extractLicenses": true,
-              "sourceMap": false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.production.ts"
                 }
               ]
             },
