@@ -43,6 +43,7 @@ export class Header {
     this.userName = this.authServices.userName;
     this.isAdmin = this.authServices.isAdminCheck;
     this.commonVariablesService.searchTerm = "";
+    this.commonServices.verifyToken();
   }
 
   onSearch = (e:any) => {
