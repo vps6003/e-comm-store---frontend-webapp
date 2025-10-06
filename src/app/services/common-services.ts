@@ -103,18 +103,20 @@ export class CommonServices {
   }
 
   verifyToken(obj?: any) {
+    try{
+
+
     this.authServices.verifyTokenService().subscribe({
-      next: (result: any) => {},
-      error: (err) => {
-        localStorage.clear();
+    });
+  }
+  catch(err: any){
+     localStorage.clear();
         sessionStorage.clear();
         const router = inject(Router);
-        // if(obj.isLoggedIn || this.authServices.isLoggedIn){
-        // alert("Session Expired, Please Login again!");
-        // }
         router.navigateByUrl('/register');
-      },
-    });
+        this.toasterMessageService.show(err,"error",5000);
+
+  }
   }
 
   logout() {
