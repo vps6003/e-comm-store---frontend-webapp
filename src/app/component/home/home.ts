@@ -102,6 +102,7 @@ export class Home implements OnInit {
     if (width < 640) this.itemsPerPage = 1; // mobile
     else if (width < 768) this.itemsPerPage = 2; // small tablets
     else if (width < 1024) this.itemsPerPage = 3; // tablets
+    else if (width < 1200) this.itemsPerPage = 4; // landscape tablets
     else this.itemsPerPage = 5; // desktops and up
 
     this.calculatePages();

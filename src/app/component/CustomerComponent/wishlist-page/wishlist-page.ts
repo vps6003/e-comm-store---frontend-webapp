@@ -1,6 +1,6 @@
 import { CommonVariablesService } from './../../../services/common-variables-service';
 import { CommonServices } from './../../../services/common-services';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ProductCard } from '../../product-card/product-card';
 import { Product } from '../../../types/product';
 
@@ -19,16 +19,45 @@ export class WishlistPage {
   // wishlist: Product[] = [];
   currentPage = 1;
   itemsPerPage = 10;
+  totalPages :number = 1;
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     // this.wishlist = this.commonVariablesService.wishlistArray;
     // this.commonServices.init();
+    this.updateItemsPerPage();
+    this.calculatePages();
 
   }
 
-  get totalPages(): number {
+  // Dynamically adjust items per page based on screen width
+  @HostListener('window:resize')
+  onResize() {
+    this.updateItemsPerPage();
+  }
+
+  updateItemsPerPage() {
+    const width = window.innerWidth;
+
+    if (width < 640) this.itemsPerPage = 1; // mobile
+    else if (width < 768) this.itemsPerPage = 2; // small tablets
+    else if (width < 1024) this.itemsPerPage = 3; // tablets
+    else if (width < 1200) this.itemsPerPage = 4; // landscape tablets
+    else this.itemsPerPage = 5; // desktops and up
+
+    this.calculatePages();
+  }
+
+  calculatePages() {
+    this.totalPages = Math.ceil(this.commonVariablesService.wishlistArray.length / this.itemsPerPage);
+
+    // Ensure current pages are valid after resize
+    this.currentPage = Math.min(this.currentPage, this.totalPages || 1);
+  }
+
+
+  get totalPageNumber(): number {
     return Math.ceil(this.commonVariablesService.wishlistArray.length / this.itemsPerPage);
   }
 

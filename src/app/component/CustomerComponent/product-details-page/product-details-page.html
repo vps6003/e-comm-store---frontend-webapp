@@ -1,8 +1,6 @@
 <div class="p-[2rem]">
-
   <!-- Product Section: Stack on mobile, side-by-side on tablet+ -->
   <div class="product-section flex flex-col lg:flex-row gap-[2rem]">
-
     <!-- Left: Image Gallery -->
     <div class="gallery-container lg:w-1/2 flex flex-col gap-[2rem]">
       <!-- Main Image -->
@@ -15,95 +13,102 @@
       </div>
 
       <!-- Thumbnails -->
-      <div class="thumbnails-container flex gap-[1rem] mt-[1rem] overflow-x-auto lg:overflow-x-visible scrollbar-hide">
+      <div
+        class="thumbnails-container flex gap-[1rem] mt-[1rem] overflow-x-auto lg:overflow-x-visible scrollbar-hide"
+      >
         @for (img of product?.images; track $index) {
-          <img
-            [src]="img"
-            [class.active]="img === selectedImage"
-            (click)="selectImage(img)"
-            class="w-[5rem] h-[5rem] flex-shrink-0 object-cover rounded cursor-pointer border-2 border-transparent hover:border-blue-500 transition-all"
-          />
+        <img
+          [src]="img"
+          [class.active]="img === selectedImage"
+          (click)="selectImage(img)"
+          class="w-[5rem] h-[5rem] flex-shrink-0 object-cover rounded cursor-pointer border-2 border-transparent hover:border-blue-500 transition-all"
+        />
         }
       </div>
     </div>
 
     <!-- Right: Product Details -->
     <div class="product-details-container lg:w-1/2 flex flex-col gap-[2rem]">
-
       <!-- Name, Price, Buttons -->
       @if(product) {
-        <div class="flex flex-wrap justify-between items-start gap-[1rem]">
-          <div>
-            <h2 class="text-2xl font-bold">{{ product.productName }}</h2>
-            <h3 class="text-xl text-gray-700">₹{{ product.price }}</h3>
-          </div>
-
-          <!-- Buttons -->
-          <div class="flex flex-col gap-[1rem]">
-            @if(isInCart(productId)){
-              <button mat-raised-button (click)="removeFromCart(productId);"
-                  color="primary"
-                  class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
-                <span class="flex items-center gap-[0.5rem] group-hover:hidden">
-                  <mat-icon class="!h-[1.2rem] !w-[1.2rem] !text-green-400">check_box</mat-icon>
-                  Added to Cart
-                </span>
-                <span class="hidden group-hover:flex items-center gap-[0.5rem]">
-                  <mat-icon class="!h-[1rem] !w-[1rem] !text-black">delete</mat-icon>
-                  Remove from Cart
-                </span>
-              </button>
-            }
-            @else {
-              <button mat-raised-button (click)="addToCart(productId);"
-                  color="primary"
-                  class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
-                  Add to Cart
-              </button>
-            }
-
-            @if(isInWishlist(productId)){
-              <button mat-raised-button (click)="removeFromWishList(productId);"
-                  color="accent"
-                  class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
-                <span class="flex items-center gap-[0.5rem] group-hover:hidden">
-                  <mat-icon class="!h-[1.2rem] !w-[1.2rem] !text-green-400">check_box</mat-icon>
-                  Added to Wishlist
-                </span>
-                <span class="hidden group-hover:flex items-center gap-[0.5rem]">
-                  <mat-icon class="!h-[1rem] !w-[1rem] !text-black">delete</mat-icon>
-                  Remove from Wishlist
-                </span>
-              </button>
-            }
-            @else {
-              <button mat-raised-button (click)="addToWishlist(productId);"
-                  color="accent"
-                  class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full">
-                  Add to WishList
-              </button>
-            }
-          </div>
-        </div>
-
-        <!-- Description & Details -->
+      <div class="flex flex-wrap justify-between items-start gap-[1rem]">
         <div>
-          <h4 class="font-semibold mb-[0.5rem]">Product Details</h4>
-          <div class="overflow-auto !scrollbar-hide h-[13rem]">
-            <pre>{{ product.description }}</pre>
-          </div>
-          <ul class="mt-[1rem]">
-            @for (detail of product.details; track detail) {
-              <li>{{ detail }}</li>
-            }
-          </ul>
+          <h2 class="text-2xl font-bold">{{ product.productName }}</h2>
+          <h3 class="text-xl text-gray-700">₹{{ product.price }}</h3>
         </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col gap-[1rem]">
+          @if(isInCart(productId)){
+          <button
+            mat-raised-button
+            (click)="removeFromCart(productId)"
+            color="primary"
+            class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full"
+          >
+            <span class="flex items-center gap-[0.5rem] group-hover:hidden">
+              <mat-icon class="!h-[1.2rem] !w-[1.2rem] !text-green-400">check_box</mat-icon>
+              Added to Cart
+            </span>
+            <span class="hidden group-hover:flex items-center gap-[0.5rem]">
+              <mat-icon class="!h-[1rem] !w-[1rem] !text-black">delete</mat-icon>
+              Remove from Cart
+            </span>
+          </button>
+          } @else {
+          <button
+            mat-raised-button
+            (click)="addToCart(productId)"
+            color="primary"
+            class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full"
+          >
+            Add to Cart
+          </button>
+          } @if(isInWishlist(productId)){
+          <button
+            mat-raised-button
+            (click)="removeFromWishList(productId)"
+            color="accent"
+            class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full"
+          >
+            <span class="flex items-center gap-[0.5rem] group-hover:hidden">
+              <mat-icon class="!h-[1.2rem] !w-[1.2rem] !text-green-400">check_box</mat-icon>
+              Added to Wishlist
+            </span>
+            <span class="hidden group-hover:flex items-center gap-[0.5rem]">
+              <mat-icon class="!h-[1rem] !w-[1rem] !text-black">delete</mat-icon>
+              Remove from Wishlist
+            </span>
+          </button>
+          } @else {
+          <button
+            mat-raised-button
+            (click)="addToWishlist(productId)"
+            color="accent"
+            class="w-[16rem] cursor-pointer flex gap-[0.5rem] relative group !rounded-full"
+          >
+            Add to WishList
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Description & Details -->
+      <div>
+        <h4 class="font-semibold mb-[0.5rem]">Product Details</h4>
+        <div class="overflow-auto !scrollbar-hide h-[13rem]">
+          <pre>{{ product.description }}</pre>
+        </div>
+        <ul class="mt-[1rem]">
+          @for (detail of product.details; track detail) {
+          <li>{{ detail }}</li>
+          }
+        </ul>
+      </div>
       } @else {
-        <p>Loading product details...</p>
+      <p>Loading product details...</p>
       }
-
     </div>
-
   </div>
 
   <!-- Similar Products -->
@@ -111,7 +116,11 @@
     <h2 class="text-xl font-semibold mb-4">Similar Products</h2>
     <div class="flex flex-wrap gap-[1rem]">
       @for (product of similarProducts; track $index) {
+      <div
+        class="bg-white rounded-[0.75rem] shadow-sm hover:shadow-md transition-all duration-300 sm:w-[13rem] md:w-[13rem] xl:w-[14rem] max-w-[18rem]"
+      >
         <app-product-card [product]="product"></app-product-card>
+      </div>
       }
     </div>
   </div>
@@ -120,14 +129,13 @@
   <div class="reviews mt-[3rem]">
     <h3 class="text-lg font-semibold mb-[1rem]">Customer Reviews</h3>
     @for (review of product?.reviews; track review.user) {
-      <div class="review border-b border-gray-200 py-[1rem]">
-        <strong>{{ review.userName }}</strong>
-        <span class="ml-[0.5rem]">⭐ {{ review.rating }} out of 5</span>
-        <p class="mt-[0.5rem]">{{ review.comment }}</p>
-      </div>
-    }
-    @empty {
-      <div class="review py-[1rem]"> No Reviews to be Shown</div>
+    <div class="review border-b border-gray-200 py-[1rem]">
+      <strong>{{ review.userName }}</strong>
+      <span class="ml-[0.5rem]">⭐ {{ review.rating }} out of 5</span>
+      <p class="mt-[0.5rem]">{{ review.comment }}</p>
+    </div>
+    } @empty {
+    <div class="review py-[1rem]">No Reviews to be Shown</div>
     }
 
     <!-- Write a Review -->
@@ -141,17 +149,28 @@
 
         <mat-radio-group [(ngModel)]="reviewRating" class="flex gap-2">
           @for (rating of [1,2,3,4,5]; track rating) {
-            <mat-radio-button [value]="rating" class="p-0 m-0 custom-radio" appearance="legacy">
-              <div class="flex items-center gap-1 cursor-pointer">
-                <span>{{ rating }}</span>
-                <mat-icon [ngClass]="rating <= reviewRating ? '!text-yellow-500' : '!text-gray-400'" class="text-3xl">star</mat-icon>
-              </div>
-            </mat-radio-button>
+          <mat-radio-button [value]="rating" class="p-0 m-0 custom-radio" appearance="legacy">
+            <div class="flex items-center gap-1 cursor-pointer">
+              <span>{{ rating }}</span>
+              <mat-icon
+                [ngClass]="rating <= reviewRating ? '!text-yellow-500' : '!text-gray-400'"
+                class="text-3xl"
+                >star</mat-icon
+              >
+            </div>
+          </mat-radio-button>
           }
         </mat-radio-group>
       </div>
 
-      <button class="w-[10rem]" mat-raised-button color="warn" (click)="addReview(reviewArea.value)">Post Review</button>
+      <button
+        class="w-[10rem]"
+        mat-raised-button
+        color="warn"
+        (click)="addReview(reviewArea.value)"
+      >
+        Post Review
+      </button>
     </div>
   </div>
 </div>
