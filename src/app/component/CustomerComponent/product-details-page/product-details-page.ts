@@ -1,7 +1,7 @@
 import { CommonVariablesService } from './../../../services/common-variables-service';
 import { Router, NavigationStart, Event as RouterEvent, ActivatedRoute, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { CustomerServices } from '../../../services/customer/customer-services';
 import { Product } from '../../../types/product';
 import { FormsModule } from '@angular/forms';
@@ -52,11 +52,15 @@ export class ProductDetailsPage {
     brandId : ""
   };
 reviewRating :number = 0;
+itemsPerPage :number = 2;
+totalPages :number = 1;
+currentPage :number = 1;
 
 ngOnInit() {
   this.route.paramMap.subscribe((params:any)=>{
     this.getRouterParams();
     this.getProductDetails();
+    this.updateItemsPerPage();
     this.reviewRating = 0;
   })
 }
@@ -156,6 +160,51 @@ getProductDetails(){
   isInCart(productId:string) :boolean{
     const exists = this.commonVariablesService.cartData.productQuantity.find((e:any) => e.productId._id == productId);
     return exists ? true : false;
+  }
+
+  // Dynamically adjust items per page based on screen width
+    @HostListener('window:resize')
+    onResize() {
+      this.updateItemsPerPage();
+    }
+
+    updateItemsPerPage() {
+      const width = window.innerWidth;
+
+      if (width < 640) this.itemsPerPage = 1; // mobile
+      else if (width < 768) this.itemsPerPage = 2; // small tablets
+      else if (width < 1024) this.itemsPerPage = 3; // tablets
+      else if (width < 1200) this.itemsPerPage = 4; // landscape tablets
+      else this.itemsPerPage = 5; // desktops and up
+
+      this.calculatePages();
+    }
+
+    calculatePages() {
+      this.totalPages = Math.ceil(this.similarProducts.length / this.itemsPerPage);
+
+      // Ensure current pages are valid after resize
+      this.currentPage= Math.min(this.currentPage, this.totalPages || 1);
+    }
+
+     // Paginated getters
+  get paginatedNew() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.similarProducts.slice(start, start + this.itemsPerPage);
+  }
+
+  // Generate pagination buttons
+  get newPages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+    // Pagination controls
+  nextPage(section: string) {
+      this.currentPage++;
+  }
+
+  prevPage(section: string) {
+    this.currentPage--;
   }
 
 

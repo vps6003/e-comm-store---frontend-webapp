@@ -112,18 +112,28 @@
   </div>
 
   <!-- Similar Products -->
-  <div class="mb-12 mt-[3rem]">
-    <h2 class="text-xl font-semibold mb-4">Similar Products</h2>
-    <div class="flex flex-wrap gap-[1rem]">
-      @for (product of similarProducts; track $index) {
-      <div
-        class="bg-white rounded-[0.75rem] shadow-sm hover:shadow-md transition-all duration-300 sm:w-[13rem] md:w-[13rem] xl:w-[14rem] max-w-[18rem]"
-      >
-        <app-product-card [product]="product"></app-product-card>
+  @if(similarProducts.length !== 0){
+    <div class="mb-[1.5rem] mt-[2rem]">
+      <h2 class="text-[1.5rem] font-semibold mb-[1rem] text-gray-800">Similar Products</h2>
+      <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[1.5rem] w-full">
+        @for(product of paginatedNew; track $index) {
+          <div class="flex justify-center">
+            <div class=" bg-white rounded-[0.75rem] shadow-sm hover:shadow-md transition-all duration-300 sm:w-[13rem] md:w-[13rem] xl:w-[14rem] max-w-[18rem]">
+              <app-product-card [product]="product"></app-product-card>
+            </div>
+          </div>
+        }
       </div>
-      }
+
+      <!-- Pagination -->
+      <div class="flex justify-center items-center mt-[1rem] flex-wrap gap-[0.5rem]">
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="prevPage('new')" [disabled]="currentPage === 1">Prev</button>
+        <button class="px-[0.75rem] py-[0.25rem] rounded-[0.25rem] bg-gray-200 disabled:opacity-50"
+                (click)="nextPage('new')" [disabled]="currentPage === totalPages">Next</button>
+      </div>
     </div>
-  </div>
+  }
 
   <!-- Reviews Section (unchanged) -->
   <div class="reviews mt-[3rem]">
