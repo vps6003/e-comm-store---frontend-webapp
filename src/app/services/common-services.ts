@@ -178,7 +178,7 @@ export class CommonServices {
   async getAllOrdersOfUSer(onLoad?:boolean){
     if(onLoad) return;
     try {
-      await this.customerServices.getAllUSerOrders(this.commonVariablesService.userData._id).subscribe((result:any)=>{
+      await this.customerServices.getAllUSerOrders(this.commonVariablesService?.userData?._id).subscribe((result:any)=>{
         this.commonVariablesService.ordersData = result;
         // console.log(result);
       });

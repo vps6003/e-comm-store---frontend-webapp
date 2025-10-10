@@ -58,7 +58,7 @@ export class ProductCard {
   }
 
   isInCart(productId:string) :boolean{
-    const exists = this.commonVariablesService.cartData.productQuantity.find((e:any) => e.productId._id == productId);
+    const exists = this.commonVariablesService.cartData?.productQuantity.find((e:any) => e.productId._id == productId);
     return exists ? true : false;
   }
 
