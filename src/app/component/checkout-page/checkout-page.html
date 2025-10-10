@@ -1,148 +1,225 @@
-@if(!commonVariablesService.orderSuccessData){
-<div class="p-[2rem] mt-[2rem] max-w-[80rem] mx-auto">
-  <!-- Page Heading -->
-  <h1 class="text-[1.875rem] font-bold mb-[2rem] text-gray-900">Checkout</h1>
+@if (!commonVariablesService.orderSuccessData) {
+  <div class="p-[2rem] mt-[2rem] max-w-[80rem] mx-auto">
+    <!-- Page Heading -->
+    <h1 class="text-[1.875rem] font-bold mb-[2rem] text-gray-900">Checkout</h1>
 
-  <div class="flex flex-col lg:flex-row gap-[2rem]">
+    <div class="flex flex-col lg:flex-row gap-[2rem]">
+      <!-- Checkout Form -->
+      <form
+        [formGroup]="checkoutForm"
+        class="flex-1 bg-white p-[2rem] border rounded-[0.75rem] shadow-md flex flex-col"
+      >
+        <h2 class="text-[1.25rem] font-semibold mb-[1.5rem] text-gray-800">
+          Billing Details
+        </h2>
 
-    <!-- Checkout Form -->
-    <form [formGroup]="checkoutForm" class="flex-1 bg-white p-[2rem] border rounded-[0.75rem] shadow-md flex flex-col">
-      <h2 class="text-[1.25rem] font-semibold mb-[1.5rem] text-gray-800">Billing Details</h2>
+        <div class="flex flex-col gap-[1.25rem]">
+          <!-- Full Name -->
+          <mat-form-field class="w-full">
+            <mat-label>Full Name</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              placeholder="John Doe"
+              class="text-[1rem] p-[0.75rem]"
+            />
+            @if (checkoutForm.get('name')?.hasError('required')) {
+              <mat-error>Name is required</mat-error>
+            }
+          </mat-form-field>
 
-      <div class="flex flex-col gap-[1.25rem]">
-        <!-- Full Name -->
-        <mat-form-field class="w-full">
-          <mat-label>Full Name</mat-label>
-          <input matInput formControlName="name" placeholder="John Doe" class="text-[1rem] p-[0.75rem]">
-          <mat-error *ngIf="checkoutForm.get('name')?.hasError('required')">Name is required</mat-error>
-        </mat-form-field>
+          <!-- Email -->
+          <mat-form-field class="w-full">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              placeholder="example@mail.com"
+              class="text-[1rem] p-[0.75rem]"
+            />
+            @if (checkoutForm.get('email')?.hasError('required')) {
+              <mat-error>Email is required</mat-error>
+            }
+            @if (checkoutForm.get('email')?.hasError('email')) {
+              <mat-error>Enter a valid email</mat-error>
+            }
+          </mat-form-field>
 
-        <!-- Email -->
-        <mat-form-field class="w-full">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="example@mail.com" class="text-[1rem] p-[0.75rem]">
-          <mat-error *ngIf="checkoutForm.get('email')?.hasError('required')">Email is required</mat-error>
-          <mat-error *ngIf="checkoutForm.get('email')?.hasError('email')">Enter a valid email</mat-error>
-        </mat-form-field>
+          <!-- Phone Number -->
+          <mat-form-field class="w-full">
+            <mat-label>Phone Number</mat-label>
+            <input
+              matInput
+              type="tel"
+              formControlName="phoneNumber"
+              placeholder="+91 9876543210"
+              maxlength="10"
+              pattern="[0-9]*"
+              class="text-[1rem] p-[0.75rem]"
+              (keypress)="allowOnlyDigits($event)"
+            />
 
-        <!-- Phone Number -->
-        <mat-form-field class="w-full">
-  <mat-label>Phone Number</mat-label>
-  <input matInput
-         type="tel"
-         formControlName="phoneNumber"
-         placeholder="+91 9876543210"
-         maxlength="10"
-         pattern="[0-9]*"
-         class="text-[1rem] p-[0.75rem]"
-         (keypress)="allowOnlyDigits($event)">
-  <mat-error *ngIf="checkoutForm.get('phone')?.hasError('required')">
-    Phone number is required
-  </mat-error>
-  <mat-error *ngIf="checkoutForm.get('phone')?.hasError('pattern')">
-    Only numbers are allowed
-  </mat-error>
-  <mat-error *ngIf="checkoutForm.get('phone')?.hasError('minlength') || checkoutForm.get('phone')?.hasError('maxlength')">
-    Phone number must be 10 digits
-  </mat-error>
-</mat-form-field>
+            @if (checkoutForm.get('phone')?.hasError('required')) {
+              <mat-error>Phone number is required</mat-error>
+            }
+            @if (checkoutForm.get('phone')?.hasError('pattern')) {
+              <mat-error>Only numbers are allowed</mat-error>
+            }
+            @if (
+              checkoutForm.get('phone')?.hasError('minlength') ||
+              checkoutForm.get('phone')?.hasError('maxlength')
+            ) {
+              <mat-error>Phone number must be 10 digits</mat-error>
+            }
+          </mat-form-field>
 
+          <!-- Address -->
+          <mat-form-field class="w-full">
+            <mat-label>Address</mat-label>
+            <textarea
+              matInput
+              formControlName="address"
+              placeholder="Your Address"
+              class="text-[1rem] p-[0.75rem]"
+            ></textarea>
+            @if (checkoutForm.get('address')?.hasError('required')) {
+              <mat-error>Address is required</mat-error>
+            }
+          </mat-form-field>
 
-        <!-- Address -->
-        <mat-form-field class="w-full">
-          <mat-label>Address</mat-label>
-          <textarea matInput formControlName="address" placeholder="Your Address" class="text-[1rem] p-[0.75rem]"></textarea>
-          <mat-error *ngIf="checkoutForm.get('address')?.hasError('required')">Address is required</mat-error>
-        </mat-form-field>
+          <!-- Payment Method -->
+          <mat-form-field class="w-full">
+            <mat-label>Payment Method</mat-label>
+            <mat-select formControlName="paymentMethod" class="text-[1rem]">
+              <mat-option value="cod">Cash on Delivery</mat-option>
+              <mat-option value="online">Online Payment</mat-option>
+            </mat-select>
+            @if (checkoutForm.get('paymentMethod')?.hasError('required')) {
+              <mat-error>Please select a payment method</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </form>
 
-        <!-- Payment Method -->
-        <mat-form-field class="w-full">
-          <mat-label>Payment Method</mat-label>
-          <mat-select formControlName="paymentMethod" class="text-[1rem]">
-            <mat-option value="cod">Cash on Delivery</mat-option>
-            <mat-option value="online">Online Payment</mat-option>
-          </mat-select>
-          <mat-error *ngIf="checkoutForm.get('paymentMethod')?.hasError('required')">Please select a payment method</mat-error>
-        </mat-form-field>
-      </div>
-    </form>
+      <!-- Cart Summary -->
+      <div
+        class="flex-1 bg-gray-50 p-[2rem] border rounded-[0.75rem] shadow-md flex flex-col h-[600px]"
+      >
+        <h2 class="text-[1.25rem] font-semibold mb-[1.5rem] text-gray-800">
+          Cart Summary
+        </h2>
 
-    <!-- Cart Summary -->
-    <div class="flex-1 bg-gray-50 p-[2rem] border rounded-[0.75rem] shadow-md flex flex-col h-[600px]">
-      <h2 class="text-[1.25rem] font-semibold mb-[1.5rem] text-gray-800">Cart Summary</h2>
-
-      <!-- Cart Items -->
-      <div class="flex-1 overflow-y-auto flex flex-col gap-[1rem]">
-        @if(cartItems.length === 0) {
-          <div class="text-[1rem] text-gray-500 italic">Your cart is empty.</div>
-        }
-
-        @if(cartItems.length > 0) {
-          @for(item of cartItems; track $index) {
-            <div class="flex justify-between items-center bg-white p-[0.75rem] rounded-[0.5rem] shadow-sm">
-              <div class="flex items-center gap-[0.75rem]">
-                <!-- Product Image -->
-                <img src="{{ item.productId.images && item.productId.images[0] ? item.productId.images[0] : 'https://via.placeholder.com/50' }}"
-                     alt="{{ item.productId.productName }}"
-                     class="w-[3rem] h-[3rem] object-cover rounded">
-
-                <!-- Product Name -->
-                <span class="text-[1rem] text-gray-700 font-medium">{{ item.productId.productName }}</span>
-
-                <!-- Quantity Controls -->
-                <div class="flex items-center rounded px-[0.25rem]">
-                  <button (click)="updateQuantity(item.productId._id, item.quantity - 1)"
-                          class="px-[0.5rem] py-[0.25rem] bg-gray-200 text-[1rem] rounded hover:bg-red-600 transition-colors">-</button>
-                  <span class="px-[0.5rem] text-[1rem]">{{ item.quantity }}</span>
-                  <button (click)="updateQuantity(item.productId._id, item.quantity + 1)"
-                          class="px-[0.5rem] py-[0.25rem] bg-gray-200 text-[1rem] rounded hover:bg-cyan-400 transition-colors">+</button>
-                </div>
-              </div>
-
-              <!-- Price & Remove -->
-              <div class="flex flex-col items-end">
-                <span class="text-[1rem] font-semibold text-gray-900">
-                  ₹{{ (item.productId.price * (1 - (item.productId.discount || 0)/100) * item.quantity) | number:'1.2-2' }}
-                </span>
-                <button (click)="removeItem(item.productId._id)"
-                        class="text-[0.875rem] text-black mt-[0.25rem] cursor-pointer flex items-center group relative">
-                   <span class="hidden group-hover:inline !text-red-600"><mat-icon>delete_forever</mat-icon></span>
-                   <span class="group-hover:hidden"><mat-icon>delete_outline</mat-icon></span>
-                </button>
-              </div>
+        <!-- Cart Items -->
+        <div class="flex-1 overflow-y-auto flex flex-col gap-[1rem]">
+          @if (cartItems.length === 0) {
+            <div class="text-[1rem] text-gray-500 italic">
+              Your cart is empty.
             </div>
           }
-        }
-      </div>
 
-      <!-- Totals & Place Order -->
-      <div class="mt-[1.5rem] border-t border-gray-300 pt-[1.5rem] flex flex-col gap-[0.75rem] sticky bottom-0 bg-gray-50 z-10">
-        <div class="flex justify-between text-[1rem] text-gray-500 line-through">
-          <span>Original Total:</span>
-          <span>₹{{ originalTotal | number:'1.2-2' }}</span>
-        </div>
-        <div class="flex justify-between text-[1rem] text-red-500">
-          <span>Total Discount:</span>
-          <span>₹{{ totalDiscountAmount | number:'1.2-2' }}</span>
-        </div>
-        <div class="flex justify-between text-[1.125rem] font-semibold text-gray-900">
-          <span>Final Amount:</span>
-          <span>₹{{ totalAmount | number:'1.2-2' }}</span>
+          @if (cartItems.length > 0) {
+            @for (item of cartItems; track $index) {
+              <div
+                class="flex justify-between items-center bg-white p-[0.75rem] rounded-[0.5rem] shadow-sm"
+              >
+                <div class="flex items-center gap-[0.75rem]">
+                  <!-- Product Image -->
+                  <img
+                    [src]="
+                      item.productId.images && item.productId.images[0]
+                        ? item.productId.images[0]
+                        : 'https://via.placeholder.com/50'
+                    "
+                    [alt]="item.productId.productName"
+                    class="w-[3rem] h-[3rem] object-cover rounded"
+                  />
+
+                  <!-- Product Name -->
+                  <span
+                    class="text-[1rem] text-gray-700 font-medium"
+                    >{{ item.productId.productName }}</span
+                  >
+
+                  <!-- Quantity Controls -->
+                  <div class="flex items-center rounded px-[0.25rem]">
+                    <button
+                      (click)="updateQuantity(item.productId._id, item.quantity - 1)"
+                      class="px-[0.5rem] py-[0.25rem] bg-gray-200 text-[1rem] rounded hover:bg-red-600 transition-colors"
+                    >
+                      -
+                    </button>
+                    <span class="px-[0.5rem] text-[1rem]">{{ item.quantity }}</span>
+                    <button
+                      (click)="updateQuantity(item.productId._id, item.quantity + 1)"
+                      class="px-[0.5rem] py-[0.25rem] bg-gray-200 text-[1rem] rounded hover:bg-cyan-400 transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Price & Remove -->
+                <div class="flex flex-col items-end">
+                  <span class="text-[1rem] font-semibold text-gray-900">
+                    ₹{{
+                      (item.productId.price *
+                        (1 - (item.productId.discount || 0) / 100) *
+                        item.quantity)
+                        | number: '1.2-2'
+                    }}
+                  </span>
+                  <button
+                    (click)="removeItem(item.productId._id)"
+                    class="text-[0.875rem] text-black mt-[0.25rem] cursor-pointer flex items-center group relative"
+                  >
+                    <span class="hidden group-hover:inline !text-red-600"
+                      ><mat-icon>delete_forever</mat-icon></span
+                    >
+                    <span class="group-hover:hidden"
+                      ><mat-icon>delete_outline</mat-icon></span
+                    >
+                  </button>
+                </div>
+              </div>
+            }
+          }
         </div>
 
-        <!-- Place Order Button -->
-        <button mat-raised-button color="primary"
-                class="mt-[1rem] w-full text-[1rem] py-[0.75rem] rounded-[0.5rem] bg-green-500 hover:bg-green-600 transition-colors font-semibold"
-                (click)="placeOrder()">
-          Place Order
-        </button>
+        <!-- Totals & Place Order -->
+        <div
+          class="mt-[1.5rem] border-t border-gray-300 pt-[1.5rem] flex flex-col gap-[0.75rem] sticky bottom-0 bg-gray-50 z-10"
+        >
+          <div class="flex justify-between text-[1rem] text-gray-500 line-through">
+            <span>Original Total:</span>
+            <span>₹{{ originalTotal | number: '1.2-2' }}</span>
+          </div>
+          <div class="flex justify-between text-[1rem] text-red-500">
+            <span>Total Discount:</span>
+            <span>₹{{ totalDiscountAmount | number: '1.2-2' }}</span>
+          </div>
+          <div
+            class="flex justify-between text-[1.125rem] font-semibold text-gray-900"
+          >
+            <span>Final Amount:</span>
+            <span>₹{{ totalAmount | number: '1.2-2' }}</span>
+          </div>
+
+          <!-- Place Order Button -->
+          <button
+            mat-raised-button
+            color="primary"
+            class="mt-[1rem] w-full text-[1rem] py-[0.75rem] rounded-[0.5rem] bg-green-500 hover:bg-green-600 transition-colors font-semibold"
+            (click)="placeOrder()"
+          >
+            Place Order
+          </button>
+        </div>
       </div>
     </div>
-
   </div>
-</div>
-}
-@else {
-  <app-order-success-page [orderData]="commonVariablesService.orderSuccessData"></app-order-success-page>
-
+} @else {
+  <app-order-success-page
+    [orderData]="commonVariablesService.orderSuccessData"
+  ></app-order-success-page>
 }

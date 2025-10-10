@@ -34,15 +34,11 @@
         </div>
       </div>
 
-      <h2 class="text-[1.5rem] sm:text-[1.6rem] font-semibold text-white">
-        Congratulations 🎉
-      </h2>
+      <h2 class="text-[1.5rem] sm:text-[1.6rem] font-semibold text-white">Congratulations 🎉</h2>
       <p class="text-[0.95rem] sm:text-[1rem] text-white/80 max-w-[22rem]">
-        Your order<span *ngIf="orderData.orderId"> #{{ orderData.orderId }}</span> has been
-        successfully placed! Thank you<span *ngIf="orderData.customerName">
-          , {{ orderData.customerName }}</span
-        >
-        for shopping with us.
+        Your order @if (orderData.orderId) { #{{ orderData.orderId }} } has been successfully
+        placed! Thank you @if (orderData.customerName) { , {{ orderData.customerName }}
+        } for shopping with us.
       </p>
 
       <div
@@ -50,27 +46,23 @@
       >
         <div class="flex items-center justify-between mb-[0.35rem]">
           <span class="text-white/80">Items</span>
-          <span class="font-medium text-white">{{
-            orderData.item.length ?? '-'
-          }}</span>
+          <span class="font-medium text-white">{{ orderData.item.length ?? '-' }}</span>
         </div>
         <div class="flex items-center justify-between mb-[0.35rem]">
           <span class="text-white/80">Total</span>
           <span class="font-semibold text-white">{{
-            orderData.finalAmount !== null ? ('₹ ' + (orderData.finalAmount | number : '1.2-2')) : '-'
+            orderData.finalAmount !== null ? '₹ ' + (orderData.finalAmount | number : '1.2-2') : '-'
           }}</span>
         </div>
         <div class="flex items-center justify-between">
           <span class="text-white/80">Delivery by</span>
           <span class="font-medium text-white">{{
-            (orderData.estimatedDeliveryDate | date:"dd/MM/yyyy") || '—'
+            (orderData.estimatedDeliveryDate | date : 'dd/MM/yyyy') || '—'
           }}</span>
         </div>
       </div>
 
-      <div
-        class="mt-[0.75rem] flex gap-[0.5rem] flex-wrap justify-center w-full"
-      >
+      <div class="mt-[0.75rem] flex gap-[0.5rem] flex-wrap justify-center w-full">
         <button
           (click)="trackOrder()"
           class="px-[1rem] py-[0.5rem] rounded-[0.6rem] bg-white/10 border border-white/20 text-[1rem] font-medium text-white hover:bg-white/20 transition"
@@ -88,16 +80,12 @@
 
     <!-- Right: Next Steps -->
     <div class="p-[1rem] flex flex-col justify-center gap-[0.75rem]">
-      <h3 class="text-[1.2rem] sm:text-[1.25rem] font-semibold text-white">
-        Next Steps
-      </h3>
+      <h3 class="text-[1.2rem] sm:text-[1.25rem] font-semibold text-white">Next Steps</h3>
 
       <ul class="mt-[0.75rem] space-y-[0.5rem]">
         <li class="flex items-start gap-[0.75rem]">
           <span class="text-[1rem] text-green-300">✔</span>
-          <p class="text-[0.95rem] sm:text-[1rem] text-white/80">
-            Payment successfully processed
-          </p>
+          <p class="text-[0.95rem] sm:text-[1rem] text-white/80">Payment successfully processed</p>
         </li>
         <li class="flex items-start gap-[0.75rem]">
           <span class="text-[1rem] text-blue-300">🚚</span>
@@ -110,8 +98,8 @@
           <p class="text-[0.95rem] sm:text-[1rem] text-white/80">
             Delivery expected:
             <span class="font-medium text-white">{{
-            (orderData.estimatedDeliveryDate | date:"dd/MM/yyyy") || '—'
-          }}</span>
+              (orderData.estimatedDeliveryDate | date : 'dd/MM/yyyy') || '—'
+            }}</span>
           </p>
         </li>
       </ul>

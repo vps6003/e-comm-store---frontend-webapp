@@ -43,10 +43,9 @@
             ₹{{ product.price }}
           </span>
           <span
-            *ngIf="product.discount"
             class="text-[0.9rem] text-green-600 font-semibold"
           >
-            -{{ product.discount }}%
+            -{{ product.discount ? product.discount : 0 }}%
           </span>
         </div>
       </div>
