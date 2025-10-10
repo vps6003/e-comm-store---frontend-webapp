@@ -26,17 +26,23 @@ export class CartPage {
   paginatedItems: { productId: any; quantity: number }[] = [];
   loading = false;
 
-  async ngOnInit() {
-    await this.loadCart();
+   ngOnInit() {
+     this.loadCart();
   }
 
   async loadCart() {
     this.loading = true;
     try {
+      const user  = localStorage.getItem('user');
+      this.commonVariablesService.userData = JSON.parse(user || '{}');
       const userId = this.commonVariablesService.userData._id;
       const cart: any = await this.customerServices.getUserCart(userId).toPromise();
+      this.commonVariablesService.cartData = cart;
       this.cartItems = cart?.productQuantity || [];
       this.totalPages = Math.ceil(this.cartItems.length / this.itemsPerPage);
+      if(this.currentPage > this.totalPages) {
+        this.currentPage = this.totalPages || 1;
+      }
       this.updatePaginatedItems();
     } catch (err) {
       console.error(err);
@@ -125,7 +131,9 @@ export class CartPage {
   }
 
  async clearCart(){
+    this.loading = true;
     const result = await this.commonServices.clearCart();
-    this.loadCart();
+    this.cartItems  = [];
+    this.updatePaginatedItems();
   }
 }

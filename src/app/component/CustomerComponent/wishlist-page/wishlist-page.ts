@@ -26,6 +26,7 @@ export class WishlistPage {
     //Add 'implements OnInit' to the class.
     // this.wishlist = this.commonVariablesService.wishlistArray;
     // this.commonServices.init();
+    this.commonServices.getCustomerWishlist();
     this.updateItemsPerPage();
     this.calculatePages();
 

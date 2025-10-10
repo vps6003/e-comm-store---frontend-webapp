@@ -5,7 +5,7 @@
   @if (loading) {
     <div class="text-[1rem] text-gray-500">Loading cart...</div>
   }
-
+  @else{
   <!-- 🛒 Empty Cart -->
   @if (!loading && paginatedItems.length === 0) {
     <div class="text-[1rem] text-gray-500">Your cart is empty.</div>
@@ -175,4 +175,5 @@
       </div>
     </div>
   }
+}
 </div>

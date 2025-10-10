@@ -73,8 +73,11 @@ export class CheckoutPage implements OnInit {
   async loadCart() {
     this.loading = true;
     try {
+      const user  = localStorage.getItem('user');
+      this.commonVariablesService.userData = JSON.parse(user || '{}');
       const userId = this.commonVariablesService.userData._id;
       const cart: any = await this.customerServices.getUserCart(userId).toPromise();
+      this.commonVariablesService.cartData = cart;
       this.cartItems = cart?.productQuantity || [];
       if(this.cartItems.length <1) {
         this.router.navigateByUrl("/home");
