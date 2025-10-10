@@ -56,7 +56,7 @@ export class Register {
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-    this.commonServices.verifyToken();
+    // this.commonServices.verifyToken();
     if (token) {
       this.router.navigateByUrl('/home');
     }
@@ -74,6 +74,7 @@ export class Register {
         } else {
           this.registerForm.markAllAsTouched();
         }
+          this.commonServices.loggedInValue = false;
       } else {
         if (this.loginForm.valid) {
           const res: any = await firstValueFrom(
@@ -87,15 +88,24 @@ export class Register {
             this.toaster.show("Login SuccessFul","success");
             this.commonServices.getAllCategoriesForCustomer();
             this.commonServices.getAllOrdersOfUSer();
+            this.commonServices.loggedInValue = true;
+
             // window.location.reload();
           }
         } else {
           this.loginForm.markAllAsTouched();
+          this.commonServices.loggedInValue = false;
+
         }
       }
     } catch (err:any) {
       // console.error('Error in onSubmit:', err);
       this.toaster.show(err.error,"error",5000);
+      this.commonServices.loggedInValue = false;
+
     }
   }
+
+
+
 }

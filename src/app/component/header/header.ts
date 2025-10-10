@@ -34,6 +34,7 @@ export class Header {
   allCategories: Category[] = [];
   userName: any;
   isAdmin: boolean = false;
+  onLoad : boolean = true;
 
   // MOBILE MENU STATE
   mobileMenuOpen: boolean = false;
@@ -46,13 +47,25 @@ export class Header {
   ) { }
 
   ngOnInit() {
-    this.commonServices.getAllCategoriesForCustomer();
-    this.allCategories = this.commonVariablesService.allCategories;
+    this.onLoad = false;
     this.userName = this.authServices.userName;
     this.isAdmin = this.authServices.isAdminCheck;
+    this.allCategories = this.commonVariablesService.allCategories;
     this.commonVariablesService.searchTerm = "";
-    this.commonServices.verifyToken();
-  }
+    // this.commonServices.loginSubscribe();
+    this.commonVariablesService.loggedIn$.subscribe((loggedIn) => {
+      if (!loggedIn) {
+        this.userName = null;
+        this.isAdmin = false;
+      } else {
+        this.userName = this.authServices.userName;
+        this.isAdmin = this.authServices.isAdminCheck;
+        this.commonServices.getAllCategoriesForCustomer(this.onLoad);
+        // this.commonServices.verifyToken(this.onLoad);
+        this.onLoad = true;
+      }
+  });
+}
 
   // SEARCH FUNCTION
   onSearch = (e: any) => {

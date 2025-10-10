@@ -17,7 +17,9 @@
     </a>
 
     <!-- Actions: Wishlist, Cart, Logout -->
-    <div class="flex items-center gap-[0.5rem] flex-shrink-0">
+    <div class="flex items-center gap-[0.5rem] flex-shrink-0" [ngClass]="{ 'invisible': !commonVariablesService.loggedIn$.value }">
+      <!-- @if(commonVariablesService.loggedIn$.value){ -->
+
       <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 text-[1rem] flex items-center">
         <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
       </a>
@@ -26,12 +28,14 @@
           shopping_cart
         </mat-icon>
       </a>
+
       <button
         (click)="logout()"
         class="px-[0.75rem] py-[0.25rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white transition-colors text-[1rem]"
       >
         Logout
       </button>
+    <!-- } -->
     </div>
 
   </div>
@@ -85,7 +89,8 @@
     </div>
 
    <!-- Actions: Wishlist, Cart, Logout, Admin -->
-<div class="flex items-center gap-[0.5rem] flex-shrink-0">
+<div class="flex items-center gap-[0.5rem] flex-shrink-0" [ngClass]="{ 'invisible': !commonVariablesService.loggedIn$.value }">
+     <!-- @if(commonVariablesService.loggedIn$.value){ -->
   <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 text-[1rem] flex items-center">
     <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
   </a>
@@ -101,12 +106,16 @@
   <a routerLink="/admin" class="text-gray-900 font-semibold hover:underline text-[1rem]">Dashboard</a>
   }
 
-  <button
+
+       <button
     (click)="logout()"
     class="px-[0.75rem] py-[0.25rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white transition-colors text-[1rem]"
   >
     Logout
   </button>
+
+
+<!-- } -->
 </div>
 
 

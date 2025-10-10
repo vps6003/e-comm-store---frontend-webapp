@@ -25,7 +25,8 @@ export class CommonServices {
 
   isLoggedIn: any;
 
-  init() {
+  init(onLoad?:boolean) {
+    if(onLoad)return;
     this.commonVariablesService.searchTerm = '';
     this.commonVariablesService.wishlistArray = [];
     // this.commonVariablesService.cartData = [];
@@ -105,10 +106,13 @@ export class CommonServices {
   verifyToken(obj?: any) {
     try{
     this.authServices.verifyTokenService().subscribe({
-      next : (res) =>{},
+      next : (res) =>{
+        this.loggedInValue = true;
+      },
       error :(err) =>{ localStorage.clear();
         sessionStorage.clear();
         const router = inject(Router);
+        this.loggedInValue = false;
         router.navigateByUrl('/register');
         this.toasterMessageService.show(err.message,"error",5000);
 }
@@ -118,6 +122,7 @@ export class CommonServices {
      localStorage.clear();
         sessionStorage.clear();
         const router = inject(Router);
+        this.loggedInValue = false;
         router.navigateByUrl('/register');
         this.toasterMessageService.show(err,"error",5000);
 
@@ -127,6 +132,7 @@ export class CommonServices {
   logout() {
     localStorage.clear();
     sessionStorage.clear();
+    this.loggedInValue = false;
     this.router.navigateByUrl('/register');
     window.location.reload();
   }
@@ -157,7 +163,8 @@ export class CommonServices {
     }
   }
 
-  async getAllCategoriesForCustomer(){
+  async getAllCategoriesForCustomer(onLoad?:boolean){
+    if(onLoad) return;
     try{
       this.categoryService.getCustomerCategories().subscribe((categories: Category[]) => {
       this.commonVariablesService.allCategories = categories;
@@ -168,7 +175,8 @@ export class CommonServices {
     }
   }
 
-  async getAllOrdersOfUSer(){
+  async getAllOrdersOfUSer(onLoad?:boolean){
+    if(onLoad) return;
     try {
       await this.customerServices.getAllUSerOrders(this.commonVariablesService.userData._id).subscribe((result:any)=>{
         this.commonVariablesService.ordersData = result;
@@ -190,6 +198,14 @@ export class CommonServices {
     catch(err:any){
       throw new Error(err.message);
     }
+  }
+
+  get loggedInValue(){
+    return this.commonVariablesService.loggedIn$.value;
+  }
+
+  set loggedInValue(val:boolean){
+    this.commonVariablesService.loggedIn$.next(val);
   }
 
 

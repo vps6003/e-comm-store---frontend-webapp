@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../types/product';
 import { Category } from '../types/category';
+import { BehaviorSubject as bS } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,6 @@ export class CommonVariablesService {
   allCategories :Category[]=[];
   ordersData:any;
   orderDetails:any;
+  loggedIn$ = new bS<boolean>(false);
 
 }

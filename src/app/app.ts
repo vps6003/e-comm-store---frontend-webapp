@@ -29,11 +29,19 @@ import { TooltipModule } from './core/directives/mat-tooltip.module';
 })
 export class App {
   protected readonly title = signal('webapp');
-  private commonServices = inject(CommonServices)
+  private commonServices = inject(CommonServices);
+
+  onLoad : boolean = false;
 
   ngOnInit() {
+    this.onLoad = false;
+    if(!this.onLoad)
     this.commonServices.verifyToken();
-    this.commonServices.init();
+    if(this.commonServices.loggedInValue) {
+    // this.commonServices.verifyToken(this.onLoad);
+    this.commonServices.init(this.onLoad);
+    this.onLoad = true;
   }
+}
 
 }
