@@ -29,10 +29,12 @@ export class CommonServices {
     if(onLoad)return;
     this.commonVariablesService.searchTerm = '';
     this.commonVariablesService.wishlistArray = [];
+    this.commonVariablesService.userDetails$.next(null);
     // this.commonVariablesService.cartData = [];
     this.getCustomerWishlist();
     this.getCustomerCart();
     this.getUserDataFromStorage();
+    this.getProfileDetails();
   }
 
   async getUserDataFromStorage() {
@@ -178,6 +180,9 @@ export class CommonServices {
   async getAllOrdersOfUSer(onLoad?:boolean){
     if(onLoad) return;
     try {
+      const user = localStorage.getItem('user');
+      const userData = JSON.parse(user || '{}');
+      this.commonVariablesService.userData = userData;
       await this.customerServices.getAllUSerOrders(this.commonVariablesService?.userData?._id).subscribe((result:any)=>{
         this.commonVariablesService.ordersData = result;
         // console.log(result);
@@ -206,6 +211,63 @@ export class CommonServices {
 
   set loggedInValue(val:boolean){
     this.commonVariablesService.loggedIn$.next(val);
+  }
+
+  get userName(){
+    return this.commonVariablesService.userName$.value;
+  }
+
+  set userName(val:string){
+    this.commonVariablesService.userName$.next(val);
+  }
+
+  async updateUsername(userId:string,userName:string){
+    try{
+      const obj = {
+        userId,
+        name:userName
+      }
+      this.customerServices.updateUserName(obj).subscribe((res:any)=>{
+        this.toasterMessageService.show(res?.message,"success",3000);
+        this.userName = userName;
+      })
+    }
+    catch(err:any){
+      throw new Error(err);
+        this.toasterMessageService.show(err?.message,"error",3000);
+
+    }
+  }
+
+  async changePassword(obj:any){
+    try{
+      this.customerServices.changePassword(obj).subscribe((res:any)=>{
+        this.toasterMessageService.show(res?.message,"success",3000);
+      })
+    }
+    catch(err:any){
+      throw new Error(err);
+        this.toasterMessageService.show(err?.message,"error",3000);
+
+    }
+  }
+
+  getProfileDetails(){
+    try{
+
+      const user = localStorage.getItem('user');
+      const userData = JSON.parse(user || '{}');
+      this.commonVariablesService.userData = userData;
+      const userId = userData._id;
+      this.customerServices.getProfileDetails({userId : userId}).subscribe((result:any)=>{
+        this.userName = result.name;
+        this.commonVariablesService.userDetails$.next(result);
+        this.toasterMessageService.show("User Details fetched","success",2500);
+      })
+    }
+    catch(err:any){
+      throw new Error(err.message);
+    }
   }
 
 

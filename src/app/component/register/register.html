@@ -1,16 +1,16 @@
 <!-- Register -->
-@if (signUp) {
+@if(signUp) {
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Register</h2>
+    <div class="bg-white p-[4rem] rounded-lg shadow-md w-full max-w-md">
+      <h2 class="text-[1.5rem] font-bold mb-[1.5rem] text-center text-gray-800">Register</h2>
 
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-[1.5rem]">
         <!-- Name -->
         <mat-form-field class="w-full">
           <mat-label>Name</mat-label>
           <input matInput type="text" formControlName="name" placeholder="Enter your name" />
           <mat-icon matSuffix>person</mat-icon>
-          @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+          @if(registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
             <mat-error>Name is required (min 3 characters).</mat-error>
           }
         </mat-form-field>
@@ -20,7 +20,7 @@
           <mat-label>Email</mat-label>
           <input matInput type="email" formControlName="email" placeholder="Enter your email" />
           <mat-icon matSuffix>email</mat-icon>
-          @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
+          @if(registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
             <mat-error>Please enter a valid email.</mat-error>
           }
         </mat-form-field>
@@ -43,7 +43,7 @@
           >
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
+          @if(registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
             <mat-error>Password must be at least 6 characters.</mat-error>
           }
         </mat-form-field>
@@ -66,7 +66,7 @@
           >
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if (registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid) {
+          @if(registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid) {
             <mat-error>Password must be at least 6 characters.</mat-error>
           }
         </mat-form-field>
@@ -75,21 +75,21 @@
         <button
           mat-raised-button
           color="primary"
-          class="w-full py-2"
+          class="w-full py-[0.5rem]"
           type="submit"
           [disabled]="registerForm.invalid"
         >
-          <mat-icon class="mr-2">person_add</mat-icon>
+          <mat-icon class="mr-[0.5rem]">person_add</mat-icon>
           Register
         </button>
 
         <button
           mat-raised-button
           color="primary"
-          class="w-full py-2"
+          class="w-full py-[0.5rem]"
           (click)="signUp = false"
         >
-          <mat-icon class="mr-2">login</mat-icon>
+          <mat-icon class="mr-[0.5rem]">login</mat-icon>
           Login
         </button>
       </form>
@@ -100,16 +100,23 @@
 <!-- Login -->
 @else {
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
+    <div class="bg-white p-[4rem] rounded-lg shadow-md w-full items-center max-w-md">
+      <div class="flex flex-col items-center mb-[1rem]">
+        <img
+          src="{{images.mainLogo}}"
+          alt="Logo"
+          class="mb-[1.5rem] w-[8rem] sm:w-[9rem] md:w-[10rem] lg:w-[12rem] h-auto"
+        />
+        <h2 class="text-[1.5rem] font-bold mb-[1rem] text-center text-gray-800">Login</h2>
+      </div>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-[1.5rem]">
         <!-- Email -->
         <mat-form-field class="w-full">
           <mat-label>Email</mat-label>
           <input matInput type="email" formControlName="email" placeholder="Enter your email" />
           <mat-icon matSuffix>email</mat-icon>
-          @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+          @if(loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
             <mat-error>Please enter a valid email.</mat-error>
           }
         </mat-form-field>
@@ -132,7 +139,7 @@
           >
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+          @if(loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
             <mat-error>Password must be at least 6 characters.</mat-error>
           }
         </mat-form-field>
@@ -141,21 +148,21 @@
         <button
           mat-raised-button
           color="primary"
-          class="w-full py-2"
+          class="w-full py-[0.5rem]"
           type="submit"
           [disabled]="loginForm.invalid"
         >
-          <mat-icon class="mr-2">login</mat-icon>
+          <mat-icon class="mr-[0.5rem]">login</mat-icon>
           Login
         </button>
 
         <button
           mat-raised-button
           color="primary"
-          class="w-full py-2"
+          class="w-full py-[0.5rem]"
           (click)="signUp = true"
         >
-          <mat-icon class="mr-2">how_to_reg</mat-icon>
+          <mat-icon class="mr-[0.5rem]">how_to_reg</mat-icon>
           Register
         </button>
       </form>

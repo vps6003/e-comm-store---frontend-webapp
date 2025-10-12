@@ -61,6 +61,7 @@ export class Header {
         this.userName = this.authServices.userName;
         this.isAdmin = this.authServices.isAdminCheck;
         this.commonServices.getAllCategoriesForCustomer(this.onLoad);
+        this.commonServices.getProfileDetails();
         // this.commonServices.verifyToken(this.onLoad);
         this.onLoad = true;
       }

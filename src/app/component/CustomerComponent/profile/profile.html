@@ -1,0 +1,105 @@
+<div class="p-4 max-w-md mx-auto">
+
+  <!-- Display User Info -->
+  <div *ngIf="!editName && !editPassword" class="space-y-[1rem]">
+    <h2 class="text-xl font-bold">Profile</h2>
+    <p><strong>Username:</strong>  {{commonVariablesService.userName$.value || ""}} </p>
+    <p><strong>Email:</strong> {{commonVariablesService.userDetails$.value?.email || ""}}</p>
+
+    <div class="flex gap-[0.5rem]">
+      <button mat-raised-button class ="w-auto !rounded-full" color="primary" (click)="editName = true; editPassword = false">
+        Edit Name
+      </button>
+      <button mat-raised-button class ="w-auto !rounded-full" color="accent" (click)="editPassword = true; editName = false">
+        Edit Password
+      </button>
+      <a routerLink="/home">
+        <button mat-raised-button class ="w-auto !rounded-full" color="warn">Homepage</button>
+      </a>
+      <a routerLink="/orders">
+        <button mat-raised-button class ="w-auto !rounded-full" class="!bg-cyan-300">My Orders</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Edit Name Form -->
+  <div *ngIf="editName" class="space-y-4">
+    <h2 class="text-xl font-bold">Edit Name</h2>
+    <form [formGroup]="userNameUpdateForm" (ngSubmit)="updateName()">
+      <mat-form-field class="w-full">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter Name Here" class="p-2" />
+        <mat-error *ngIf="userNameUpdateForm.get('name')?.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+      <div class="flex gap-2">
+        <button mat-raised-button class ="w-auto !rounded-full" color="primary" type="submit" [disabled]="userNameUpdateForm.invalid">
+          Update Name
+        </button>
+        <button mat-raised-button class ="w-auto !rounded-full" color="accent" (click)="editPassword = true; editName = false">
+          Edit Password
+        </button>
+        <button mat-raised-button class ="w-auto !rounded-full" color="warn" (click)="editName = false">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Edit Password Form -->
+  <div *ngIf="editPassword" class="space-y-4">
+    <h2 class="text-xl font-bold">Edit Password</h2>
+    <form [formGroup]="userPasswordUpdateForm" (ngSubmit)="updatePassword()">
+
+      <!-- Old Password -->
+      <mat-form-field class="w-full">
+        <mat-label>Old Password</mat-label>
+        <input matInput [type]="hideOldPassword ? 'password' : 'text'" formControlName="oldPassword" placeholder="Enter your password" />
+        <button mat-icon-button matSuffix type="button" (click)="hideOldPassword = !hideOldPassword">
+          <mat-icon>{{ hideOldPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="userPasswordUpdateForm.get('oldPassword')?.touched && userPasswordUpdateForm.get('oldPassword')?.invalid">
+          Password must be at least 5 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- New Password -->
+      <mat-form-field class="w-full">
+        <mat-label>New Password</mat-label>
+        <input matInput [type]="hideNewPassword ? 'password' : 'text'" formControlName="newPassword" placeholder="Enter your new password" />
+        <button mat-icon-button matSuffix type="button" (click)="hideNewPassword = !hideNewPassword">
+          <mat-icon>{{ hideNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="userPasswordUpdateForm.get('newPassword')?.touched && userPasswordUpdateForm.get('newPassword')?.invalid">
+          Password must be at least 5 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Confirm New Password -->
+      <mat-form-field class="w-full">
+        <mat-label>Confirm New Password</mat-label>
+        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Confirm new password" />
+        <button mat-icon-button matSuffix type="button" (click)="hideConfirmPassword = !hideConfirmPassword">
+          <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="userPasswordUpdateForm.get('confirmPassword')?.touched && userPasswordUpdateForm.get('confirmPassword')?.hasError('passwordMismatch')">
+          Passwords do not match.
+        </mat-error>
+      </mat-form-field>
+
+      <div class="flex gap-2">
+        <button mat-raised-button class ="w-auto !rounded-full" color="primary" type="submit" [disabled]="userPasswordUpdateForm.invalid">
+          Update Password
+        </button>
+        <button mat-raised-button class ="w-auto !rounded-full" color="accent" (click)="editPassword = false; editName = true">
+          Edit Name
+        </button>
+        <button mat-raised-button class ="w-auto !rounded-full" color="warn" (click)="editPassword = false">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

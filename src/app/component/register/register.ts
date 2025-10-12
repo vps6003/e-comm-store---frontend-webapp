@@ -15,6 +15,8 @@ import { AuthServices } from '../../services/authorization/auth-services';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';   // 👈 import this
 import { ToasterMessageService } from '../../services/toaster-message-service';
+import { img } from '../../../images/images';
+import { passwordMatchValidator } from '../../core/abstract-validators/password-match';
 
 @Component({
   selector: 'app-register',
@@ -35,6 +37,7 @@ export class Register {
   signUp: boolean = false;
   hidePassword: boolean = true;
   router = inject(Router);
+  images = img;
 
   constructor(
     private fb: FormBuilder,
@@ -47,7 +50,7 @@ export class Register {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(4)]],
-    });
+    },{validators : passwordMatchValidator});
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
@@ -89,18 +92,27 @@ export class Register {
             this.commonServices.getAllCategoriesForCustomer();
             this.commonServices.getAllOrdersOfUSer();
             this.commonServices.loggedInValue = true;
+            this.commonServices.userName = res.user?.name || "";
 
             // window.location.reload();
           }
         } else {
           this.loginForm.markAllAsTouched();
           this.commonServices.loggedInValue = false;
+            this.commonServices.userName =  "";
+
 
         }
       }
     } catch (err:any) {
       // console.error('Error in onSubmit:', err);
-      this.toaster.show(err.error,"error",5000);
+      this.toaster.show(err.error.message,"error",5000);
+      if(err.status === 404){
+        this.signUp = true;
+        this.toaster.show("Please Register First","info",5000);
+        this.loginForm.reset();
+        this.registerForm.reset();
+      }
       this.commonServices.loggedInValue = false;
 
     }
