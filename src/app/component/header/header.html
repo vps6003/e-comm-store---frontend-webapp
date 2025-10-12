@@ -1,75 +1,27 @@
-<header class="shadow relative">
+<header class="w-full z-50">
 
-  <!-- Mobile Top Bar: Hamburger + Logo + Actions -->
-  <div class="flex items-center justify-between bg-cyan-300 px-[1rem] py-[0.5rem] sm:hidden gap-[1rem]">
-
-    <!-- Hamburger Menu -->
-    <button
-      class="flex items-center justify-center p-[0.5rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white z-50"
-      (click)="toggleMobileMenu()"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
-
-    <!-- Logo -->
-    <a routerLink="/home" class="flex items-center gap-[0.5rem] flex-shrink-0">
-      <img src="{{images.mainLogo}}" alt="Logo" class="h-[4rem] w-[4rem]" />
-    </a>
-
-    <!-- Actions: Wishlist, Cart, Logout -->
-    <div class="flex items-center gap-[0.5rem] flex-shrink-0" [ngClass]="{ 'invisible': !commonVariablesService.loggedIn$.value }">
-      <!-- @if(commonVariablesService.loggedIn$.value){ -->
-
-      <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 text-[1rem] flex items-center">
-        <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
-      </a>
-      <a routerLink="/customer/cart" class="text-gray-900 hover:text-yellow-500 text-[1rem] flex items-center relative">
-        <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500">
-          shopping_cart
-        </mat-icon>
-      </a>
-
+  <!-- 🔹 Sticky Top Bar -->
+  <div
+    class="flex items-center justify-between bg-cyan-300 px-[1rem] py-[0.5rem] gap-[1rem] fixed top-0 left-0 w-full z-[100] flex-wrap sm:flex-nowrap transition-shadow duration-300"
+  >
+    <!-- Left: Hamburger + Logo -->
+    <div class="flex items-center gap-[0.75rem]">
+      <!-- Hamburger Menu -->
       <button
-        (click)="logout()"
-        class="px-[0.75rem] py-[0.25rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white transition-colors text-[1rem]"
+        class="flex items-center justify-center p-[0.5rem] border border-gray-900 rounded bg-white hover:bg-gray-900 hover:text-white shadow-md transition-colors"
+        (click)="toggleMobileMenu()"
       >
-        Logout
+        <mat-icon>menu</mat-icon>
       </button>
-    <!-- } -->
+
+      <!-- Logo -->
+      <a tooltip="Go To HomePage" routerLink="/home" class="flex items-center gap-[0.5rem] flex-shrink-0">
+        <img src="{{ images.mainLogo }}" alt="Logo" class="h-[3.5rem] w-[3.5rem]" />
+      </a>
     </div>
 
-  </div>
-
-  <!-- Mobile Search Bar -->
-  <div class="sm:hidden px-[1rem] py-[0.5rem]">
-    <div class="relative w-full">
-      <input
-        #searchBar
-        type="text"
-        placeholder="Search for products..."
-        [(ngModel)]="commonVariablesService.searchTerm"
-        (keyup.enter)="onSearch(searchBar.value)"
-        class="w-full px-[1rem] pr-[2.5rem] py-[0.5rem] border-2 border-blue-600 rounded-md focus:outline-none focus:border-blue-800 text-[1rem] bg-white"
-      />
-      <span
-        class="material-icons absolute right-[0.75rem] top-1/2 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-red-500"
-        (click)="onSearch(searchBar.value)"
-      >
-        search
-      </span>
-    </div>
-  </div>
-
-  <!-- Tablet & Desktop Top Bar: Logo + Search + Actions -->
-  <div class="hidden sm:flex items-center justify-between bg-cyan-300 px-[2rem] py-[0.5rem] gap-[1rem]">
-
-    <!-- Logo -->
-    <a routerLink="/home" class="flex items-center gap-[0.5rem] flex-shrink-0">
-      <img src="{{images.mainLogo}}" alt="Logo" class="h-[4rem] w-[4rem]" />
-    </a>
-
-    <!-- Search Bar -->
-    <div class="flex-1 max-w-[40%] md:max-w-[30%] lg:max-w-[25%] mx-[1rem]">
+    <!-- Middle: Search (Desktop only) -->
+    <div class="hidden sm:block flex-1 max-w-[30rem]">
       <div class="relative w-full">
         <input
           #searchBar
@@ -77,7 +29,7 @@
           placeholder="Search for products..."
           [(ngModel)]="commonVariablesService.searchTerm"
           (keyup.enter)="onSearch(searchBar.value)"
-          class="w-full px-[1rem] pr-[2.5rem] py-[0.5rem] border-2 border-blue-600 rounded-md focus:outline-none focus:border-blue-800 text-[1rem] bg-white"
+          class="w-full px-[1rem] pr-[2.5rem] py-[0.5rem] border-2 border-blue-600 rounded-md focus:outline-none focus:border-blue-800 bg-white"
         />
         <span
           class="material-icons absolute right-[0.75rem] top-1/2 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-red-500"
@@ -88,55 +40,135 @@
       </div>
     </div>
 
-   <!-- Actions: Wishlist, Cart, Logout, Admin -->
-<div class="flex items-center gap-[0.5rem] flex-shrink-0" [ngClass]="{ 'invisible': !commonVariablesService.loggedIn$.value }">
-     <!-- @if(commonVariablesService.loggedIn$.value){ -->
-  <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 text-[1rem] flex items-center">
-    <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
-  </a>
+    <!-- Right: Wishlist, Cart, Logout -->
+    <div class="flex items-center gap-[0.75rem]" *ngIf="commonVariablesService.loggedIn$.value">
+      <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 flex items-center">
+        <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
+      </a>
 
-  <!-- Cart with extra spacing to logout -->
-  <a routerLink="/customer/cart" class="text-gray-900 hover:text-yellow-500 text-[1rem] flex items-center relative mr-[1.5rem]">
-    <mat-icon tooltip="Cart" matBadge="{{commonVariablesService.cartData?.productQuantity?.length}}" class="!text-yellow-500">
-      shopping_cart
-    </mat-icon>
-  </a>
+      <a routerLink="/customer/cart" class="text-gray-900 hover:text-yellow-500 flex items-center relative">
+        <mat-icon
+          tooltip="Cart"
+          matBadge="{{ commonVariablesService.cartData?.productQuantity?.length }}"
+          class="!text-yellow-500"
+        >
+          shopping_cart
+        </mat-icon>
+      </a>
 
-  @if(isAdmin){
-  <a routerLink="/admin" class="text-gray-900 font-semibold hover:underline text-[1rem]">Dashboard</a>
-  }
+      <!-- Profile -->
+      <a routerLink="/profile" class="text-gray-900 hover:text-blue-500 flex items-center">
+        <mat-icon tooltip="Profile" class="!text-blue-500">person</mat-icon>
+      </a>
 
-
-       <button
-    (click)="logout()"
-    class="px-[0.75rem] py-[0.25rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white transition-colors text-[1rem]"
-  >
-    Logout
-  </button>
-
-
-<!-- } -->
-</div>
-
-
+      <!-- Logout button (Desktop) -->
+      <button
+        class="hidden sm:flex px-[0.75rem] py-[0.25rem] border border-gray-900 rounded hover:bg-gray-900 hover:text-white transition-colors"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+    </div>
   </div>
 
-  <!-- Category Menu (Scrollable) -->
-  <nav class="bg-[#43c6ac] py-[0.5rem] overflow-x-auto scrollbar-hide">
-    <ul class="flex gap-[1rem] text-[1rem] flex-nowrap whitespace-nowrap px-[2rem]">
-      @for(category of commonVariablesService.allCategories; track category._id){
-        <li>
-          <a
-            [routerLink]="['/products']"
-            [queryParams]="{ categoryId: category._id }"
-            class="text-white font-medium hover:underline hover:text-blue-800 whitespace-nowrap"
-          >
-            {{ category.name }}
-          </a>
-        </li>
-      }
-      <li class="mr-[2rem]"></li>
-    </ul>
-  </nav>
+  <!-- 🔹 Mobile Search Bar -->
+  <div class="sm:hidden px-[1rem] py-[0.75rem] mt-[3rem] sm:mt-0 bg-cyan-300 shadow-sm">
+    <div class="relative w-full">
+      <input
+        #searchBarMobile
+        type="text"
+        placeholder="Search for products..."
+        [(ngModel)]="commonVariablesService.searchTerm"
+        (keyup.enter)="onSearch(searchBarMobile.value)"
+        class="w-full px-[1rem] pr-[2.5rem] py-[0.5rem] border-2 border-blue-600 rounded-md focus:outline-none focus:border-blue-800 bg-white"
+      />
+      <span
+        class="material-icons absolute right-[0.75rem] top-1/2 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-red-500"
+        (click)="onSearch(searchBarMobile.value)"
+      >
+        search
+      </span>
+    </div>
+  </div>
 
+  <!-- 🔹 Overlay -->
+  <div *ngIf="mobileMenuOpen" class="fixed inset-0 bg-black/40 z-[98] transition-opacity duration-300" (click)="toggleMobileMenu()"></div>
+
+  <!-- 🔹 Slide-in Sidebar -->
+  <div
+    class="fixed top-0 left-0 h-full w-[16rem] bg-white shadow-2xl z-[99] transform transition-transform duration-300 ease-in-out flex flex-col"
+    [ngClass]="{'translate-x-0': mobileMenuOpen, '-translate-x-full': !mobileMenuOpen}"
+  >
+    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-800">Menu</h2>
+      <button (click)="toggleMobileMenu()" class="p-1 rounded-full hover:bg-gray-200 transition">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-col px-4 py-3 gap-2 text-gray-700 text-[1rem]">
+      <a routerLink="/home" (click)="toggleMobileMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2 transition">
+        <mat-icon>home</mat-icon> Home
+      </a>
+
+      <a routerLink="/profile" (click)="toggleMobileMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2 transition">
+        <mat-icon>person</mat-icon> Profile
+      </a>
+
+      <a routerLink="/customer/wishlist" (click)="toggleMobileMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2 transition">
+        <mat-icon class="!text-red-400">favorite</mat-icon> Wishlist
+      </a>
+
+      <a routerLink="/customer/cart" (click)="toggleMobileMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2 transition relative">
+        <mat-icon class="!text-yellow-500">shopping_cart</mat-icon> Cart
+        <span *ngIf="commonVariablesService.cartData?.productQuantity?.length" class="ml-auto text-[0.75rem] bg-yellow-500 text-white px-1 rounded-full">
+          {{ commonVariablesService.cartData?.productQuantity?.length }}
+        </span>
+      </a>
+
+      <a *ngIf="isAdmin" routerLink="/admin" (click)="toggleMobileMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2 transition">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+
+      <button (click)="logout(); toggleMobileMenu()" class="flex items-center gap-2 text-red-600 hover:bg-red-100 rounded px-2 py-2 transition-colors">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- 🔹 Sticky Categories Bar tablet , laptop , desktop -->
+<nav class="hidden sm:block bg-[#43c6ac] py-[0.5rem] overflow-x-auto scrollbar-hide sticky  mt-[3.3rem] z-[97]">
+  <ul class="flex gap-[1rem] text-[1rem] flex-nowrap whitespace-nowrap px-[2rem]">
+    @for(category of commonVariablesService.allCategories; track category._id){
+      <li class="last:!pr-[2rem]">
+        <a
+          [routerLink]="['/products']"
+          [queryParams]="{ categoryId: category._id }"
+          class="text-white font-medium hover:underline hover:text-blue-800 whitespace-nowrap"
+        >
+          {{ category.name }}
+        </a>
+      </li>
+    }
+    <li class="mr-[2rem]"></li>
+  </ul>
+</nav>
+
+  <!-- 🔹 Sticky Categories Bar  : Mobiles-->
+<nav class="block sm:hidden bg-[#43c6ac] py-[0.5rem] overflow-x-auto scrollbar-hide sticky  sm:top-[4.5rem] z-[97]">
+  <ul class="flex gap-[1rem] text-[1rem] flex-nowrap whitespace-nowrap px-[2rem]">
+    @for(category of commonVariablesService.allCategories; track category._id){
+      <li class="last:!pr-[2rem]">
+        <a
+          [routerLink]="['/products']"
+          [queryParams]="{ categoryId: category._id }"
+          class="text-white font-medium hover:underline hover:text-blue-800 whitespace-nowrap"
+        >
+          {{ category.name }}
+        </a>
+      </li>
+    }
+    <li class="mr-[2rem]"></li>
+  </ul>
+</nav>
 </header>

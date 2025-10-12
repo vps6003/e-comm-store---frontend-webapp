@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProductCard } from '../product-card/product-card';
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +20,6 @@ import { NgClass, NgStyle } from '@angular/common';
     ProductCard,
     CarouselModule,
     NgClass,
-    NgStyle
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],

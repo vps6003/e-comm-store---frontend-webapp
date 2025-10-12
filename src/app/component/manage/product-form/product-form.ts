@@ -77,7 +77,6 @@ export class ProductForm {
       updateProduct() {
       if (!this.id) return;
       this.productService.updateProductById(this.id, this.productForm.value).subscribe((result: any) => {
-        debugger;
         this.router.navigateByUrl("/admin/product");
       });
     }
@@ -95,8 +94,6 @@ export class ProductForm {
 
     addNewProduct(){
     this.productService.addProduct(this.productForm.value).subscribe((result:any)=>{
-      // alert("Product added : "+result.productName);
-      debugger;
       this.router.navigateByUrl("/admin/product");
 
     })

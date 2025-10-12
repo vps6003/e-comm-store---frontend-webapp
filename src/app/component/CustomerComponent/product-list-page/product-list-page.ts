@@ -48,7 +48,6 @@ export class ProductListPage {
   brandsList : Brand[] = [];
 
   ngOnInit(): void {
-    debugger
     if(!this.route.snapshot.queryParams['searchTerm'] && !this.route.snapshot.queryParams['categoryId'] && !this.route.snapshot.queryParams['brandId']) {
       this.router.navigateByUrl('/home');
       return;
