@@ -16,6 +16,8 @@ export class CommonVariablesService {
   allCategories :Category[]=[];
   ordersData:any;
   orderDetails:any;
+  userName$ = new bS<string>('');
+  userDetails$ =new bS<any>(null);
   loggedIn$ = new bS<boolean>(false);
 
 }

@@ -163,6 +163,16 @@ newOrder(obj:any){
     return this.http.get(`${environment.customerApiUrl}order/getUserOrders/`+orderId);
   }
 
+  updateUserName(obj:any){
+    return this.http.post(`${environment.customerApiUrl}profile/updateUserName`,obj);
+  }
 
+  changePassword(obj:any){
+    return this.http.post(`${environment.customerApiUrl}profile/changePassword`,obj);
+  }
+
+ getProfileDetails(params:any){
+    return this.http.get(`${environment.customerApiUrl}profile/getUserDetails`,{params});
+  }
 
 }

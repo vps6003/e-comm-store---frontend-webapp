@@ -145,6 +145,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'profile',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./component/CustomerComponent/profile/profile').then(
+        m => m.Profile
+      ),
+  },
+  {
     path: '',
     redirectTo: '/register',
     pathMatch: 'full',

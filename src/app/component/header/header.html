@@ -7,12 +7,14 @@
     <!-- Left: Hamburger + Logo -->
     <div class="flex items-center gap-[0.75rem]">
       <!-- Hamburger Menu -->
+       @if(commonVariablesService.loggedIn$.value){
       <button
         class="flex items-center justify-center p-[0.5rem] border border-gray-900 rounded bg-white hover:bg-gray-900 hover:text-white shadow-md transition-colors"
         (click)="toggleMobileMenu()"
       >
         <mat-icon>menu</mat-icon>
       </button>
+    }
 
       <!-- Logo -->
       <a tooltip="Go To HomePage" routerLink="/home" class="flex items-center gap-[0.5rem] flex-shrink-0">
@@ -21,6 +23,7 @@
     </div>
 
     <!-- Middle: Search (Desktop only) -->
+     @if(commonVariablesService.loggedIn$.value){
     <div class="hidden sm:block flex-1 max-w-[30rem]">
       <div class="relative w-full">
         <input
@@ -39,9 +42,13 @@
         </span>
       </div>
     </div>
+  }
 
     <!-- Right: Wishlist, Cart, Logout -->
     <div class="flex items-center gap-[0.75rem]" *ngIf="commonVariablesService.loggedIn$.value">
+      <span class="text-gray-900 hover:text-red-500 flex items-center">
+        Hi, {{commonVariablesService?.userName$?.value}}!
+      </span>
       <a routerLink="/customer/wishlist" class="text-gray-900 hover:text-red-500 flex items-center">
         <mat-icon tooltip="Wishlist" class="!text-red-400">favorite</mat-icon>
       </a>
@@ -72,6 +79,7 @@
   </div>
 
   <!-- 🔹 Mobile Search Bar -->
+   @if(commonVariablesService.loggedIn$.value){
   <div class="sm:hidden px-[1rem] py-[0.75rem] mt-[3rem] sm:mt-0 bg-cyan-300 shadow-sm">
     <div class="relative w-full">
       <input
@@ -90,6 +98,7 @@
       </span>
     </div>
   </div>
+}
 
   <!-- 🔹 Overlay -->
   <div *ngIf="mobileMenuOpen" class="fixed inset-0 bg-black/40 z-[98] transition-opacity duration-300" (click)="toggleMobileMenu()"></div>
@@ -137,7 +146,7 @@
   </div>
 
   <!-- 🔹 Sticky Categories Bar tablet , laptop , desktop -->
-<nav class="hidden sm:block bg-[#43c6ac] py-[0.5rem] overflow-x-auto scrollbar-hide sticky  mt-[3.3rem] z-[97]">
+<nav class="hidden sm:block bg-[#43c6ac] py-[0.5rem] overflow-x-auto scrollbar-hide sticky z-[97]" [ngClass]="commonVariablesService.loggedIn$.value ? 'mt-[3.3rem]' : 'mt-[2rem] py-[1rem]'">
   <ul class="flex gap-[1rem] text-[1rem] flex-nowrap whitespace-nowrap px-[2rem]">
     @for(category of commonVariablesService.allCategories; track category._id){
       <li class="last:!pr-[2rem]">
