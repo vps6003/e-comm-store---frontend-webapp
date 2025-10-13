@@ -40,6 +40,7 @@ export class CommonServices {
   async getUserDataFromStorage() {
     const userData: any = await localStorage.getItem('user');
     this.commonVariablesService.userData = JSON.parse(userData);
+    return userData;
   }
 
   async getCustomerWishlist() {

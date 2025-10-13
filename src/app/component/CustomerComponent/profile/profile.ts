@@ -70,11 +70,14 @@ export class Profile {
     );
   }
 
-  updatePassword() {
+  async updatePassword() {
     this.userPasswordUpdateForm.markAllAsTouched();
     if (this.userPasswordUpdateForm.invalid) return;
-    const obj = this.userPasswordUpdateForm.value;
+    const obj:any = this.userPasswordUpdateForm.value;
+    const userData  = await this.commonServices.getUserDataFromStorage();
+    obj.userId = userData._id;
     console.log(obj);
+    // this.commonServices.changePassword(obj);
   }
 
   updateName() {

@@ -9,6 +9,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CommonServices } from './services/common-services';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TooltipModule } from './core/directives/mat-tooltip.module';
+import { LoaderComponent } from './component/loader-component/loader-component';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { TooltipModule } from './core/directives/mat-tooltip.module';
     RouterModule,
     CarouselModule,
     MatTooltipModule,
-    TooltipModule
+    TooltipModule,
+    LoaderComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
