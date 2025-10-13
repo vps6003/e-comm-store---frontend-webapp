@@ -57,9 +57,9 @@ totalPages :number = 1;
 currentPage :number = 1;
 
 ngOnInit() {
-  this.route.paramMap.subscribe((params:any)=>{
+  this.route.paramMap.subscribe(async (params:any)=>{
     this.getRouterParams();
-    this.getProductDetails();
+    await this.getProductDetails();
     this.updateItemsPerPage();
     this.reviewRating = 0;
   })
@@ -69,12 +69,14 @@ getRouterParams(){
   this.productId = this.route.snapshot.params['id']
 }
 
-getProductDetails(){
-  this.customerServices.getProductById(this.productId).subscribe((result : Product[])=>{
+ getProductDetails(){
+   this.customerServices.getProductById(this.productId).subscribe(async (result : Product[])=>{
     this.product = result;
     this.selectImage(this.product.images[0]);
     this.reqParams.categoryId = this.product?.categoryId;
     this.reqParams.brandId = this.product?.brandId;
+    await this.commonServices.getCustomerCart();
+    await this.commonServices.getCustomerWishlist();
     this.getSimilarProducts();
 
     })
@@ -158,7 +160,7 @@ getProductDetails(){
   }
 
   isInCart(productId:string) :boolean{
-    const exists = this.commonVariablesService.cartData.productQuantity.find((e:any) => e.productId._id == productId);
+    const exists = this.commonVariablesService.cartData?.productQuantity.find((e:any) => e.productId._id == productId);
     return exists ? true : false;
   }
 
