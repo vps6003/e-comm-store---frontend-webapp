@@ -6,6 +6,36 @@
 
   <!-- Main Content -->
   <main class="flex-grow !bg-gray-200 px-[1rem] sm:px-[2rem] py-[1rem]">
+     <!-- 🔙 Back Button -->
+  @if (showBackButton) {
+  <!-- 🔹 Navigation Buttons -->
+  <div
+    class="flex flex-wrap justify-center items-center gap-[2rem] px-[1rem] py-[0.75rem]"
+  >
+    <!-- Back Button -->
+    <button mat-raised-button
+      class="flex items-center justify-center gap-[0.4rem] px-[1.2rem] py-[0.6rem] !rounded-full
+             !bg-cyan-200 hover:bg-cyan-500 text-gray-800 rounded-[0.6rem]
+             transition-all duration-300 ease-in-out text-[1rem] font-medium"
+      (click)="goBack()"
+    >
+      <mat-icon class="text-[1rem]">arrow_back</mat-icon>
+      <span class="">Back</span>
+    </button>
+
+    <!-- Home Button -->
+    <button mat-raised-button
+      routerLink="/home"
+      class="flex items-center justify-center gap-[0.4rem] px-[1.2rem] py-[0.6rem] !rounded-full
+             !bg-[turquoise] hover:bg-red-300 text-gray-800 rounded-[0.6rem]
+             transition-all duration-300 ease-in-out text-[1rem] font-medium"
+    >
+      <mat-icon class="text-[1rem]">home</mat-icon>
+      <span class="!mt-[1rem]">Home</span>
+    </button>
+  </div>
+}
+
     <router-outlet></router-outlet>
   </main>
 

@@ -1,5 +1,6 @@
+import { LoaderService } from './../../services/animation-services/loader-spinner/loader-service';
 import { CommonServices } from './../../services/common-services';
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -63,6 +64,12 @@ export class Register {
     if (token) {
       this.router.navigateByUrl('/home');
     }
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+
   }
 
   async onSubmit() {
