@@ -60,7 +60,7 @@ ngOnInit() {
   this.route.paramMap.subscribe(async (params:any)=>{
     this.getRouterParams();
     await this.getProductDetails();
-    this.updateItemsPerPage();
+    // this.updateItemsPerPage();
     this.reviewRating = 0;
   })
 }
@@ -112,6 +112,7 @@ getRouterParams(){
   getSimilarProducts(){
     this.customerServices.getSimilarProductsList(this.reqParams).subscribe((result : Product[])=>{
       this.similarProducts = result;
+      this.updateItemsPerPage();
     })
   }
 
