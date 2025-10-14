@@ -117,7 +117,7 @@ export class CommonServices {
         const router = inject(Router);
         this.loggedInValue = false;
         router.navigateByUrl('/register');
-        this.toasterMessageService.show(err.message,"error",5000);
+        // this.toasterMessageService.show(err?.message,"error",5000);
 }
     });
   }
@@ -127,7 +127,7 @@ export class CommonServices {
         const router = inject(Router);
         this.loggedInValue = false;
         router.navigateByUrl('/register');
-        this.toasterMessageService.show(err,"error",5000);
+        // this.toasterMessageService.show(err,"error",5000);
 
   }
   }
@@ -235,7 +235,7 @@ export class CommonServices {
     }
     catch(err:any){
       throw new Error(err);
-        this.toasterMessageService.show(err?.message,"error",3000);
+        // this.toasterMessageService.show(err?.message,"error",3000);
 
     }
   }
@@ -248,7 +248,7 @@ export class CommonServices {
     }
     catch(err:any){
       throw new Error(err);
-        this.toasterMessageService.show(err?.message,"error",3000);
+        // this.toasterMessageService.show(err?.message,"error",3000);
 
     }
   }

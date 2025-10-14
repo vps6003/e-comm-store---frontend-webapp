@@ -113,7 +113,7 @@ export class Register {
       }
     } catch (err:any) {
       // console.error('Error in onSubmit:', err);
-      this.toaster.show(err.error.message,"error",5000);
+      // this.toaster.show(err.error?.message || err?.message,"error",5000);
       if(err.status === 404){
         this.signUp = true;
         this.toaster.show("Please Register First","info",5000);
