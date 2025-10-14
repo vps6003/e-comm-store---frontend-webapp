@@ -74,10 +74,9 @@ export class Profile {
     this.userPasswordUpdateForm.markAllAsTouched();
     if (this.userPasswordUpdateForm.invalid) return;
     const obj:any = this.userPasswordUpdateForm.value;
-    const userData  = await this.commonServices.getUserDataFromStorage();
+    const userData  = JSON.parse(await this.commonServices.getUserDataFromStorage());
     obj.userId = userData._id;
-    console.log(obj);
-    // this.commonServices.changePassword(obj);
+    this.commonServices.changePassword(obj);
   }
 
   updateName() {
