@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenHttpInterceptor } from './core/interceptors/token-auth-interceptor';
 import { loaderInterceptor } from './core/interceptors/loader.interceptor';
+import { errorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
@@ -13,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([tokenHttpInterceptor,loaderInterceptor])),
+    provideHttpClient(withInterceptors([tokenHttpInterceptor,loaderInterceptor,errorHandlerInterceptor])),
     provideAnimationsAsync(),
 
   ]
