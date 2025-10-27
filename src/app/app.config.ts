@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -8,6 +8,7 @@ import { tokenHttpInterceptor } from './core/interceptors/token-auth-interceptor
 import { loaderInterceptor } from './core/interceptors/loader.interceptor';
 import { errorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 
 export const appConfig: ApplicationConfig = {
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([tokenHttpInterceptor, loaderInterceptor, errorHandlerInterceptor])),
     provideAnimationsAsync(),
-    provideStore()
+    provideStore(),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
 ]
 };
