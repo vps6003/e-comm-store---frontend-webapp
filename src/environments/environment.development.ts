@@ -1,8 +1,8 @@
 export const environment = {
-  production: true,
-  apiUrl : "https://e-comm-store-backend.onrender.com/",
-  customerApiUrl : "https://e-comm-store-backend.onrender.com/customer/",
-  authRegisterApiUrl : "https://e-comm-store-backend.onrender.com/auth/register",
-  authLoginApiUrl : "https://e-comm-store-backend.onrender.com/auth/login",
-  authVerifyToken : "https://e-comm-store-backend.onrender.com/auth/verifyToken",
+  production: false,
+  apiUrl : "http://localhost:3000/",
+  customerApiUrl : "http://localhost:3000/customer/",
+  authRegisterApiUrl : "http://localhost:3000/auth/register",
+  authLoginApiUrl : "http://localhost:3000/auth/login",
+  authVerifyToken : "http://localhost:3000/auth/verifyToken",
 };
