@@ -1,0 +1,73 @@
+<div class="shadow p-[2rem]">
+  @if (wishlist$ | async; as wishlist) { @if (wishlist.length > 0) {
+  <div class="mb-12">
+    <h2 class="text-xl font-semibold mb-4">Wishlist</h2>
+
+    @let currentPage = currentPage$ | async; @let totalPages = totalPages$ | async; @let pageArray =
+    pageArray$ | async;
+
+    <!-- Product Grid -->
+    <div class="grid gap-[2rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      @for (product of wishlist; track product._id) {
+      <div
+        class="bg-white rounded-[0.75rem] shadow-sm hover:shadow-md transition-all duration-300 sm:h-[21rem] sm:w-[13rem] md:w-[13rem] xl:w-[14rem] max-w-[18rem]"
+      >
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+      }
+    </div>
+
+    <!-- Pagination -->
+    @if (currentPage !== null && totalPages !== null && (pageArray?.length ?? 0) > 0) {
+    <div class="flex justify-center gap-2 mt-6">
+      <button
+        class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        (click)="goToPage(1)"
+        [disabled]="currentPage === 1"
+      >
+        « First
+      </button>
+
+      <button
+        class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        (click)="prevPage(currentPage!)"
+        [disabled]="currentPage === 1"
+      >
+        ‹ Prev
+      </button>
+
+      @for (page of pageArray; track page) {
+      <button
+        class="px-3 py-2 rounded"
+        [class.bg-blue-500]="currentPage === page"
+        [class.text-white]="currentPage === page"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+      }
+
+      <button
+        class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        (click)="nextPage(currentPage!, totalPages!)"
+        [disabled]="currentPage === totalPages"
+      >
+        Next ›
+      </button>
+
+      <button
+        class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        (click)="goToPage(totalPages!)"
+        [disabled]="currentPage === totalPages"
+      >
+        Last »
+      </button>
+    </div>
+    }
+  </div>
+  } @else {
+  <p class="text-center text-gray-500">Your wishlist is empty.</p>
+  } } @else {
+  <p class="text-center text-gray-500">Loading wishlist...</p>
+  }
+</div>

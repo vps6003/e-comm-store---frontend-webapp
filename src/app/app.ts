@@ -15,6 +15,7 @@ import { LoaderService } from './services/animation-services/loader-spinner/load
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [
     RouterOutlet,
     CommonModule,
@@ -50,7 +51,11 @@ export class App {
         const currentRoute = event.urlAfterRedirects;
 
         // Hide on home/dashboard routes
-        this.showBackButton = !(currentRoute === '/home' || currentRoute === '/register' || currentRoute === '');
+        this.showBackButton = !(
+          currentRoute === '/home' ||
+          currentRoute === '/register' ||
+          currentRoute === ''
+        );
       });
   }
 
