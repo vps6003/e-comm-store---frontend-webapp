@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0;url=/" />
+    <script>
+      // Fallback: handle deep links like /e-comm-store---frontend-webapp/cart
+      const newUrl = window.location.href.replace(/\/e-comm-store---frontend-webapp\/?/, '/');
+      window.location.replace(newUrl);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to the new site...</p>
+  </body>
+</html>
