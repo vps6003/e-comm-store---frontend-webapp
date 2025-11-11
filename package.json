@@ -11,7 +11,7 @@
     "build": "ng build --configuration production --base-href",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "gh-deploy": "npx angular-cli-ghpages --dir=dist/webapp/browser"
+    "gh-deploy": "npm run build && npx angular-cli-ghpages --dir=dist/webapp/browser"
   },
   "prettier": {
     "printWidth": 100,
