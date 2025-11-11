@@ -11,7 +11,7 @@
     "build": "ng build --configuration production --base-href",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "gh-deploy": "npm run build && npx angular-cli-ghpages --dir=dist/webapp/browser"
+    "gh-deploy": "ng build --configuration production --base-href https://vps6003.github.io/e-comm-store---frontend-webapp/ && npx angular-cli-ghpages --dir=dist/webapp/browser"
   },
   "prettier": {
     "printWidth": 100,
