@@ -3,14 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0;url=/" />
+    <meta http-equiv="refresh" content="0; url=https://vps-ekart.onrender.com/" />
     <script>
-      // Fallback: handle deep links like /e-comm-store---frontend-webapp/cart
-      const newUrl = window.location.href.replace(/\/e-comm-store---frontend-webapp\/?/, '/');
-      window.location.replace(newUrl);
+      // Fallback redirect for browsers that ignore meta refresh
+      window.location.href = 'https://vps-ekart.onrender.com/';
     </script>
   </head>
   <body>
-    <p>Redirecting to the new site...</p>
+    <p>
+      If you are not redirected automatically,
+      <a href="https://vps-ekart.onrender.com/">click here</a>.
+    </p>
   </body>
 </html>
