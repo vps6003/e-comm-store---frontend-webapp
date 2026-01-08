@@ -6,7 +6,7 @@
     @for(slide of featuredProducts; track $index) {
     <ng-template carouselSlide>
       <div
-        class="relative flex flex-col items-center justify-center h-[12rem] w-full max-w-[18rem] mx-auto rounded-[0.75rem] overflow-hidden cursor-pointer bg-white shadow-sm hover:shadow-md transition-all duration-300"
+        class="relative flex flex-col items-center justify-center p-[0.5rem] h-[12rem] w-full max-w-[17rem] mx-auto rounded-[0.75rem] overflow-hidden cursor-pointer bg-white shadow-sm hover:shadow-md transition-all duration-300"
         [routerLink]="'/product/' + slide._id"
       >
         <img
