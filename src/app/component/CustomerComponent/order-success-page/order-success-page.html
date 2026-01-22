@@ -36,8 +36,8 @@
 
       <h2 class="text-[1.5rem] sm:text-[1.6rem] font-semibold text-white">Congratulations 🎉</h2>
       <p class="text-[0.95rem] sm:text-[1rem] text-white/80 max-w-[22rem]">
-        Your order @if (orderData.orderId) { #{{ orderData.orderId }} } has been successfully
-        placed! Thank you @if (orderData.customerName) { , {{ orderData.customerName }}
+        Your order @if (orderData?.orderId) { #{{ orderData?.orderId }} } has been successfully
+        placed! Thank you @if (orderData?.customerName) { , {{ orderData?.customerName }}
         } for shopping with us.
       </p>
 
@@ -46,18 +46,18 @@
       >
         <div class="flex items-center justify-between mb-[0.35rem]">
           <span class="text-white/80">Items</span>
-          <span class="font-medium text-white">{{ orderData.item.length ?? '-' }}</span>
+          <span class="font-medium text-white">{{ orderData?.item?.length ?? '-' }}</span>
         </div>
         <div class="flex items-center justify-between mb-[0.35rem]">
           <span class="text-white/80">Total</span>
           <span class="font-semibold text-white">{{
-            orderData.finalAmount !== null ? '₹ ' + (orderData.finalAmount | number : '1.2-2') : '-'
+            orderData?.finalAmount !== null ? '₹ ' + (orderData?.finalAmount | number : '1.2-2') : '-'
           }}</span>
         </div>
         <div class="flex items-center justify-between">
           <span class="text-white/80">Delivery by</span>
           <span class="font-medium text-white">{{
-            (orderData.estimatedDeliveryDate | date : 'dd/MM/yyyy') || '—'
+            (orderData?.estimatedDeliveryDate | date : 'dd/MM/yyyy') || '—'
           }}</span>
         </div>
       </div>
@@ -98,7 +98,7 @@
           <p class="text-[0.95rem] sm:text-[1rem] text-white/80">
             Delivery expected:
             <span class="font-medium text-white">{{
-              (orderData.estimatedDeliveryDate | date : 'dd/MM/yyyy') || '—'
+              (orderData?.estimatedDeliveryDate | date : 'dd/MM/yyyy') || '—'
             }}</span>
           </p>
         </li>
