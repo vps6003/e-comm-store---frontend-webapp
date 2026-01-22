@@ -1,19 +1,15 @@
-# Render configuration for deploying Angular app (SPA)
-# Repo: https://github.com/vps6003/e-comm-store---frontend-webapp
-
 staticSites:
   - name: e-comm-store-frontend
-    branch: main
-    buildCommand: npm install && npm run build
+    branch: master
+
+    buildCommand: npm ci && npm run build -- --configuration=production
     publishPath: dist/webapp/browser
 
-    # Handle Angular client-side routing
     redirects:
       - source: /*
         destination: /index.html
         status: 200
 
-    # Optional headers for better caching & performance
     headers:
       - path: /*
         name: Cache-Control
