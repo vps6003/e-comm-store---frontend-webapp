@@ -8,32 +8,30 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-order-details-page',
   imports: [CommonModule],
   templateUrl: './order-details-page.html',
-  styleUrl: './order-details-page.scss'
+  styleUrl: './order-details-page.scss',
 })
 export class OrderDetailsPage {
+  constructor(private route: ActivatedRoute) {}
 
+  public commonServices = inject(CommonServices);
+  public commonVariablesService = inject(CommonVariablesService);
 
-constructor(private route: ActivatedRoute) {}
+  ngOnInit(): void {
+    // console.log(this.route.queryParams)
+    this.route.queryParams.subscribe((params) => {
+      const orderId = params['orderId'];
+      // console.log('Order ID from query:', orderId);
+      this.commonServices.getOrderDetails(orderId);
+    });
+  }
 
-commonServices = inject(CommonServices);
-commonVariablesService = inject(CommonVariablesService);
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.commonVariablesService.orderDetails = null;
+  }
 
-ngOnInit(): void {
-  // console.log(this.route.queryParams)
-  this.route.queryParams.subscribe(params => {
-    const orderId = params['orderId'];
-    // console.log('Order ID from query:', orderId);
-    this.commonServices.getOrderDetails(orderId);
-  });
-}
-
-ngOnDestroy(): void {
-  //Called once, before the instance is destroyed.
-  //Add 'implements OnDestroy' to the class.
-  this.commonVariablesService.orderDetails = null;
-}
-
-    orderDetails = {
+  orderDetails = {
     orderId: 'ORD123456789',
     orderDate: new Date(),
     status: 'Shipped',
@@ -45,18 +43,17 @@ ngOnDestroy(): void {
         name: 'Wireless Headphones',
         image: 'https://via.placeholder.com/80',
         quantity: 1,
-        price: 2999
+        price: 2999,
       },
       {
         name: 'Bluetooth Speaker',
         image: 'https://via.placeholder.com/80',
         quantity: 2,
-        price: 1499
-      }
+        price: 1499,
+      },
     ],
     subtotal: 5997,
     shipping: 99,
-    total: 6096
+    total: 6096,
   };
-
 }
