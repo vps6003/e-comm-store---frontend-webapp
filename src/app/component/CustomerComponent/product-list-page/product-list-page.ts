@@ -1,6 +1,6 @@
 import { CommonVariablesService } from './../../../services/common-variables-service';
 import { Category } from './../../../types/category';
-import { Component, inject, SimpleChanges } from '@angular/core';
+import { Component, inject, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 import { CustomerServices } from '../../../services/customer/customer-services';
 import { Product } from '../../../types/product';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -25,12 +25,11 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './product-list-page.html',
   styleUrl: './product-list-page.scss',
 })
-export class ProductListPage {
-  constructor(
-    private customerServices: CustomerServices,
-    private commonServices: CommonServices,
-    private commonVariablesService: CommonVariablesService,
-  ) {}
+export class ProductListPage implements OnInit, OnDestroy {
+  private customerServices = inject(CustomerServices);
+  private commonServices = inject(CommonServices);
+  private commonVariablesService = inject(CommonVariablesService);
+
   router = inject(Router);
   route = inject(ActivatedRoute);
   queryReqParams: any;

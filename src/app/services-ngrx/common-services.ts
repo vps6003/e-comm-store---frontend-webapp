@@ -10,11 +10,10 @@ import { map } from 'rxjs';
   providedIn: 'root',
 })
 export class CommonServices {
-  constructor(
-    private authServices: AuthServices,
-    private router: Router,
-    private customerServices: CustomerServices
-  ) {}
+  private authServices = inject(AuthServices);
+  private router = inject(Router);
+  private customerServices = inject(CustomerServices);
+
 
   getUserDataFromLocalStorage = () => {
     const userData: any = localStorage.getItem('user');

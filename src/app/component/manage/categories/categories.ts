@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -24,7 +24,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
   templateUrl: './categories.html',
   styleUrl: './categories.scss'
 })
-export class Categories {
+export class Categories implements OnInit, AfterViewInit {
    displayedColumns: string[] = ['id', 'name', 'action'];
   dataSource: MatTableDataSource<any>;
 
@@ -62,7 +62,7 @@ export class Categories {
     }
   }
 
-   deleteCategory(id:String){
+   deleteCategory(id:string){
     this.categoryService.deleteCategoryById(id).subscribe((result:any)=>{
       this.getData();
     });

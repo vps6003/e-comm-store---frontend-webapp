@@ -1,6 +1,6 @@
 import { CommonVariablesService } from './../../../services/common-variables-service';
 import { CommonServices } from './../../../services/common-services';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { ProductCard } from '../../product-card/product-card';
 import { Product } from '../../../types/product';
 
@@ -10,16 +10,15 @@ import { Product } from '../../../types/product';
   templateUrl: './wishlist-page.html',
   styleUrl: './wishlist-page.scss',
 })
-export class WishlistPage {
-  constructor(
-    public commonServices: CommonServices,
-    public commonVariablesService: CommonVariablesService
-  ) {}
+export class WishlistPage implements OnInit {
+  commonServices = inject(CommonServices);
+  commonVariablesService = inject(CommonVariablesService);
+
 
   // wishlist: Product[] = [];
   currentPage = 1;
   itemsPerPage = 10;
-  totalPages :number = 1;
+  totalPages  = 1;
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

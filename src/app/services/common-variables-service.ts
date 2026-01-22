@@ -8,7 +8,7 @@ import { BehaviorSubject as bS } from 'rxjs';
 })
 export class CommonVariablesService {
 
-  searchTerm:string = "";
+  searchTerm = "";
   wishlistArray :Product[]=[];
   userData :any;
   cartData :any;

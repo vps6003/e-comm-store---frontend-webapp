@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, Inject, inject, NgModule, signal } from '@angular/core';
+import { Component, inject, NgModule, signal, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { NavigationEnd, Router, RouterModule, RouterOutlet, Routes } from '@angular/router';
 import { Footer } from './component/footer/footer';
@@ -32,19 +32,19 @@ import { LoaderService } from './services/animation-services/loader-spinner/load
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App implements OnInit {
+  private loaderService = inject(LoaderService);
+  private location = inject(Location);
+  private router = inject(Router);
+
   protected readonly title = signal('webapp');
   private commonServices = inject(CommonServices);
 
-  onLoad: boolean = false;
+  onLoad = false;
 
   showBackButton = true;
 
-  constructor(
-    private loaderService: LoaderService,
-    private location: Location,
-    private router: Router
-  ) {
+  constructor() {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {

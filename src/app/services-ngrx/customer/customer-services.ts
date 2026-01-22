@@ -13,7 +13,8 @@ import { Order } from '../../types/order';
   providedIn: 'root',
 })
 export class CustomerServices {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   getNewArrivals() {
     return this.http.get<Product[]>(`${environment.customerApiUrl}home/new-arrivals`);

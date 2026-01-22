@@ -23,15 +23,11 @@
     <!-- Product Details -->
     <div class="p-[1rem] flex flex-col flex-grow justify-between">
       <div>
-        <h2
-          class="text-[1rem] sm:text-[1.1rem] font-semibold text-gray-800 truncate"
-        >
+        <h2 class="text-[1rem] sm:text-[1.1rem] font-semibold text-gray-800 truncate">
           {{ product.productName }}
         </h2>
 
-        <p
-          class="text-[0.9rem] text-gray-500 mt-[0.25rem] leading-tight line-clamp-2"
-        >
+        <p class="text-[0.9rem] text-gray-500 mt-[0.25rem] leading-tight line-clamp-2">
           {{ product.shotDescription.slice(0, 50) }}
         </p>
       </div>
@@ -39,12 +35,8 @@
       <!-- Price Section -->
       <div class="flex items-baseline justify-between mt-[0.75rem]">
         <div class="flex items-center gap-[0.4rem]">
-          <span class="text-[1.1rem] font-semibold text-gray-900">
-            ₹{{ product.price }}
-          </span>
-          <span
-            class="text-[0.9rem] text-green-600 font-semibold"
-          >
+          <span class="text-[1.1rem] font-semibold text-gray-900"> ₹{{ product.price }} </span>
+          <span class="text-[0.9rem] text-green-600 font-semibold">
             -{{ product.discount ? product.discount : 0 }}%
           </span>
         </div>
@@ -56,57 +48,59 @@
   <div class="flex items-center justify-between px-[1rem] pb-[1rem] gap-[0.5rem]">
     <!-- Cart Button -->
     <div class="w-[70%]">
-      @if(isInCart(product._id)){
-      <button tooltip="Remove From Cart"
-        mat-raised-button
-        (click)="removeFromCart(product._id)"
-        color="accent"
-        class="w-full flex items-center cursor-pointer justify-center gap-[0.3rem] py-[0.4rem] bg-green-100 hover:bg-red-100 text-[0.9rem] font-medium text-green-700 hover:text-red-600 rounded-[0.6rem] transition-all duration-300 group"
-      >
-        <span class="flex items-center gap-[0.3rem] group-hover:hidden">
-          <mat-icon class="!text-green-500 !text-[1rem]">check_box</mat-icon>
-          Added
-        </span>
-        <span class="hidden group-hover:flex items-center gap-[0.3rem]">
-          <mat-icon class="!text-red-500 !text-[1rem]">delete</mat-icon>
-          Remove
-        </span>
-      </button>
+      @if (isInCart(product._id)) {
+        <button
+          appTooltip="Remove From Cart"
+          mat-raised-button
+          (click)="removeFromCart(product._id)"
+          color="accent"
+          class="w-full flex items-center cursor-pointer justify-center gap-[0.3rem] py-[0.4rem] bg-green-100 hover:bg-red-100 text-[0.9rem] font-medium text-green-700 hover:text-red-600 rounded-[0.6rem] transition-all duration-300 group"
+        >
+          <span class="flex items-center gap-[0.3rem] group-hover:hidden">
+            <mat-icon class="!text-green-500 !text-[1rem]">check_box</mat-icon>
+            Added
+          </span>
+          <span class="hidden group-hover:flex items-center gap-[0.3rem]">
+            <mat-icon class="!text-red-500 !text-[1rem]">delete</mat-icon>
+            Remove
+          </span>
+        </button>
       } @else {
-      <button
-        mat-raised-button tooltip="Add To Cart"
-        (click)="addToCart(product._id)"
-        color="accent"
-        class="w-full cursor-pointer flex items-center justify-center gap-[0.4rem] py-[0.4rem] bg-blue-600 hover:bg-blue-700 text-white text-[0.9rem] font-medium rounded-[0.6rem] transition-colors duration-300"
-      >
-        <mat-icon class="!text-white !text-[1rem]">add_shopping_cart</mat-icon>
-        Add
-      </button>
+        <button
+          mat-raised-button
+          appTooltip="Add To Cart"
+          (click)="addToCart(product._id)"
+          color="accent"
+          class="w-full cursor-pointer flex items-center justify-center gap-[0.4rem] py-[0.4rem] bg-blue-600 hover:bg-blue-700 text-white text-[0.9rem] font-medium rounded-[0.6rem] transition-colors duration-300"
+        >
+          <mat-icon class="!text-white !text-[1rem]">add_shopping_cart</mat-icon>
+          Add
+        </button>
       }
     </div>
 
     <!-- Wishlist Button -->
     <div class="w-[28%]">
-      @if(isInWishlist(product._id)){
-      <button
-        mat-icon-button  tooltip="Remove From Wishlist"
-        (click)="removeFromWishList(product._id)"
-        class="cursor-pointer w-full flex items-center justify-center py-[0.4rem] bg-pink-50 hover:bg-red-100 rounded-[0.6rem] transition-all duration-300"
-      >
-        <mat-icon class="!text-pink-500 hover:!text-red-500 !text-[1.3rem]"
-          >favorite</mat-icon
+      @if (isInWishlist(product._id)) {
+        <button
+          mat-icon-button
+          appTooltip="Remove From Wishlist"
+          (click)="removeFromWishList(product._id)"
+          class="cursor-pointer w-full flex items-center justify-center py-[0.4rem] bg-pink-50 hover:bg-red-100 rounded-[0.6rem] transition-all duration-300"
         >
-      </button>
+          <mat-icon class="!text-pink-500 hover:!text-red-500 !text-[1.3rem]">favorite</mat-icon>
+        </button>
       } @else {
-      <button
-        mat-icon-button  tooltip="Add To WishList"
-        (click)="addToWishlist(product._id)"
-        class="w-full cursor-pointer flex items-center justify-center py-[0.4rem] bg-gray-50 hover:bg-pink-100 rounded-[0.6rem] transition-all duration-300"
-      >
-        <mat-icon class="!text-gray-400 hover:!text-pink-500 !text-[1.3rem]"
-          >favorite_border</mat-icon
+        <button
+          mat-icon-button
+          appTooltip="Add To WishList"
+          (click)="addToWishlist(product._id)"
+          class="w-full cursor-pointer flex items-center justify-center py-[0.4rem] bg-gray-50 hover:bg-pink-100 rounded-[0.6rem] transition-all duration-300"
         >
-      </button>
+          <mat-icon class="!text-gray-400 hover:!text-pink-500 !text-[1.3rem]"
+            >favorite_border</mat-icon
+          >
+        </button>
       }
     </div>
   </div>

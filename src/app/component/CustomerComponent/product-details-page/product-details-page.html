@@ -17,12 +17,19 @@
         class="thumbnails-container flex gap-[1rem] mt-[1rem] overflow-x-auto lg:overflow-x-visible scrollbar-hide"
       >
         @for (img of product?.images; track $index) {
-          <img
-            [src]="img"
-            [class.active]="img === selectedImage"
+          <button
+            type="button"
+            class="p-0 m-0 border-0 bg-transparent"
             (click)="selectImage(img)"
-            class="w-[5rem] h-[5rem] flex-shrink-0 object-cover rounded cursor-pointer border-2 border-transparent hover:border-blue-500 transition-all"
-          />
+            aria-label="Select product image"
+          >
+            <img
+              [src]="img"
+              [alt]="'Product thumbnail'"
+              [class.active]="img === selectedImage"
+              class="w-[5rem] h-[5rem] flex-shrink-0 object-cover rounded cursor-pointer border-2 border-transparent hover:border-blue-500 transition-all"
+            />
+          </button>
         }
       </div>
     </div>

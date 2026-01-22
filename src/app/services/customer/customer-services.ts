@@ -15,8 +15,7 @@ import { Order } from '../../types/order';
 })
 export class CustomerServices {
   commonVariablesService = inject(CommonVariablesService);
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getNewArrivals() {
     return this.http.get<Product[]>(`${environment.customerApiUrl}home/new-arrivals`);
@@ -91,7 +90,7 @@ export class CustomerServices {
     }
 
     return this.http.get<Product[]>(
-      `${environment.customerApiUrl}home/products-list?` + queryParams
+      `${environment.customerApiUrl}home/products-list?` + queryParams,
     );
   }
 
@@ -109,7 +108,7 @@ export class CustomerServices {
     }
 
     return this.http.get<Product[]>(
-      `${environment.customerApiUrl}home/similar-products-list?` + queryParams
+      `${environment.customerApiUrl}home/similar-products-list?` + queryParams,
     );
   }
 
@@ -126,10 +125,10 @@ export class CustomerServices {
   }
 
   removeFromWishList(addObj: any) {
-    return this.http.delete<Product[]>(`${environment.customerApiUrl}wishlists/remove`,
-      {body : addObj});
+    return this.http.delete<Product[]>(`${environment.customerApiUrl}wishlists/remove`, {
+      body: addObj,
+    });
   }
-
 
   getUserCart(id: string) {
     return this.http.get<Product[]>(`${environment.customerApiUrl}cart/getCartItem?userId=` + id);
@@ -140,39 +139,38 @@ export class CustomerServices {
   }
 
   removeFromCart(addObj: any) {
-    return this.http.delete<Product[]>(`${environment.customerApiUrl}cart/removeFromCart`,
-      {body : addObj});
+    return this.http.delete<Product[]>(`${environment.customerApiUrl}cart/removeFromCart`, {
+      body: addObj,
+    });
   }
 
-  clearCart(addObj:any){
-   return this.http.delete<Product[]>(`${environment.customerApiUrl}cart/clearCart`,
-      {body : addObj});
+  clearCart(addObj: any) {
+    return this.http.delete<Product[]>(`${environment.customerApiUrl}cart/clearCart`, {
+      body: addObj,
+    });
   }
 
-newOrder(obj:any){
-    return this.http.post(`${environment.customerApiUrl}order/neworder`,
-      obj
-    )
+  newOrder(obj: any) {
+    return this.http.post(`${environment.customerApiUrl}order/neworder`, obj);
   }
 
-  getAllUSerOrders(userId:string){
-    return this.http.get(`${environment.customerApiUrl}order/getCustomerOrders/`+userId);
+  getAllUSerOrders(userId: string) {
+    return this.http.get(`${environment.customerApiUrl}order/getCustomerOrders/` + userId);
   }
 
-  getOrderDetails(orderId:string){
-    return this.http.get(`${environment.customerApiUrl}order/getUserOrders/`+orderId);
+  getOrderDetails(orderId: string) {
+    return this.http.get(`${environment.customerApiUrl}order/getUserOrders/` + orderId);
   }
 
-  updateUserName(obj:any){
-    return this.http.post(`${environment.customerApiUrl}profile/updateUserName`,obj);
+  updateUserName(obj: any) {
+    return this.http.post(`${environment.customerApiUrl}profile/updateUserName`, obj);
   }
 
-  changePassword(obj:any){
-    return this.http.post(`${environment.customerApiUrl}profile/changePassword`,obj);
+  changePassword(obj: any) {
+    return this.http.post(`${environment.customerApiUrl}profile/changePassword`, obj);
   }
 
- getProfileDetails(params:any){
-    return this.http.get(`${environment.customerApiUrl}profile/getUserDetails`,{params});
+  getProfileDetails(params: any) {
+    return this.http.get(`${environment.customerApiUrl}profile/getUserDetails`, { params });
   }
-
 }

@@ -84,7 +84,7 @@ export class CheckoutPage implements OnInit {
         this.toaster.show('Please Add Items into Cart before Checkout!', 'warning', 5000);
       }
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     } finally {
       this.loading = false;
     }
@@ -134,16 +134,12 @@ export class CheckoutPage implements OnInit {
 
   placeOrder() {
     if (this.checkoutForm.invalid || this.cartItems.length === 0) return;
-    let itemsId: any = [];
-    for (let i = 0; i < this.cartItems.length; i++) {
-      // console.log(this.cartItems[i].productId);
-      if (this.cartItems[i].quantity > 0) {
-        itemsId.push({
-          productId: this.cartItems[i].productId._id,
-          quantity: this.cartItems[i].quantity,
-        });
-      }
-    }
+    const itemsId: any[] = this.cartItems
+      .filter((item) => item.quantity > 0)
+      .map((item) => ({
+        productId: item.productId._id,
+        quantity: item.quantity,
+      }));
 
     // MongoDb Order schema
     //  {

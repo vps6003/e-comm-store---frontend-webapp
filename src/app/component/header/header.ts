@@ -1,7 +1,7 @@
 import { CommonVariablesService } from './../../services/common-variables-service';
 import { CommonServices } from './../../services/common-services';
 import { CategoryService } from './../../services/category';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Category } from '../../types/category';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { img } from '../../../images/images';
@@ -27,24 +27,22 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.html',
   styleUrls: ['./header.scss'] // corrected from styleUrl
 })
-export class Header {
+export class Header implements OnInit {
+  private categoryService = inject(CategoryService);
+  private authServices = inject(AuthServices);
+  private commonServices = inject(CommonServices);
+  commonVariablesService = inject(CommonVariablesService);
+
 
   images = img;
   router = inject(Router);
   allCategories: Category[] = [];
   userName: any;
-  isAdmin: boolean = false;
-  onLoad : boolean = true;
+  isAdmin = false;
+  onLoad  = true;
 
   // MOBILE MENU STATE
-  mobileMenuOpen: boolean = false;
-
-  constructor(
-    private categoryService: CategoryService,
-    private authServices: AuthServices,
-    private commonServices: CommonServices,
-    public commonVariablesService: CommonVariablesService
-  ) { }
+  mobileMenuOpen = false;
 
   ngOnInit() {
     this.onLoad = false;

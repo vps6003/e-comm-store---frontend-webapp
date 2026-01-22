@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common'
 import { LoaderService } from '../../services/animation-services/loader-spinner/loader-service';
 import { Observable } from 'rxjs';
@@ -10,9 +10,11 @@ import { Observable } from 'rxjs';
   styleUrl: './loader-component.scss'
 })
 export class LoaderComponent {
+  private loaderService = inject(LoaderService);
+
   isLoading : Observable<boolean>;
 
-  constructor(private loaderService : LoaderService){
+  constructor(){
     this.isLoading = this.loaderService.loading$;
   }
 

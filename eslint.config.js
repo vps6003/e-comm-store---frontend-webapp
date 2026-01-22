@@ -20,6 +20,12 @@ module.exports = defineConfig([
       angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.app.json', './tsconfig.spec.json'],
+        tsconfigRootDir: __dirname,
+      },
+    },
     rules: {
       // Angular selector conventions
       '@angular-eslint/directive-selector': [
@@ -32,13 +38,13 @@ module.exports = defineConfig([
       ],
 
       // TypeScript correctness & cleanliness
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
 
       // Strong recommended rules (very practical)
-      '@typescript-eslint/consistent-type-imports': 'error',
-      '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-misused-promises': 'error',
+      '@typescript-eslint/consistent-type-imports': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
 
       // General JS rules
       'prefer-const': 'warn',

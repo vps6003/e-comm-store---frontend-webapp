@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { ProductCard } from '../../product-card/product-card';
 import { Store } from '@ngrx/store';
 import {
@@ -17,15 +17,13 @@ import { AsyncPipe, NgIf, NgFor } from '@angular/common';
   templateUrl: './wishlist-page.html',
   styleUrls: ['./wishlist-page.scss'],
 })
-export class WishlistPage {
+export class WishlistPage implements OnInit {
   private store = inject(Store);
 
   wishlist$ = this.store.select(selectPaginatedWishlist);
   totalPages$ = this.store.select(selectTotalPages);
   currentPage$ = this.store.select(selectCurrentPage);
   pageArray$ = this.store.select(selectPageArray);
-
-  constructor() {}
 
   ngOnInit() {
     this.store.dispatch(WishlistActions.loadWishlist());

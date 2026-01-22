@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BrandService } from '../../../services/brand';
 import { MatInput, MatInputModule } from '@angular/material/input';
@@ -22,13 +22,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './brand-form.html',
   styleUrl: './brand-form.scss'
 })
-export class BrandForm {
+export class BrandForm implements OnInit {
 
-  brandName!:String;
+  brandName!:string;
   router = inject(Router);
   route=inject(ActivatedRoute);
   isEdit = false;
-  id!:String
+  id!:string
   brandService = new BrandService;
   idParams!:any;
 
@@ -44,7 +44,7 @@ export class BrandForm {
     }
   }
 
-  update(id:String,brandName:String){
+  update(id:string,brandName:string){
     this.idParams.brandName = brandName
     this.brandService.updateBrandById(id,this.idParams).subscribe((result:any)=>{
       this.idParams = result;

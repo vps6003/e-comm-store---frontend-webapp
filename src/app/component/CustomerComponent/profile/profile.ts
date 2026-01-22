@@ -1,7 +1,7 @@
 import { CommonServices } from './../../../services/common-services';
 import { CommonVariablesService } from './../../../services/common-variables-service';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -31,20 +31,18 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
-export class Profile {
+export class Profile implements OnInit {
+  commonVariablesService = inject(CommonVariablesService);
+  private commonServices = inject(CommonServices);
+
   formBuilder = inject(FormBuilder);
-  editName: boolean = false;
-  editPassword: boolean = false;
+  editName = false;
+  editPassword = false;
   userNameUpdateForm!: FormGroup;
   userPasswordUpdateForm!: FormGroup;
-  hideOldPassword: boolean = true;
-  hideNewPassword: boolean = true;
-  hideConfirmPassword: boolean = true;
-
-  constructor(
-    public commonVariablesService: CommonVariablesService,
-    private commonServices: CommonServices
-  ) {}
+  hideOldPassword = true;
+  hideNewPassword = true;
+  hideConfirmPassword = true;
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

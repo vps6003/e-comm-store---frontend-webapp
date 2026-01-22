@@ -1,7 +1,7 @@
 import { CommonVariablesService } from './../../services/common-variables-service';
 import { Router } from '@angular/router';
 import { CommonServices } from './../../services/common-services';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './order-page.html',
   styleUrl: './order-page.scss'
 })
-export class OrderPage {
+export class OrderPage implements OnInit {
+  private router = inject(Router);
+
 
   commonServices = inject(CommonServices);
   commonVariablesService = inject(CommonVariablesService)
-  constructor(private router: Router) {}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

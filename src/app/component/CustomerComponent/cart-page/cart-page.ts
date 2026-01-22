@@ -1,7 +1,7 @@
 import { PostMigrationAction } from './../../../../../node_modules/@angular/cdk/schematics/update-tool/migration.d';
 import { CommonVariablesService } from './../../../services/common-variables-service';
 import { CommonServices } from './../../../services/common-services';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Product } from '../../../types/product';
 import { CustomerServices } from '../../../services/customer/customer-services';
 import { CommonModule } from '@angular/common';
@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
   selector: 'app-cart-page',
   imports: [CommonModule],
   templateUrl: './cart-page.html',
-  styleUrl: './cart-page.scss'
+  styleUrl: './cart-page.scss',
 })
-export class CartPage {
+export class CartPage implements OnInit {
   commonServices = inject(CommonServices);
   customerServices = inject(CustomerServices);
   commonVariablesService = inject(CommonVariablesService);
@@ -26,26 +26,26 @@ export class CartPage {
   paginatedItems: { productId: any; quantity: number }[] = [];
   loading = false;
 
-   ngOnInit() {
-     this.loadCart();
+  ngOnInit() {
+    this.loadCart();
   }
 
   async loadCart() {
     this.loading = true;
     try {
-      const user  = localStorage.getItem('user');
+      const user = localStorage.getItem('user');
       this.commonVariablesService.userData = JSON.parse(user || '{}');
       const userId = this.commonVariablesService.userData._id;
       const cart: any = await this.customerServices.getUserCart(userId).toPromise();
       this.commonVariablesService.cartData = cart;
       this.cartItems = cart?.productQuantity || [];
       this.totalPages = Math.ceil(this.cartItems.length / this.itemsPerPage);
-      if(this.currentPage > this.totalPages) {
+      if (this.currentPage > this.totalPages) {
         this.currentPage = this.totalPages || 1;
       }
       this.updatePaginatedItems();
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     } finally {
       this.loading = false;
     }
@@ -86,7 +86,7 @@ export class CartPage {
     const addObj = {
       userId: this.commonVariablesService.userData._id,
       productId,
-      quantity
+      quantity,
     };
     await this.customerServices.addToCart(addObj).toPromise();
     await this.loadCart();
@@ -99,24 +99,24 @@ export class CartPage {
 
   // Original total (before discount)
   get originalTotal(): number {
-    return this.cartItems.reduce((sum, item:any) => {
+    return this.cartItems.reduce((sum, item: any) => {
       return sum + (item.productId.price || 0) * item.quantity;
     }, 0);
   }
 
   // Total discount amount in ₹
   get totalDiscountAmount(): number {
-    return this.cartItems.reduce((sum, item:any) => {
+    return this.cartItems.reduce((sum, item: any) => {
       const price = item.productId.price || 0;
       const discount = item.productId.discount || 0;
-      return sum + (price * discount/100) * item.quantity;
+      return sum + ((price * discount) / 100) * item.quantity;
     }, 0);
   }
 
   // Total discount percentage (weighted)
   get totalDiscount(): number {
     if (this.originalTotal === 0) return 0;
-    return (this.totalDiscountAmount / this.originalTotal * 100);
+    return (this.totalDiscountAmount / this.originalTotal) * 100;
   }
 
   // Final amount after discount
@@ -130,10 +130,10 @@ export class CartPage {
     this.router.navigateByUrl('/checkout');
   }
 
- async clearCart(){
+  async clearCart() {
     this.loading = true;
     const result = await this.commonServices.clearCart();
-    this.cartItems  = [];
+    this.cartItems = [];
     this.updatePaginatedItems();
   }
 }

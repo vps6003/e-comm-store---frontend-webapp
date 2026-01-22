@@ -3,8 +3,8 @@ export interface Product{
      productName?:string,
     shotDescription?:string,
     description?:string,
-    price?:Number,
-    discount:Number,
+    price?:number,
+    discount:number,
     images:any,
     reviews:any,
     message:string,
@@ -12,6 +12,6 @@ export interface Product{
     isFeatured:boolean,
     isNewArrival:boolean,
     isBestSeller:boolean,
-    stock:Number,
+    stock:number,
 
 }
