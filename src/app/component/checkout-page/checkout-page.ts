@@ -30,7 +30,7 @@ import { ToasterMessageService } from '../../services/toaster-message-service';
     MatSelectModule,
     MatButtonModule,
     FormsModule,
-    OrderSuccessPage
+    OrderSuccessPage,
   ],
   templateUrl: './checkout-page.html',
   styleUrl: './checkout-page.scss',
@@ -38,7 +38,7 @@ import { ToasterMessageService } from '../../services/toaster-message-service';
 export class CheckoutPage implements OnInit {
   fb = inject(FormBuilder);
   router = inject(Router);
-  toaster = inject(ToasterMessageService)
+  toaster = inject(ToasterMessageService);
   customerServices = inject(CustomerServices);
   commonServices = inject(CommonServices);
   commonVariablesService = inject(CommonVariablesService);
@@ -49,9 +49,9 @@ export class CheckoutPage implements OnInit {
 
   async ngOnInit() {
     this.checkoutForm = this.fb.group({
-      name: [this.commonVariablesService.userData.name || '', Validators.required],
+      name: [this.commonVariablesService.userData?.name || '', Validators.required],
       email: [
-        this.commonVariablesService.userData.email || '',
+        this.commonVariablesService.userData?.email || '',
         [Validators.required, Validators.email],
       ],
       phoneNumber: [
@@ -73,15 +73,15 @@ export class CheckoutPage implements OnInit {
   async loadCart() {
     this.loading = true;
     try {
-      const user  = localStorage.getItem('user');
+      const user = localStorage.getItem('user');
       this.commonVariablesService.userData = JSON.parse(user || '{}');
-      const userId = this.commonVariablesService.userData._id;
+      const userId = this.commonVariablesService.userData?._id;
       const cart: any = await this.customerServices.getUserCart(userId).toPromise();
       this.commonVariablesService.cartData = cart;
       this.cartItems = cart?.productQuantity || [];
-      if(this.cartItems.length <1) {
-        this.router.navigateByUrl("/home");
-        this.toaster.show("Please Add Items into Cart before Checkout!" , "warning",5000);
+      if (this.cartItems.length < 1) {
+        this.router.navigateByUrl('/home');
+        this.toaster.show('Please Add Items into Cart before Checkout!', 'warning', 5000);
       }
     } catch (err) {
       console.error(err);
@@ -97,7 +97,7 @@ export class CheckoutPage implements OnInit {
       return;
     }
     const addObj = {
-      userId: this.commonVariablesService.userData._id,
+      userId: this.commonVariablesService.userData?._id,
       productId,
       quantity,
     };
@@ -107,7 +107,7 @@ export class CheckoutPage implements OnInit {
 
   // Remove item from cart
   async removeItem(productId: string) {
-    const userId = this.commonVariablesService.userData._id;
+    const userId = this.commonVariablesService.userData?._id;
     await this.customerServices.removeFromCart({ userId, productId }).toPromise();
     await this.loadCart();
   }
@@ -116,7 +116,7 @@ export class CheckoutPage implements OnInit {
   get originalTotal(): number {
     return this.cartItems.reduce(
       (sum, item: any) => sum + (item.productId.price || 0) * item.quantity,
-      0
+      0,
     );
   }
 
@@ -162,7 +162,7 @@ export class CheckoutPage implements OnInit {
     //   },
 
     const orderData = {
-      userId: this.commonVariablesService.userData._id,
+      userId: this.commonVariablesService.userData?._id,
       item: itemsId,
       status: 0,
       date: new Date(),
@@ -172,7 +172,6 @@ export class CheckoutPage implements OnInit {
 
     this.commonServices.newOrder(orderData);
   }
-
 
   allowOnlyDigits(event: KeyboardEvent) {
     const input = event.key;
