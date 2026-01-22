@@ -23,6 +23,7 @@ beforeEach(() => {
             paramMap: { get: () => null },
             queryParamMap: { get: () => null },
             queryParams: {},
+            params: {},
           },
         },
       },
