@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -22,7 +22,7 @@ import { BrandService } from '../../../services/brand';
   templateUrl: './brands.html',
   styleUrl: './brands.scss'
 })
-export class Brands {
+export class Brands implements OnInit, AfterViewInit {
 
  displayedColumns: string[] = ['id', 'name', 'action'];
   dataSource: MatTableDataSource<any>;
@@ -61,7 +61,7 @@ export class Brands {
     }
   }
 
-   deleteBrand(id:String){
+   deleteBrand(id:string){
     this.brandService.deleteBrandById(id).subscribe((result:any)=>{
       // alert("Brand Deleted : ");
       this.getData();

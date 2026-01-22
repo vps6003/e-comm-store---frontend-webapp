@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +21,7 @@ import { ProductService } from '../../../services/product';
   templateUrl: './products.html',
   styleUrl: './products.scss'
 })
-export class Products {
+export class Products implements OnInit, AfterViewInit {
 
  displayedColumns: string[] = ['id', 'name','shotDescription','price','discount', 'action'];
   dataSource: MatTableDataSource<any>;
@@ -60,7 +60,7 @@ export class Products {
     }
   }
 
-   deleteProduct(id:String){
+   deleteProduct(id:string){
     this.productService.deleteProductById(id).subscribe((result:any)=>{
       // alert("Product Deleted : ");
       this.getData();

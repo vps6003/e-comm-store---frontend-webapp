@@ -1,6 +1,6 @@
 import { LoaderService } from './../../services/animation-services/loader-spinner/loader-service';
 import { CommonServices } from './../../services/common-services';
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthServices } from '../../services/authorization/auth-services';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';   // 👈 import this
+import { firstValueFrom } from 'rxjs'; // 👈 import this
 import { ToasterMessageService } from '../../services/toaster-message-service';
 import { img } from '../../../images/images';
 import { passwordMatchValidator } from '../../core/abstract-validators/password-match';
@@ -32,26 +32,30 @@ import { passwordMatchValidator } from '../../core/abstract-validators/password-
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register {
+export class Register implements OnInit, AfterViewInit {
+  private fb = inject(FormBuilder);
+  private authServices = inject(AuthServices);
+  private commonServices = inject(CommonServices);
+  private toaster = inject(ToasterMessageService);
+
   registerForm: FormGroup;
   loginForm: FormGroup;
-  signUp: boolean = false;
-  hidePassword: boolean = true;
+  signUp = false;
+  hidePassword = true;
   router = inject(Router);
   images = img;
+  private viewReady = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authServices: AuthServices,
-    private commonServices: CommonServices,
-    private toaster : ToasterMessageService,
-  ) {
-    this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(4)]],
-    },{validators : passwordMatchValidator});
+  constructor() {
+    this.registerForm = this.fb.group(
+      {
+        name: ['', [Validators.required, Validators.minLength(3)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(4)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(4)]],
+      },
+      { validators: passwordMatchValidator },
+    );
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
@@ -69,7 +73,7 @@ export class Register {
   ngAfterViewInit(): void {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
-
+    this.viewReady = true;
   }
 
   async onSubmit() {
@@ -77,54 +81,46 @@ export class Register {
       if (this.signUp) {
         if (this.registerForm.valid) {
           const res: any = await firstValueFrom(
-            this.authServices.newUserRegistration(this.registerForm.value)
+            this.authServices.newUserRegistration(this.registerForm.value),
           );
-          this.toaster.show(res.name + ' Registered!',"success",5000);
+          this.toaster.show(res.name + ' Registered!', 'success', 5000);
           this.signUp = false;
         } else {
           this.registerForm.markAllAsTouched();
         }
-          this.commonServices.loggedInValue = false;
+        this.commonServices.loggedInValue = false;
       } else {
         if (this.loginForm.valid) {
-          const res: any = await firstValueFrom(
-            this.authServices.userLogin(this.loginForm.value)
-          );
+          const res: any = await firstValueFrom(this.authServices.userLogin(this.loginForm.value));
 
           if (res.token) {
             localStorage.setItem('token', res.token);
             localStorage.setItem('user', JSON.stringify(res.user));
             this.router.navigateByUrl('/home');
-            this.toaster.show("Login SuccessFul","success");
+            this.toaster.show('Login SuccessFul', 'success');
             this.commonServices.getAllCategoriesForCustomer();
             this.commonServices.getAllOrdersOfUSer();
             this.commonServices.loggedInValue = true;
-            this.commonServices.userName = res.user?.name || "";
+            this.commonServices.userName = res.user?.name || '';
 
             // window.location.reload();
           }
         } else {
           this.loginForm.markAllAsTouched();
           this.commonServices.loggedInValue = false;
-            this.commonServices.userName =  "";
-
-
+          this.commonServices.userName = '';
         }
       }
-    } catch (err:any) {
+    } catch (err: any) {
       // console.error('Error in onSubmit:', err);
       // this.toaster.show(err.error?.message || err?.message,"error",5000);
-      if(err.status === 404){
+      if (err.status === 404) {
         this.signUp = true;
-        this.toaster.show("Please Register First","info",5000);
+        this.toaster.show('Please Register First', 'info', 5000);
         this.loginForm.reset();
         this.registerForm.reset();
       }
       this.commonServices.loggedInValue = false;
-
     }
   }
-
-
-
 }

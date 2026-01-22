@@ -1,17 +1,17 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { Component, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToasterMessageService } from '../../../services/toaster-message-service';
 
 @Component({
   selector: 'app-order-success-page',
-  imports : [DecimalPipe,
-    DatePipe
-  ],
+  imports: [DecimalPipe, DatePipe],
   templateUrl: './order-success-page.html',
-  styleUrls: ['./order-success-page.scss']
+  styleUrls: ['./order-success-page.scss'],
 })
 export class OrderSuccessPage implements AfterViewInit, OnDestroy {
+  private router = inject(Router);
+  private toaster = inject(ToasterMessageService);
 
   // @Input() orderId: string | null = null;
   // @Input() customerName: string | null = null;
@@ -21,15 +21,10 @@ export class OrderSuccessPage implements AfterViewInit, OnDestroy {
   @Input() orderData: any | null = null;
 
   private confettiElements: HTMLElement[] = [];
+  private onViewChildFlag = false;
 
-  constructor(private router: Router,
-    private toaster : ToasterMessageService,
-  ) {}
-
-
-
-  ngOnit(){
-
+  ngOnit() {
+    this.onViewChildFlag = true;
   }
 
   ngAfterViewInit(): void {
@@ -42,20 +37,19 @@ export class OrderSuccessPage implements AfterViewInit, OnDestroy {
     this.cleanupConfetti();
   }
 
-trackOrder(): void {
-  const orderId = this.orderData?._id?.trim();
+  trackOrder(): void {
+    const orderId = this.orderData?._id?.trim();
 
-  if (orderId) {
-    this.router.navigate(['/orderDetails'], {
-      queryParams: { orderId: orderId },
-      state: { from: 'order-summary' }
-    });
-  } else {
-    console.warn('Order ID not found, redirecting to orders list.');
-    this.router.navigate(['/orders']);
+    if (orderId) {
+      this.router.navigate(['/orderDetails'], {
+        queryParams: { orderId: orderId },
+        state: { from: 'order-summary' },
+      });
+    } else {
+      this.toaster.show('Order ID not found, redirecting to orders list.', 'warning', 5000);
+      this.router.navigate(['/orders']);
+    }
   }
-}
-
 
   continueShopping(): void {
     this.router.navigate(['/']);
@@ -101,7 +95,7 @@ trackOrder(): void {
   }
 
   private cleanupConfetti(): void {
-    this.confettiElements.forEach(el => el.remove());
+    this.confettiElements.forEach((el) => el.remove());
     this.confettiElements = [];
   }
 

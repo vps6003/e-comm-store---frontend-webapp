@@ -1,7 +1,7 @@
 import { CommonVariablesService } from './../../../services/common-variables-service';
 import { CommonServices } from './../../../services/common-services';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,8 +10,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './order-details-page.html',
   styleUrl: './order-details-page.scss',
 })
-export class OrderDetailsPage {
-  constructor(private route: ActivatedRoute) {}
+export class OrderDetailsPage implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+
 
   public commonServices = inject(CommonServices);
   public commonVariablesService = inject(CommonVariablesService);

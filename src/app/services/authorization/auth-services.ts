@@ -9,8 +9,8 @@ import { RegisterForm } from '../../types/register';
   providedIn: 'root'
 })
 export class AuthServices {
+  private http = inject(HttpClient);
 
-  constructor(private http : HttpClient){}
 
     newUserRegistration(obj:RegisterForm){
      return this.http.post<RegisterForm>(environment.authRegisterApiUrl,obj);
@@ -25,12 +25,12 @@ export class AuthServices {
     }
 
     get isLoggedIn (){
-      let token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
       return token ? true : false;
     }
 
     get userName(){
-      let userData = localStorage.getItem('user');
+      const userData = localStorage.getItem('user');
       if(userData){
         return JSON.parse(userData).name;
       }
@@ -40,7 +40,7 @@ export class AuthServices {
     }
 
     get isAdminCheck (){
-      let userData = localStorage.getItem('user');
+      const userData = localStorage.getItem('user');
       if(userData){
         return JSON.parse(userData).isAdmin;
       }

@@ -4,36 +4,28 @@ import { environment } from '../../environments/environment';
 import { Brand } from '../types/brand';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BrandService {
-  http=inject(HttpClient);
+  http = inject(HttpClient);
 
-  constructor() { }
-
-  getBrands(){
-   return this.http.get<Brand>(environment.apiUrl +'brand');
+  getBrands() {
+    return this.http.get<Brand>(environment.apiUrl + 'brand');
   }
 
-
-  getBrandById(id:String){
-    return this.http.get<Brand>(environment.apiUrl +'brand/'+id);
+  getBrandById(id: string) {
+    return this.http.get<Brand>(environment.apiUrl + 'brand/' + id);
   }
 
-  addBrand(name:String){
-    return this.http.post(environment.apiUrl +"brand",
-      {brandName:name}
-    );
+  addBrand(name: string) {
+    return this.http.post(environment.apiUrl + 'brand', { brandName: name });
   }
 
-  updateBrandById(id:String,obj:any){
-     return this.http.put(environment.apiUrl +"brand/"+id,
-      obj
-    );
+  updateBrandById(id: string, obj: any) {
+    return this.http.put(environment.apiUrl + 'brand/' + id, obj);
   }
 
-  deleteBrandById(id:String){
-     return this.http.delete(environment.apiUrl +"brand/"+id)
+  deleteBrandById(id: string) {
+    return this.http.delete(environment.apiUrl + 'brand/' + id);
   }
-
 }

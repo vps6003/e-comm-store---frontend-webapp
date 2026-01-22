@@ -37,7 +37,7 @@ export class WishlistEffects {
         return this.customerServices.getUserWishlist(userId).pipe(
           map((result: any) => {
             // 🕵️‍♀️ You can check/transform data here
-            console.log('📦 API Result:', result);
+            // console.log('📦 API Result:', result);
 
             if (
               !result ||
@@ -62,11 +62,11 @@ export class WishlistEffects {
             of(
               WishlistActions.loadWishlistFailure({
                 error: error.message || 'Failed to load wishlist',
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 }

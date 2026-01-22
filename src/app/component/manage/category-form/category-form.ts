@@ -1,5 +1,5 @@
 import { ToasterMessageService } from './../../../services/toaster-message-service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,14 +24,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './category-form.html',
   styleUrl: './category-form.scss'
 })
-export class CategoryForm {
+export class CategoryForm implements OnInit {
 
-  name!:String;
+  name!:string;
   router = inject(Router);
   route=inject(ActivatedRoute);
   toaster = inject(ToasterMessageService);
   isEdit = false;
-  id!:String
+  id!:string
   categoryService = new CategoryService;
   idParams!:any;
 
@@ -47,7 +47,7 @@ export class CategoryForm {
     }
   }
 
-  update(id:String,name:String){
+  update(id:string,name:string){
     this.idParams.name = name
     this.categoryService.updateCategoryById(id,this.idParams).subscribe((result:any)=>{
       this.idParams = result.result;

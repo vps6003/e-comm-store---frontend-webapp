@@ -12,14 +12,14 @@ import { Product } from '../types/product';
   providedIn: 'root',
 })
 export class CommonServices {
-  constructor(
-    private authServices: AuthServices,
-    private router: Router,
-    private categoryService: CategoryService,
-    private customerServices: CustomerServices,
-    private commonVariablesService: CommonVariablesService,
-    private toasterMessageService :ToasterMessageService
-  ) {
+  private authServices = inject(AuthServices);
+  private router = inject(Router);
+  private categoryService = inject(CategoryService);
+  private customerServices = inject(CustomerServices);
+  private commonVariablesService = inject(CommonVariablesService);
+  private toasterMessageService = inject(ToasterMessageService);
+
+  constructor() {
     this.isLoggedIn = this.authServices.isLoggedIn;
   }
 

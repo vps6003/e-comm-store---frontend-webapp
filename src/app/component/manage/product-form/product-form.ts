@@ -2,7 +2,7 @@
 import { ProductService } from './../../../services/product';
 import { CategoryService } from './../../../services/category';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatFormField, MatFormFieldControl, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -33,15 +33,15 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './product-form.html',
   styleUrl: './product-form.scss'
 })
-export class ProductForm {
-  constructor(private categoryService: CategoryService,
-     private productService: ProductService,
-     private brandService:BrandService,
-     private route: ActivatedRoute
-  ){}
+export class ProductForm implements OnInit {
+  private categoryService = inject(CategoryService);
+  private productService = inject(ProductService);
+  private brandService = inject(BrandService);
+  private route = inject(ActivatedRoute);
+
 
   router = inject(Router);
-  id:String= "";
+  id= "";
   isEdit = false;
   allBrands:Brand[]=[];
   allCategories:Category[]=[];

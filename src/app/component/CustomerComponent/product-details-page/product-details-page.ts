@@ -38,8 +38,8 @@ import { ToasterMessageService } from '../../../services/toaster-message-service
   templateUrl: './product-details-page.html',
   styleUrl: './product-details-page.scss',
 })
-export class ProductDetailsPage {
-  constructor(private customerServices: CustomerServices) {}
+export class ProductDetailsPage implements OnInit {
+  private customerServices = inject(CustomerServices);
 
   router = inject(Router);
   route = inject(ActivatedRoute);
@@ -48,19 +48,19 @@ export class ProductDetailsPage {
   toaster = inject(ToasterMessageService);
 
   product: any;
-  productId: string = '';
-  previousUrl: string = '';
-  currentUrl: string = '';
+  productId = '';
+  previousUrl = '';
+  currentUrl = '';
   selectedImage: any;
   similarProducts: Product[] = [];
   reqParams = {
     categoryId: '',
     brandId: '',
   };
-  reviewRating: number = 0;
-  itemsPerPage: number = 2;
-  totalPages: number = 1;
-  currentPage: number = 1;
+  reviewRating = 0;
+  itemsPerPage = 2;
+  totalPages = 1;
+  currentPage = 1;
 
   ngOnInit() {
     this.route?.paramMap?.subscribe(async (params: any) => {
@@ -96,14 +96,15 @@ export class ProductDetailsPage {
       this.toaster.show('Please write review then post it!');
       return;
     }
+    // eslint-disable-next-line eqeqeq
     if (this.reviewRating == 0) {
       this.toaster.show('Please provide rating before adding review');
       return;
     }
-    let reviews = this.product?.reviews;
+    const reviews = this.product?.reviews;
     const user = localStorage.getItem('user');
     const userData = JSON.parse(user || '');
-    let reviewObj = { userId: '', userName: '', rating: this.reviewRating, comment: req };
+    const reviewObj = { userId: '', userName: '', rating: this.reviewRating, comment: req };
     // this.product?.reviews.push(reviewObj);
     reviewObj.userId = userData?._id;
     reviewObj.userName = userData?.name;
@@ -147,13 +148,14 @@ export class ProductDetailsPage {
   }
 
   isInWishlist(productId: string): boolean {
+    // eslint-disable-next-line eqeqeq
     const exists = this.commonVariablesService.wishlistArray.find((e) => e._id == productId);
     return exists ? true : false;
   }
 
   // From PRoduct Card only addition of 1 item is available to change  quantity need to go to cart page
   addToCart(productId: string) {
-    let quantity = 1;
+    const quantity = 1;
     this.commonServices.addToCart(productId, quantity);
     return;
   }
@@ -165,6 +167,7 @@ export class ProductDetailsPage {
 
   isInCart(productId: string): boolean {
     const exists = this.commonVariablesService.cartData?.productQuantity.find(
+      // eslint-disable-next-line eqeqeq
       (e: any) => e.productId._id == productId,
     );
     return exists ? true : false;
