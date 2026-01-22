@@ -78,7 +78,7 @@ export class ProductDetailsPage {
   getProductDetails() {
     this.customerServices.getProductById(this.productId).subscribe(async (result: Product[]) => {
       this.product = result;
-      this.selectImage(this.product.images[0]);
+      this.selectImage(this.product?.images[0]);
       this.reqParams.categoryId = this.product?.categoryId;
       this.reqParams.brandId = this.product?.brandId;
       await this.commonServices.getCustomerCart();
@@ -100,16 +100,16 @@ export class ProductDetailsPage {
       this.toaster.show('Please provide rating before adding review');
       return;
     }
-    let reviews = this.product.reviews;
+    let reviews = this.product?.reviews;
     const user = localStorage.getItem('user');
     const userData = JSON.parse(user || '');
     let reviewObj = { userId: '', userName: '', rating: this.reviewRating, comment: req };
-    // this.product.reviews.push(reviewObj);
+    // this.product?.reviews.push(reviewObj);
     reviewObj.userId = userData?._id;
     reviewObj.userName = userData?.name;
     reviewObj.rating = this.reviewRating;
     reviewObj.comment = req;
-    this.customerServices.addReviews(this.product._id, reviewObj).subscribe((result) => {
+    this.customerServices.addReviews(this.product?._id, reviewObj).subscribe((result) => {
       this.product = result;
     });
   }

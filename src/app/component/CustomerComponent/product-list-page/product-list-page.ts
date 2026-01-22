@@ -14,51 +14,55 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-product-list-page',
-  imports: [RouterModule,
+  imports: [
+    RouterModule,
     ProductCard,
     MatSelectModule,
     MatFormFieldModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './product-list-page.html',
-  styleUrl: './product-list-page.scss'
+  styleUrl: './product-list-page.scss',
 })
 export class ProductListPage {
-
   constructor(
-    private customerServices : CustomerServices,
-    private commonServices : CommonServices,
-    private commonVariablesService : CommonVariablesService,
-  ){}
+    private customerServices: CustomerServices,
+    private commonServices: CommonServices,
+    private commonVariablesService: CommonVariablesService,
+  ) {}
   router = inject(Router);
   route = inject(ActivatedRoute);
-  queryReqParams:any ;
-  reqParams ={
-    searchTerm : "",
-    categoryId : "",
-    brandId : "",
-    sortBy : "price",
-    sortOrder : "1",
-    page : 1,
-    pageSize : 6
+  queryReqParams: any;
+  reqParams = {
+    searchTerm: '',
+    categoryId: '',
+    brandId: '',
+    sortBy: 'price',
+    sortOrder: '1',
+    page: 1,
+    pageSize: 6,
   };
-  productList : Product[]=[];
-  categoryList : Category[] = [];
-  brandsList : Brand[] = [];
+  productList: Product[] = [];
+  categoryList: Category[] = [];
+  brandsList: Brand[] = [];
 
   ngOnInit(): void {
-    if(!this.route.snapshot.queryParams['searchTerm'] && !this.route.snapshot.queryParams['categoryId'] && !this.route.snapshot.queryParams['brandId']) {
+    if (
+      !this.route.snapshot.queryParams?.['searchTerm'] &&
+      !this.route.snapshot.queryParams['categoryId'] &&
+      !this.route.snapshot.queryParams['brandId']
+    ) {
       this.router.navigateByUrl('/home');
       return;
     }
-    this.queryReqParams = this.route.queryParams.subscribe((params:any)=>{
-       this.reqParams = {
-      ...this.reqParams,  // keep defaults
-      ...params           // override with actual query params
-    };
+    this.queryReqParams = this.route.queryParams.subscribe((params: any) => {
+      this.reqParams = {
+        ...this.reqParams, // keep defaults
+        ...params, // override with actual query params
+      };
 
-    this.commonVariablesService.searchTerm = this.reqParams.searchTerm;
+      this.commonVariablesService.searchTerm = this.reqParams.searchTerm;
 
       this.getProductLists(this.reqParams);
       this.getBrands();
@@ -66,30 +70,27 @@ export class ProductListPage {
     });
   }
 
-
-  getProductLists(params:any){
-    setTimeout(()=>{
-
-      this.customerServices.getProductsList(params).subscribe((result) =>{
+  getProductLists(params: any) {
+    setTimeout(() => {
+      this.customerServices.getProductsList(params).subscribe((result) => {
         this.productList = result;
       });
-    },100);
-
+    }, 100);
   }
 
-  getCategory(){
-    this.customerServices.getCategories().subscribe((result:Category[]) =>{
+  getCategory() {
+    this.customerServices.getCategories().subscribe((result: Category[]) => {
       this.categoryList = result;
-    })
+    });
   }
 
-  getBrands(){
-    this.customerServices.getBrands().subscribe((result:Brand[]) =>{
+  getBrands() {
+    this.customerServices.getBrands().subscribe((result: Brand[]) => {
       this.brandsList = result;
-    })
+    });
   }
 
-  pageChange(page:number){
+  pageChange(page: number) {
     this.reqParams.page = page;
     this.getProductLists(this.reqParams);
   }
@@ -97,10 +98,8 @@ export class ProductListPage {
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    if(this.queryReqParams){
+    if (this.queryReqParams) {
       this.queryReqParams.unsubscribe();
     }
   }
-
-
 }
