@@ -22,6 +22,7 @@ beforeEach(() => {
           snapshot: {
             paramMap: { get: () => null },
             queryParamMap: { get: () => null },
+            queryParams: {},
           },
         },
       },

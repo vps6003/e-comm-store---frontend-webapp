@@ -54,6 +54,7 @@ module.exports = defineConfig([
     rules: {
       '@angular-eslint/template/no-any': 'error',
       '@angular-eslint/template/banana-in-box': 'error',
+      '@angular-eslint/template/prefer-control-flow': 'off',
     },
   },
 ]);
