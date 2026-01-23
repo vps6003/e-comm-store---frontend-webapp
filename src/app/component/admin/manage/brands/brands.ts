@@ -6,31 +6,31 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { BrandService } from '../../../services/brand';
+import { BrandService } from './../../../../services/brand';
 
 @Component({
   selector: 'app-brands',
-   imports: [MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
     MatButtonModule,
     RouterLink,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './brands.html',
-  styleUrl: './brands.scss'
+  styleUrl: './brands.scss',
 })
 export class Brands implements OnInit, AfterViewInit {
-
- displayedColumns: string[] = ['id', 'name', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'action'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  brandService =inject(BrandService);
+  brandService = inject(BrandService);
   router = inject(Router);
 
   constructor() {
@@ -41,10 +41,10 @@ export class Brands implements OnInit, AfterViewInit {
     this.getData();
   }
 
-  private getData(){
-    this.brandService.getBrands().subscribe((result:any)=>{
+  private getData() {
+    this.brandService.getBrands().subscribe((result: any) => {
       this.dataSource.data = result;
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -61,12 +61,10 @@ export class Brands implements OnInit, AfterViewInit {
     }
   }
 
-   deleteBrand(id:string){
-    this.brandService.deleteBrandById(id).subscribe((result:any)=>{
+  deleteBrand(id: string) {
+    this.brandService.deleteBrandById(id).subscribe((result: any) => {
       // alert("Brand Deleted : ");
       this.getData();
     });
   }
-
-
 }

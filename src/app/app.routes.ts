@@ -61,53 +61,54 @@ export const routes: Routes = [
     path: 'admin/categories',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/manage/categories/categories').then((m) => m.Categories),
+      import('./component/admin/manage/categories/categories').then((m) => m.Categories),
   },
   {
     path: 'admin/categories/add',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/manage/category-form/category-form').then((m) => m.CategoryForm),
+      import('./component/admin/manage/category-form/category-form').then((m) => m.CategoryForm),
   },
   {
     path: 'admin/categories/:id',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/manage/category-form/category-form').then((m) => m.CategoryForm),
+      import('./component/admin/manage/category-form/category-form').then((m) => m.CategoryForm),
   },
   {
     path: 'admin/brand',
     canActivate: [adminGuard],
-    loadComponent: () => import('./component/manage/brands/brands').then((m) => m.Brands),
+    loadComponent: () => import('./component/admin/manage/brands/brands').then((m) => m.Brands),
   },
   {
     path: 'admin/brand/add',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/manage/brand-form/brand-form').then((m) => m.BrandForm),
+      import('./component/admin/manage/brand-form/brand-form').then((m) => m.BrandForm),
   },
   {
     path: 'admin/brand/:id',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/manage/brand-form/brand-form').then((m) => m.BrandForm),
+      import('./component/admin/manage/brand-form/brand-form').then((m) => m.BrandForm),
   },
   {
     path: 'admin/product',
     canActivate: [adminGuard],
-    loadComponent: () => import('./component/manage/products/products').then((m) => m.Products),
+    loadComponent: () =>
+      import('./component/admin/manage/products/products').then((m) => m.Products),
   },
   {
     path: 'admin/product/add',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/manage/product-form/product-form').then((m) => m.ProductForm),
+      import('./component/admin/manage/product-form/product-form').then((m) => m.ProductForm),
   },
   {
     path: 'admin/product/:id',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/manage/product-form/product-form').then((m) => m.ProductForm),
+      import('./component/admin/manage/product-form/product-form').then((m) => m.ProductForm),
   },
   {
     path: 'products',
