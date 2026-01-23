@@ -25,7 +25,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./component/CustomerComponet-V2-NGRX/wishlist-page/wishlist-page').then(
-        (m) => m.WishlistPage
+        (m) => m.WishlistPage,
       ),
     providers: [
       provideState('wishlist', wishlistReducer), // ✅ Correct usage
@@ -37,7 +37,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./component/CustomerComponent/order-details-page/order-details-page').then(
-        (m) => m.OrderDetailsPage
+        (m) => m.OrderDetailsPage,
       ),
   },
   {
@@ -114,7 +114,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./component/CustomerComponent/product-list-page/product-list-page').then(
-        (m) => m.ProductListPage
+        (m) => m.ProductListPage,
       ),
   },
   {
@@ -122,7 +122,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./component/CustomerComponent/product-details-page/product-details-page').then(
-        (m) => m.ProductDetailsPage
+        (m) => m.ProductDetailsPage,
       ),
   },
   {
@@ -133,7 +133,7 @@ export const routes: Routes = [
     path: 'admin',
     canActivate: [adminGuard],
     loadComponent: () =>
-      import('./component/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard),
+      import('./component/admin/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard),
   },
   {
     path: 'profile',
