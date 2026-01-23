@@ -1,35 +1,36 @@
 import { Component, inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CategoryService } from './../../../../services/category';
+import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { ProductService } from '../../../services/product';
 
 @Component({
-  selector: 'app-products',
-  imports: [MatFormFieldModule,
+  selector: 'app-categories',
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
     MatButtonModule,
     RouterLink,
-    RouterModule],
-  templateUrl: './products.html',
-  styleUrl: './products.scss'
+    RouterModule,
+  ],
+  templateUrl: './categories.html',
+  styleUrl: './categories.scss',
 })
-export class Products implements OnInit, AfterViewInit {
-
- displayedColumns: string[] = ['id', 'name','shotDescription','price','discount', 'action'];
+export class Categories implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['id', 'name', 'action'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  productService =inject(ProductService);
+  categoryService = inject(CategoryService);
   router = inject(Router);
 
   constructor() {
@@ -40,10 +41,10 @@ export class Products implements OnInit, AfterViewInit {
     this.getData();
   }
 
-  private getData(){
-    this.productService.getProducts().subscribe((result:any)=>{
+  private getData() {
+    this.categoryService.getCategories().subscribe((result: any) => {
       this.dataSource.data = result;
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -60,12 +61,9 @@ export class Products implements OnInit, AfterViewInit {
     }
   }
 
-   deleteProduct(id:string){
-    this.productService.deleteProductById(id).subscribe((result:any)=>{
-      // alert("Product Deleted : ");
+  deleteCategory(id: string) {
+    this.categoryService.deleteCategoryById(id).subscribe((result: any) => {
       this.getData();
     });
   }
-
-
 }
