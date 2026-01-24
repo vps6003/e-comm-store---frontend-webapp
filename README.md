@@ -50,16 +50,34 @@ CART
 - Remove items  
 - Dynamic cart total calculation  
 
+WISHLIST
+- Add products to wishlist  
+- Remove from wishlist  
+- Persisted per user  
+
+CHECKOUT
+- Checkout flow  
+- Order summary before placing order  
+- Cart validation before order placement  
+
 ORDERS
-- Order placement flow  
-- Order summary  
-- User order history  
+- Place order  
+- Order history page  
+- View past orders  
+
+USER PROFILE
+- User profile page  
+- View account details  
 
 ADMIN PANEL
 - Add / Edit Products  
 - Manage Categories  
 - Manage Brands  
 - Role-restricted routes  
+
+RESPONSIVE DESIGN
+- Fully responsive UI  
+- Optimized for mobile, tablet, and desktop screens  
 
 --------------------------------------------------
 
@@ -81,8 +99,8 @@ Backend Repo: (Add your backend repository link here)
 
 1. Clone Repository
 
-git clone https://github.com/<your-username>/vps-ekart-frontend.git  
-cd vps-ekart-frontend
+git clone https://github.com/vps6003/e-comm-store---frontend-webapp.git  
+cd webapp
 
 2. Install Dependencies
 
@@ -101,7 +119,7 @@ export const environment = {
 
 ng serve
 
-Open in browser:
+Open in browser:  
 http://localhost:4200
 
 --------------------------------------------------
@@ -131,8 +149,10 @@ This project focuses on:
 ## 📌 Future Enhancements
 
 - Refresh token handling  
+- Detailed error logging  
+- Optimized loaders and UI states  
+- Switch from Node backend services to Java backend services with optimized responses  
 - Payment gateway integration  
-- Wishlist feature  
 - Architecture refactor into strict enterprise pattern  
 - Unit & E2E tests  
 
